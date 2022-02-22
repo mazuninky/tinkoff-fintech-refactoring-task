@@ -31,9 +31,9 @@ class PizzaStore {
         val pizza = Pizza(name)
         val ingredients = getIngredient(pizza)
         var pizzaPrice = 0.0
-        ingredients.forEach { ingridient ->
-            val ingredientName = ingridient.first
-            val ingredientCount = ingridient.second
+        ingredients.forEach { ingredient ->
+            val ingredientName = ingredient.first
+            val ingredientCount = ingredient.second
 
             val price = when (ingredientName) {
                 "яйца" -> 3.48
