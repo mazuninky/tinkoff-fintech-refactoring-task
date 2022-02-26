@@ -1,9 +1,11 @@
 package ru.tinkoff.fintech.refactoring.factories
 
+//TODO Нужно отдельно MenuFactory и Store. Сейчас StoreFactory работает, как MenuFactory
 class StoreFactory {
     companion object {
-        private val stores: Map<String, Store<*>> = mapOf(
+        private val stores: MutableMap<String, Store<*>> = mutableMapOf(
             "ingredients" to IngredientStore(),
+            "pizzas" to PizzaStore()
         )
 
         fun <STORE_T : Store<*>> getStore(key: String, clazz: Class<STORE_T>): STORE_T {
