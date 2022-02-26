@@ -18,7 +18,7 @@ abstract class Dish(
         it.key.price * it.value
     }
 
-    fun with(name: String, price: Double) = with(Ingredient(name, price))
+    fun with(name: String, count: Double) = with(Ingredient(name, price))
 
 
     fun with(ingredient: Ingredient): Dish = with(ingredient, 1)
