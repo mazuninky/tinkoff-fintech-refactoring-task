@@ -10,7 +10,7 @@ abstract class CafeWorker<FOOD_T : Product<*>>(
 ) : Employee<Order> {
 
     final override fun finish(container: Order) {
-        print("[$name] заказ ${container.orderId} готов")
+        println("[$name] заказ ${container.orderId} готов")
     }
 
     protected abstract val patternForOrder: (order: Order) -> Boolean

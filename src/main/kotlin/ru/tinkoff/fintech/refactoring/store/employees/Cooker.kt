@@ -26,14 +26,14 @@ class Cooker(
         var brewTime = 0
 
         ingredients.forEach {
-            val name = it.key
+            val ingredientName = it.key
             val count = it.value
-            if (ingredientMenu.getPrice(name) == null)
+            if (ingredientMenu.getPrice(ingredientName) == null)
                 error("Неизвестный ингредиент")
 
-            val price = ingredientMenu.getPrice(name)!! * count
+            val price = ingredientMenu.getPrice(ingredientName)!! * count
 
-            println("[$name] - ${name}: в количестве $count за $price$")
+            println("[$name] - ${ingredientName}: в количестве $count за $price$")
             brewTime += count
         }
 

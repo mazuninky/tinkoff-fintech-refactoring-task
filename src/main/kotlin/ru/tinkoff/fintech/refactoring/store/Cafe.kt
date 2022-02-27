@@ -1,17 +1,32 @@
 package ru.tinkoff.fintech.refactoring.store
 
 import ru.tinkoff.fintech.refactoring.menu.MenuFactory
+import ru.tinkoff.fintech.refactoring.store.employees.Area
 import ru.tinkoff.fintech.refactoring.store.employees.CafeWorker
+import ru.tinkoff.fintech.refactoring.store.employees.Employee
 import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.Order
 
 abstract class Cafe(
     protected open val menuFactory: MenuFactory,
-    employees: Set<CafeWorker<*>> = emptySet(),
+    employees: Map<Area, Set<Employee<*>>> = mapOf(),
 ) {
-    private val employees: MutableSet<CafeWorker<*>> = employees.toMutableSet()
 
-    fun addEmployee(employee: CafeWorker<*>) {
-        employees.add(employee)
+    private val employees: MutableMap<Area, MutableSet<Employee<*>>> =
+        employees.mapValues {
+            for (value in it.value) {
+                if (!it.key.correctWorkerClazz.isInstance(value)) {
+                    throw IllegalStateException("Нельзя в данную область работы поставить работника \"${value.name}\"")
+                }
+            }
+            it.value.toMutableSet()
+        }.toMutableMap()
+
+    fun addEmployee(area: Area, employee: Employee<*>) {
+        if (!area.correctWorkerClazz.isInstance(employee)) {
+            throw IllegalStateException("Нельзя в данную область работы поставить работника \"${employee.name}\"")
+        }
+
+        if (employees[area] == null) employees[area] = mutableSetOf(employee) else employees[area]!!.add(employee)
     }
 
     private var curOrderId = 0
@@ -29,7 +44,8 @@ abstract class Cafe(
         for (order in orders) {
             var correctEmployee: CafeWorker<*>? = null
 
-            for (employee in employees) {
+            for (employee in employees[Area.FOOD]!!) {
+                employee as CafeWorker<*>
                 if (employee.checkForProcessingOrder(order)) {
                     correctEmployee = employee
                     break
@@ -37,7 +53,7 @@ abstract class Cafe(
             }
 
             if (correctEmployee == null) error("Невозможно найти работника, который сможет приготовить заказ $order")
-            correctEmployee.start(order)
+            correctEmployee.work(order)
         }
     }
 }
