@@ -1,28 +1,23 @@
 package ru.tinkoff.fintech.refactoring
 
-abstract class Coffee(
-    val name: String,
-    val price: Double,
-) {
 
-    companion object {
-        private val coffeeStore = listOf(Espresso(), Cappuccino())
+class Coffee(val name: String) {
+    private var coffeeMenu = mutableMapOf(
+        "эспрессо" to CoffeeInfoPriceTime(5.0, 5),
+        "капучино" to CoffeeInfoPriceTime(3.48, 6))
 
-        fun getCoffeeByName(name: String): Coffee? {
-            return coffeeStore.find { it.name == name }
-        }
-    }
+
+    fun getCoffeeInfoPriceTime() = coffeeMenu[name] ?: CoffeeInfoPriceTime(0.0, 0)
+    // fun addInCoffeeMenu
 }
 
-class Espresso: Coffee("эспрессо", 5.0)
-class Cappuccino: Coffee("капучино", 3.48)
+data class CoffeeInfoPriceTime(val priceProduct: Double, val timeInMinutesProduct: Int)
 
-fun calculateCoffeeBrewTimeInMinutes(
-    coffee: Coffee
-): Int {
-    return when(coffee) {
-        is Espresso -> 5
-        is Cappuccino -> 6
-        else -> error("Неизвестный вид кофе")
-    }
+class CoffeeOrder(private val numberOrder: Int, private val coffee: Coffee) {
+    fun getNumberOrder() = numberOrder
+    fun getNameCoffee() = coffee.name
+    fun getPriceCoffee() = coffee.getCoffeeInfoPriceTime().priceProduct
+    fun getTimeInMinutesCoffee() = coffee.getCoffeeInfoPriceTime().timeInMinutesProduct
+
 }
+
