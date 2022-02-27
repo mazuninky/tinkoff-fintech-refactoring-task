@@ -1,13 +1,14 @@
-package ru.tinkoff.fintech.refactoring.factories
+package ru.tinkoff.fintech.refactoring.menu
 
-import ru.tinkoff.fintech.refactoring.products.productsImpl.Pizza
+import ru.tinkoff.fintech.refactoring.products.descriptions.DishDescr
+import ru.tinkoff.fintech.refactoring.products.Dish
 
-class PizzaStore : Store<Pizza>(
+class PizzaMenu : DishMenu(
     initPizzas()
 ) {
     companion object {
-        private fun initPizzas(): MutableMap<String, Pizza> {
-            val pizzasDescr = mapOf(
+        private fun initPizzas(): Map<String, Dish> =
+            mapOf(
                 "карбонара" to mapOf("яйца" to 1, "бекон" to 2, "тесто" to 1, "сыр" to 2),
                 "маринара" to mapOf("томат" to 2, "оливки" to 3, "тесто" to 1),
                 "сардиния" to mapOf("салями" to 3, "оливки" to 1, "тесто" to 1, "сыр" to 3),
@@ -19,17 +20,10 @@ class PizzaStore : Store<Pizza>(
                     "спаржа" to 1,
                     "мясное ассорти" to 1
                 ),
-            )
-
-            val ingredientStore = StoreFactory.getStore("ingredients", IngredientStore::class.java)
-
-            return pizzasDescr.mapValues {
-                Pizza(it.key,
-                    it.value.mapKeys { ingredient ->
-                        ingredientStore.forceGet(ingredient.key)
-                    }
-                )
-            }.toMutableMap()
-        }
+            ).mapValues {
+                val recipe = it.value
+                val description = DishDescr(it.key, recipe)
+                Dish(description)
+            }
     }
 }
