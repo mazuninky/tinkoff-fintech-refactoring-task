@@ -37,7 +37,7 @@ class PizzaStore {
         )
     }
 
-    fun executeOrder(orders: List<Order>) {
+    fun executeOrder(vararg orders: Order) {
         orders.forEach { order ->
             when (order) {
                 is PizzaOrder -> pizzaMaker.makePizza(order)
