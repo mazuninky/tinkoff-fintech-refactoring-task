@@ -7,7 +7,7 @@ class MenuFactoryImpl : MenuFactory {
         init {
             menu["ingredients"] = IngredientMenu()
             menu["coffee"] = CoffeeMenu()
-            menu["pizzas"] = PizzaMenu()
+            menu["pizza"] = PizzaMenu()
         }
 
         internal fun <MENU_T : Menu<*>> getMenu(key: String, clazz: Class<MENU_T>): MENU_T? {

@@ -1,19 +1,28 @@
 package ru.tinkoff.fintech.refactoring.store.employees
 
 import ru.tinkoff.fintech.refactoring.menu.IngredientMenu
-import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.CookerContainer
+import ru.tinkoff.fintech.refactoring.menu.MenuFactory
+import ru.tinkoff.fintech.refactoring.products.Dish
+import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.Order
 
 class Cooker(
-    private val ingredientMenu: IngredientMenu
-) : CafeWorker<CookerContainer>("Повар") {
+    menuFactory: MenuFactory,
+) : CafeWorker<Dish>("Повар", menuFactory) {
 
-    override fun start(container: CookerContainer) = cook(container)
+    private val ingredientMenu = menuFactory.getMenu("ingredients", IngredientMenu::class.java)!!
 
-    private fun cook(container: CookerContainer) {
-        val dish = container.dish
+    override fun start(container: Order) = cook(container)
+
+    override val patternForOrder: (order: Order) -> Boolean
+        get() = { order: Order ->
+            order.type == "pizza"
+        }
+
+    private fun cook(order: Order) {
+        val dish = getFoodByOrder(order)
         val ingredients = dish.description.recipe
-        println("[Повар] Делаю блюдо : ${dish.description.name}")
-        println("[Повар] Из ингридиетов:")
+        println("[$name] Делаю блюдо : ${dish.description.name}")
+        println("[$name] Из ингридиетов:")
         var brewTime = 0
 
         ingredients.forEach {
@@ -24,12 +33,12 @@ class Cooker(
 
             val price = ingredientMenu.getPrice(name)!! * count
 
-            println("[Пицца мейкер] - ${name}: в количестве $count за $price$")
+            println("[$name] - ${name}: в количестве $count за $price$")
             brewTime += count
         }
 
-        println("[Пицца мейкер] время приготовления $brewTime минут")
-        val roundedPrice = "%.2f".format(container.dish.price)
-        println("[Пицца мейкер] в сумме за все $roundedPrice$")
+        println("[$name] время приготовления $brewTime минут")
+        val roundedPrice = "%.2f".format(dish.price)
+        println("[$name] в сумме за все $roundedPrice$")
     }
 }
