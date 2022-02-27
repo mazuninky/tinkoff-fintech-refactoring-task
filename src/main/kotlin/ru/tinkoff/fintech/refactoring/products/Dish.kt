@@ -1,7 +1,7 @@
 package ru.tinkoff.fintech.refactoring.products
 
 import ru.tinkoff.fintech.refactoring.menu.IngredientMenu
-import ru.tinkoff.fintech.refactoring.menu.MenuFactory
+import ru.tinkoff.fintech.refactoring.menu.MenuFactoryImpl
 import ru.tinkoff.fintech.refactoring.products.descriptions.DishDescr
 
 class Dish(
@@ -10,7 +10,7 @@ class Dish(
 
     companion object {
         private fun calcPrice(dishDescr: DishDescr): Double? {
-            val ingredients = MenuFactory.getMenu("ingredients", IngredientMenu::class.java).menu
+            val ingredients = MenuFactoryImpl.getMenu("ingredients", IngredientMenu::class.java).menu
             val recipe = dishDescr.recipe
 
             if (!ingredients.keys.containsAll(recipe.keys)) return null

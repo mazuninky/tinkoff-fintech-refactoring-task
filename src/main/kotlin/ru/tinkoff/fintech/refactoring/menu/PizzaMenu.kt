@@ -1,7 +1,7 @@
 package ru.tinkoff.fintech.refactoring.menu
 
-import ru.tinkoff.fintech.refactoring.products.descriptions.DishDescr
 import ru.tinkoff.fintech.refactoring.products.Dish
+import ru.tinkoff.fintech.refactoring.products.descriptions.DishDescr
 
 class PizzaMenu : DishMenu(
     initPizzas()

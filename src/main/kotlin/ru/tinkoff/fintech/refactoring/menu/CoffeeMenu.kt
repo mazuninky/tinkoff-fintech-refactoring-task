@@ -6,8 +6,8 @@ import java.time.Duration
 
 class CoffeeMenu : Menu<Coffee> {
     private val localMenu = setOf(
-        CoffeeDescr("эспрессо", Duration.ofMinutes(5)) to 5.0,
-        CoffeeDescr("капучино", Duration.ofMinutes(6)) to 3.48,
+        CoffeeDescr("эспрессо", Duration.ofMinutes(5)) to 5.0 * 60,
+        CoffeeDescr("капучино", Duration.ofMinutes(6)) to 3.48 * 60,
     ).associateBy { it.first.name }.mapValues {
         val descr = it.value.first
         val price = it.value.second
