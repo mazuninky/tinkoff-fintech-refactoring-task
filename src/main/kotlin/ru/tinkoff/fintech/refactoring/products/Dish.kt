@@ -10,7 +10,7 @@ class Dish(
 
     companion object {
         private fun calcPrice(dishDescr: DishDescr): Double? {
-            val ingredients = MenuFactoryImpl.getMenu("ingredients", IngredientMenu::class.java).menu
+            val ingredients = MenuFactoryImpl.getMenu("ingredients", IngredientMenu::class.java)!!.menu
             val recipe = dishDescr.recipe
 
             if (!ingredients.keys.containsAll(recipe.keys)) return null

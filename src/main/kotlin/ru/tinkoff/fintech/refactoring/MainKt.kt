@@ -8,5 +8,5 @@ fun main() {
 //    val pizzaOrder = pizzaStore.orderPizza("карбонара")
 //    val coffeeOrder = pizzaStore.orderCoffee("эспрессо")
 //    pizzaStore.executeOrder(pizzaOrder, coffeeOrder)
-    
+    println(MenuFactoryImpl.getMenu("coffee", CoffeeMenu::class.java)?.menu?.get("эспрессо"))
 }
