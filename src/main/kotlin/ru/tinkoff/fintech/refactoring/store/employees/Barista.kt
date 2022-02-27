@@ -1,6 +1,7 @@
 package ru.tinkoff.fintech.refactoring.store.employees
 
 import ru.tinkoff.fintech.refactoring.menu.MenuFactory
+import ru.tinkoff.fintech.refactoring.menu.MenuKind
 import ru.tinkoff.fintech.refactoring.products.Coffee
 import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.Order
 
@@ -12,7 +13,7 @@ class Barista(
 
     override val patternForOrder: (order: Order) -> Boolean
         get() = { order: Order ->
-            order.type == "coffee"
+            order.type == MenuKind.COFFEE
         }
 
     private fun makeCoffee(order: Order) {

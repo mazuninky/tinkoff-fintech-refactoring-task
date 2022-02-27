@@ -1,7 +1,7 @@
 package ru.tinkoff.fintech.refactoring.menu
 
-import ru.tinkoff.fintech.refactoring.products.descriptions.IngredientDescr
 import ru.tinkoff.fintech.refactoring.products.Ingredient
+import ru.tinkoff.fintech.refactoring.products.descriptions.IngredientDescr
 
 class IngredientMenu : Menu<Ingredient> {
     private val localMenu: Map<String, Ingredient> = mapOf(

@@ -17,7 +17,7 @@ abstract class CafeWorker<FOOD_T : Product<*>>(
 
     fun checkForProcessingOrder(order: Order): Boolean = patternForOrder(order)
 
-    fun getFoodByOrder(order: Order) : FOOD_T {
+    fun getFoodByOrder(order: Order): FOOD_T {
         val food = menuFactory.getMenu(order.type)?.menu?.get(order.name)
         return food as FOOD_T
     }

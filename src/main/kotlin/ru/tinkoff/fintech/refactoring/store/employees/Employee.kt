@@ -2,7 +2,7 @@ package ru.tinkoff.fintech.refactoring.store.employees
 
 import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.ContainerForWork
 
-interface Employee <CONTAINER_T : ContainerForWork> {
+interface Employee<CONTAINER_T : ContainerForWork> {
     val name: String
     fun work(container: CONTAINER_T) {
         start(container)

@@ -1,7 +1,9 @@
 package ru.tinkoff.fintech.refactoring.store.employees
 
+import ru.tinkoff.fintech.refactoring.menu.DishMenu
 import ru.tinkoff.fintech.refactoring.menu.IngredientMenu
 import ru.tinkoff.fintech.refactoring.menu.MenuFactory
+import ru.tinkoff.fintech.refactoring.menu.MenuKind
 import ru.tinkoff.fintech.refactoring.products.Dish
 import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.Order
 
@@ -9,13 +11,14 @@ class Cooker(
     menuFactory: MenuFactory,
 ) : CafeWorker<Dish>("Повар", menuFactory) {
 
-    private val ingredientMenu = menuFactory.getMenu("ingredients", IngredientMenu::class.java)!!
+    private val ingredientMenu = menuFactory.getMenu(MenuKind.INGREDIENT, IngredientMenu::class.java)!!
 
     override fun start(container: Order) = cook(container)
 
     override val patternForOrder: (order: Order) -> Boolean
         get() = { order: Order ->
-            order.type == "pizza"
+//            order.type.menuClazz.isInstance(DishMenu::class.java)
+            DishMenu::class.java.isAssignableFrom(order.type.menuClazz)
         }
 
     private fun cook(order: Order) {

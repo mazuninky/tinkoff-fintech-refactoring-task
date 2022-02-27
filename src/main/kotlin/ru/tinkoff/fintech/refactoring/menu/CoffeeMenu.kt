@@ -1,7 +1,7 @@
 package ru.tinkoff.fintech.refactoring.menu//package ru.tinkoff.fintech.refactoring.factories
 
-import ru.tinkoff.fintech.refactoring.products.descriptions.CoffeeDescr
 import ru.tinkoff.fintech.refactoring.products.Coffee
+import ru.tinkoff.fintech.refactoring.products.descriptions.CoffeeDescr
 import java.time.Duration
 
 class CoffeeMenu : Menu<Coffee> {

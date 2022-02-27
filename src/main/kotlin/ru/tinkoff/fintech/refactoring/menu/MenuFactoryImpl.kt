@@ -1,25 +1,34 @@
 package ru.tinkoff.fintech.refactoring.menu
 
+import ru.tinkoff.fintech.refactoring.menu.MenuKind.*
+import ru.tinkoff.fintech.refactoring.products.Product
+
 class MenuFactoryImpl : MenuFactory {
     companion object {
-        private val menu: MutableMap<String, Menu<*>> = mutableMapOf()
+        private val menu: MutableMap<MenuKind, Menu<out Product<*>>> = mutableMapOf()
 
         init {
-            menu["ingredients"] = IngredientMenu()
-            menu["coffee"] = CoffeeMenu()
-            menu["pizza"] = PizzaMenu()
+            addMenu(INGREDIENT, IngredientMenu())
+            addMenu(COFFEE, CoffeeMenu())
+            addMenu(PIZZA, PizzaMenu())
         }
 
-        internal fun <MENU_T : Menu<*>> getMenu(key: String, clazz: Class<MENU_T>): MENU_T? {
-            return menu[key] as? MENU_T
+        private fun <PRODUCT_T : Product<*>> addMenu(menuKind: MenuKind, menu: Menu<PRODUCT_T>) {
+            if (!menu::class.java.isAssignableFrom(menuKind.menuClazz))
+                throw IllegalArgumentException("Тип меню не соответсвует ${menuKind.name}")
+            MenuFactoryImpl.menu[menuKind] = menu
         }
 
-        internal fun getMenu(key: String): Menu<*>? = menu[key]
+        internal fun <MENU_T : Menu<*>> getMenu(menuKind: MenuKind, clazz: Class<MENU_T>): MENU_T? {
+            return menu[menuKind] as? MENU_T
+        }
+
+        internal fun getMenu(menuKind: MenuKind): Menu<*>? = menu[menuKind]
     }
 
-    override fun <MENU_T : Menu<*>> getMenu(key: String, clazz: Class<MENU_T>): MENU_T? =
-        MenuFactoryImpl.getMenu(key, clazz)
+    override fun <MENU_T : Menu<*>> getMenu(menuKind: MenuKind, clazz: Class<MENU_T>): MENU_T? =
+        MenuFactoryImpl.getMenu(menuKind, clazz)
 
-    override fun getMenu(key: String): Menu<*>? =
-        MenuFactoryImpl.getMenu(key)
+    override fun getMenu(menuKind: MenuKind): Menu<*>? =
+        MenuFactoryImpl.getMenu(menuKind)
 }

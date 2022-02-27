@@ -1,6 +1,7 @@
 package ru.tinkoff.fintech.refactoring.store
 
 import ru.tinkoff.fintech.refactoring.menu.MenuFactory
+import ru.tinkoff.fintech.refactoring.menu.MenuKind
 import ru.tinkoff.fintech.refactoring.store.employees.Area
 import ru.tinkoff.fintech.refactoring.store.employees.CafeWorker
 import ru.tinkoff.fintech.refactoring.store.employees.Employee
@@ -14,7 +15,7 @@ abstract class Cafe(
     private val employees: MutableMap<Area, MutableSet<Employee<*>>> =
         employees.mapValues {
             for (value in it.value) {
-                if (!it.key.correctWorkerClazz.isInstance(value)) {
+                if (!it.key.correctWorkerClazz.isAssignableFrom(value::class.java)) {
                     throw IllegalStateException("Нельзя в данную область работы поставить работника \"${value.name}\"")
                 }
             }
@@ -22,7 +23,7 @@ abstract class Cafe(
         }.toMutableMap()
 
     fun addEmployee(area: Area, employee: Employee<*>) {
-        if (!area.correctWorkerClazz.isInstance(employee)) {
+        if (!area.correctWorkerClazz.isAssignableFrom(employee::class.java)) {
             throw IllegalStateException("Нельзя в данную область работы поставить работника \"${employee.name}\"")
         }
 
@@ -31,7 +32,7 @@ abstract class Cafe(
 
     private var curOrderId = 0
 
-    fun order(type: String, name: String): Order {
+    fun order(type: MenuKind, name: String): Order {
         val localMenu = menuFactory.getMenu(type) ?: error("Нет такого типа меню ($type)")
         val product = localMenu.menu[name] ?: error("В меню $type нет $name")
         val price = product.price ?: error("Невозможно заказать $name (нет в наличии)")
