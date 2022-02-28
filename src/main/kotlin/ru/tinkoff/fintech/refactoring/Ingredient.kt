@@ -3,7 +3,8 @@ package ru.tinkoff.fintech.refactoring
 abstract class Ingredient(val name: String, val price: Double) {
     companion object {
 
-        private val ingredientsStore = listOf(Egg(), Bacon(), Dough(), Tomato(), Olives(), Cheese(),
+        private val ingredientsStore = listOf(
+            Egg(), Bacon(), Dough(), Tomato(), Olives(), Cheese(),
             Parmesan(), Mushrooms(), Asparagus(), AssortedMeat(), BeefJerky()
         )
 

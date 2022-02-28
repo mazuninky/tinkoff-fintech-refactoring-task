@@ -1,6 +1,6 @@
 package ru.tinkoff.fintech.refactoring
 
-class Barista  {
+class Barista {
     fun makeCoffee(orderId: Int, coffee: Coffee) {
         println("[Бариста] Готовлю напиток: ${coffee.name}")
         println("[Бариста] Время приготовления: ${coffee.calculateCoffeeBrewTimeInMinutes()} минут")

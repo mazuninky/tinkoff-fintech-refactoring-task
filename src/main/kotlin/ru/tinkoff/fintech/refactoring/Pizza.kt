@@ -38,5 +38,6 @@ class Valtellina : Pizza("вальтеллина") {
 
 class Peasant : Pizza("крестьянская") {
 
-    override fun getIngredient() = listOf("грибы" to 3, "томат" to 1, "тесто" to 1, "спаржа" to 1, "мясное ассорти" to 1)
+    override fun getIngredient() =
+        listOf("грибы" to 3, "томат" to 1, "тесто" to 1, "спаржа" to 1, "мясное ассорти" to 1)
 }
