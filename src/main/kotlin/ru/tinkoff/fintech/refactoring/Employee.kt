@@ -12,7 +12,7 @@ class Barista : Employee {
     }
 
     override fun cleanFloor() {
-        println("[Бариста] Я не умею мыть полы")
+        println("[Бариста]  Я не умею мыть полы")
     }
 
     override fun makeCoffee(orderId: Int, coffee: Coffee) {
