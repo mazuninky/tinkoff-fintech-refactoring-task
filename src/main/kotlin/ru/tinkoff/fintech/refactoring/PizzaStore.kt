@@ -8,22 +8,22 @@ data class PizzaOrder(
 
 data class CoffeeOrder(
     val number: Int,
-    val pizza: Coffee,
+    val coffee: Coffee,
 )
 
 class PizzaStore {
     var orderNumber = 0
 
-    private val pizzaMaker: Employee = PizzaMaker()
-    private val barista: Employee = Barista()
+    private val pizzaMaker = PizzaMaker()
+    private val barista = Barista()
 
     fun orderCoffee(name: String): CoffeeOrder {
-        val coffee = Coffee.getCoffeeByName(name)
+        val currentCoffee = Coffee.getCoffeeByName(name)
             ?: error("Неизвестный вид кофе!")
 
         return CoffeeOrder(
             number = ++orderNumber,
-            pizza = coffee
+            coffee = currentCoffee
         )
     }
 
@@ -66,7 +66,7 @@ class PizzaStore {
         }
 
         if (coffeeOrder != null) {
-            barista.makeCoffee(coffeeOrder.number, coffeeOrder.pizza)
+            barista.makeCoffee(coffeeOrder.number, coffeeOrder.coffee)
         }
     }
 }

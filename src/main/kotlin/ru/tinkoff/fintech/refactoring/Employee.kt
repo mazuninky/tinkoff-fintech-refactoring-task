@@ -1,31 +1,47 @@
 package ru.tinkoff.fintech.refactoring
 
 interface Employee {
-    fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>)
+    fun work()
+
+}
+interface IBarista:Employee{
     fun makeCoffee(orderId: Int, coffee: Coffee)
-    fun cleanFloor()
 }
 
-class Barista : Employee {
-    override fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>) {
-        println("[Бариста] Я не умею готовить пиццу")
+class Barista : IBarista {
+    override fun work() {
+        println("[Бариста] Прихожу на работу к 10 часам")
     }
-
-    override fun cleanFloor() {
-        println("[Бариста]  Я не умею мыть полы")
-    }
-
     override fun makeCoffee(orderId: Int, coffee: Coffee) {
         println("[Бариста] Готовлю напиток: ${coffee.name}")
         println("[Бариста] Время приготовления: ${calculateCoffeeBrewTimeInMinutes(coffee)} минут")
         val roundedPrice = "%.2f".format(coffee.price)
         println("[Бариста] Стоимость напитка: $roundedPrice")
-
         println("[Бариста] заказ $orderId готов")
     }
 }
 
-class PizzaMaker : Employee {
+interface ICleaner:Employee{
+    fun cleanFloor()
+}
+
+class Cleaner: ICleaner{
+    override fun work() {
+        println("[Уборщик] Прихожу на работу к 6 часам")
+    }
+    override fun cleanFloor(){
+        println("[Уборщик] Мою полы")
+    }
+}
+
+interface IPizzaMaker:Employee{
+    fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>)
+}
+
+class PizzaMaker : IPizzaMaker {
+    override fun work() {
+        println("[Пицца мейкер] Прихожу на работу к 8 часам")
+    }
     override fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>) {
         println("[Пицца мейкер] Делаю пиццу: ${pizza.name}")
         println("[Пицца мейкер] Из ингридиетов:")
@@ -61,12 +77,5 @@ class PizzaMaker : Employee {
 
         println("[Пицца мейкер] заказ $orderId готов")
     }
-
-    override fun makeCoffee(orderId: Int, coffee: Coffee) {
-        println("[Пицца мейкер] Я не умею готовить кофе")
-    }
-
-    override fun cleanFloor() {
-        println("[Пицца мейкер] Я не умею мыть полы")
-    }
 }
+
