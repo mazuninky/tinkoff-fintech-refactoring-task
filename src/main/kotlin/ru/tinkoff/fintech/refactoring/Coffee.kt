@@ -1,9 +1,10 @@
 package ru.tinkoff.fintech.refactoring
 
-abstract class Coffee(
-    val name: String,
-    val price: Double,
-) {
+interface CoffeeBrewer {
+    fun calculateCoffeeBrewTimeInMinutes(): Int
+}
+
+abstract class Coffee(val name: String, val price: Double) : CoffeeBrewer {
 
     companion object {
         private val coffeeStore = listOf(Espresso(), Cappuccino())
@@ -14,15 +15,10 @@ abstract class Coffee(
     }
 }
 
-class Espresso: Coffee("эспрессо", 5.0)
-class Cappuccino: Coffee("капучино", 3.48)
+class Espresso: Coffee("эспрессо", 5.0) {
+    override fun calculateCoffeeBrewTimeInMinutes() = 5
+}
 
-fun calculateCoffeeBrewTimeInMinutes(
-    coffee: Coffee
-): Int {
-    return when(coffee) {
-        is Espresso -> 5
-        is Cappuccino -> 6
-        else -> error("Неизвестный вид кофе")
-    }
+class Cappuccino: Coffee("капучино", 3.48) {
+    override fun calculateCoffeeBrewTimeInMinutes() = 6
 }
