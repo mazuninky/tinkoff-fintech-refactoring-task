@@ -13,4 +13,6 @@ interface Menu<PRODUCT_T : Product> {
                 acc
             }
         }
+
+    fun get(key: String): PRODUCT_T? = menu[key]
 }
