@@ -10,13 +10,15 @@ abstract class CafeWorker<FOOD_T : Product>(
     protected open val menu: Map<MenuKind, Menu<*>>
 ) : Employee<Order> {
 
+    fun checkForProcessingOrder(order: Order): Boolean = patternForOrder(order)
+
+    fun getFoodByOrder(order: Order): FOOD_T? = menu[order.type]?.get(order.name) as? FOOD_T
+
     final override fun finish(container: Order) {
         println("[$name] заказ ${container.orderId} готов")
     }
 
     protected abstract val patternForOrder: (order: Order) -> Boolean
 
-    fun checkForProcessingOrder(order: Order): Boolean = patternForOrder(order)
 
-    fun getFoodByOrder(order: Order): FOOD_T? = menu[order.type]?.get(order.name) as? FOOD_T
 }

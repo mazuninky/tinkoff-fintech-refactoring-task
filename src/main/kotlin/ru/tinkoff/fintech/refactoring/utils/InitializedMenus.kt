@@ -4,7 +4,6 @@ import ru.tinkoff.fintech.refactoring.menu.*
 import ru.tinkoff.fintech.refactoring.products.Coffee
 import ru.tinkoff.fintech.refactoring.products.Dish
 import ru.tinkoff.fintech.refactoring.products.Ingredient
-import ru.tinkoff.fintech.refactoring.products.Product
 import java.time.Duration
 
 class InitializedMenus {

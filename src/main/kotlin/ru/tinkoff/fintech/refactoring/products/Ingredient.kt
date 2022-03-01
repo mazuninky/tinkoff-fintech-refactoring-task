@@ -5,13 +5,13 @@ class Ingredient(
     private var price: Double?,
 ) : Product(name, true) {
 
+    fun setPrice(price: Double?) {
+        this.price = price
+    }
+
     override fun getPrice(): () -> Double? = { price }
 
     override fun toString(): String {
         return name
-    }
-
-    fun setPrice(price: Double?) {
-        this.price = price
     }
 }
