@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.task1
+package ru.tinkoff.fintech.refactoring
 
 abstract class Coffee(
     val name: String,
@@ -6,8 +6,8 @@ abstract class Coffee(
     val time: Int
 )
 
-class Espresso: Coffee("эспрессо", 5.0, 5)
-class Cappuccino: Coffee("капучино", 3.48, 6)
+class Espresso : Coffee("эспрессо", 5.0, 5)
+class Cappuccino : Coffee("капучино", 3.48, 6)
 
 val coffeeType = setOf(Espresso(), Cappuccino())
 

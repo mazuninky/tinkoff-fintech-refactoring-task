@@ -1,5 +1,4 @@
-package ru.tinkoff.fintech.homework.task1
-
+package ru.tinkoff.fintech.refactoring
 
 data class PizzaOrder(
     val number: Int,

@@ -1,6 +1,4 @@
-package ru.tinkoff.fintech.homework.task1
-
-import kotlin.math.E
+package ru.tinkoff.fintech.refactoring
 
 abstract class Ingredient(
     val name: String,

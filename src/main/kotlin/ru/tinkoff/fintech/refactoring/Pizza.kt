@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.task1
+package ru.tinkoff.fintech.refactoring
 
 abstract class Pizza(
     val name: String,

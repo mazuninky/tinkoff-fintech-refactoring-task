@@ -1,6 +1,4 @@
-package ru.tinkoff.fintech.homework.task1
-
-import kotlin.String
+package ru.tinkoff.fintech.refactoring
 
 fun main() {
     val pizzaStore = PizzaStore()
