@@ -4,11 +4,11 @@ interface FloorCleanerInterface {
     fun cleanFloor()
 }
 
-interface BaristaInterface{
+interface BaristaInterface {
     fun makeCoffee(order: CoffeeOrder)
 }
 
-interface PizzaMakerInterface{
+interface PizzaMakerInterface {
     fun makePizza(order: PizzaOrder)
 }
 
@@ -36,7 +36,7 @@ class PizzaMaker : Employee(), PizzaMakerInterface {
 
         var ingredientCounter = 0
 
-        order.pizza.ingredients.forEach {ingredient ->
+        order.pizza.ingredients.forEach { ingredient ->
             println("[Пицца мейкер] - ${ingredient.name}: в количестве ${ingredient.count} за ${ingredient.price}$")
 
             ingredientCounter += ingredient.count
