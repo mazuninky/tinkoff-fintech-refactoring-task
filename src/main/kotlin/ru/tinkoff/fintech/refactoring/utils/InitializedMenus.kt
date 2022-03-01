@@ -8,10 +8,10 @@ import ru.tinkoff.fintech.refactoring.products.Product
 import java.time.Duration
 
 class InitializedMenus {
-    private val ingredientMenu: IngredientMenu
-    private val coffeeMenu: CoffeeMenu
-    private val pizzaMenu: PizzaMenu
-    val mainMenu: Map<MenuKind, Menu<out Product>>
+    val ingredientMenu: IngredientMenu
+    val coffeeMenu: CoffeeMenu
+    val pizzaMenu: PizzaMenu
+    val mainMenu: Map<MenuKind, Menu<*>>
 
     init {
         ingredientMenu = initIngredientMenu()
@@ -54,7 +54,7 @@ class InitializedMenus {
     private fun getDishPriceFromRecipe(getIngredient: (String) -> Ingredient?): (Map<String, Int>) -> Double? = {
 
         try {
-            it
+            val res = it
                 .mapKeys { entry ->
                     getIngredient(entry.key) ?: throw IllegalStateException("Невозможно определить цену ${entry.key} ")
                 }
@@ -63,6 +63,8 @@ class InitializedMenus {
                         ?: throw IllegalStateException("Невозможно определить цену ${entry.key.name} ")
                     acc + ingredientPrice * entry.value
                 }
+
+            res
         } catch (e: IllegalStateException) {
             null
         }
@@ -86,8 +88,6 @@ class InitializedMenus {
             val gettingDishPriceWay: (Map<String, Int>) -> Double? = getDishPriceFromRecipe { key ->
                 ingredientMenu.get(key)
             }
-
-
 
             Dish(it.key, recipe) {
                 gettingDishPriceWay(recipe)

@@ -22,14 +22,6 @@ abstract class Cafe(
             it.value.toMutableSet()
         }.toMutableMap()
 
-    fun addEmployee(area: Area, employee: Employee<*>) {
-        if (!area.correctWorkerClazz.isAssignableFrom(employee::class.java)) {
-            throw IllegalStateException("Нельзя в данную область работы поставить работника \"${employee.name}\"")
-        }
-
-        if (employees[area] == null) employees[area] = mutableSetOf(employee) else employees[area]!!.add(employee)
-    }
-
     private var curOrderId = 0
 
     fun order(type: MenuKind, name: String): Order {

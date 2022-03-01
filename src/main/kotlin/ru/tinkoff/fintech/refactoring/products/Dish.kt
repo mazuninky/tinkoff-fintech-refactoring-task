@@ -5,7 +5,7 @@ class Dish(
     val recipe: Map<String, Int>,
     private val getPriceWay: () -> Double?,
 ) : Product(name, true) {
-    override fun getPrice(): () -> Double? = { getPriceWay() }
+    override fun getPrice(): () -> Double? = getPriceWay
 
     override fun toString(): String {
         return "{ $name : $recipe }"
