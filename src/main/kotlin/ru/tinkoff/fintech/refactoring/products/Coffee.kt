@@ -1,12 +1,15 @@
 package ru.tinkoff.fintech.refactoring.products
 
-import ru.tinkoff.fintech.refactoring.products.descriptions.CoffeeDescr
+import java.time.Duration
 
-class Coffee(
-    descr: CoffeeDescr,
-    price: Double,
-) : Product<CoffeeDescr>(descr, price, true) {
+data class Coffee(
+    override val name: String,
+    val brewTime: Duration,
+    val price: Double?,
+) : Product(name, true) {
+    override fun getPrice(): () -> Double? = { price }
+
     override fun toString(): String {
-        return "{${description.name} : ${description.brewTime.seconds}s}"
+        return "{${name} : ${brewTime.seconds}s}"
     }
 }

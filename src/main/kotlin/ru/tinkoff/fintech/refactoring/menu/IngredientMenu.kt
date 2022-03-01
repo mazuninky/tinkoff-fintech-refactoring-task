@@ -1,7 +1,6 @@
 package ru.tinkoff.fintech.refactoring.menu
 
 import ru.tinkoff.fintech.refactoring.products.Ingredient
-import ru.tinkoff.fintech.refactoring.products.descriptions.IngredientDescr
 
 class IngredientMenu : Menu<Ingredient> {
     private val localMenu: Map<String, Ingredient> = mapOf(
@@ -16,7 +15,7 @@ class IngredientMenu : Menu<Ingredient> {
         "спаржа" to 3.34,
         "мясное ассорти" to 9.38,
         "вяленая говядина" to 12.24,
-    ).mapValues { Ingredient(IngredientDescr(it.key), it.value) }
+    ).mapValues { Ingredient(it.key, it.value) }
 
     override val menu: Map<String, Ingredient>
         get() = localMenu

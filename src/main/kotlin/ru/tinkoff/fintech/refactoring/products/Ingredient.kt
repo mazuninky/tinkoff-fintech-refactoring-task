@@ -1,12 +1,12 @@
 package ru.tinkoff.fintech.refactoring.products
 
-import ru.tinkoff.fintech.refactoring.products.descriptions.IngredientDescr
+data class Ingredient(
+    override val name: String,
+    val price: Double?,
+) : Product(name, true) {
+    override fun getPrice(): () -> Double? = { price }
 
-class Ingredient(
-    descr: IngredientDescr,
-    override val price: Double,
-) : Product<IngredientDescr>(descr, price, true) {
     override fun toString(): String {
-        return description.name
+        return name
     }
 }
