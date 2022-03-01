@@ -1,26 +1,15 @@
 package ru.tinkoff.fintech.refactoring.store
 
-import ru.tinkoff.fintech.refactoring.menu.MenuFactory
-import ru.tinkoff.fintech.refactoring.menu.MenuFactoryImpl
+import ru.tinkoff.fintech.refactoring.menu.Menu
+import ru.tinkoff.fintech.refactoring.menu.MenuKind
 import ru.tinkoff.fintech.refactoring.store.employees.Area
-import ru.tinkoff.fintech.refactoring.store.employees.Barista
-import ru.tinkoff.fintech.refactoring.store.employees.Cleaner
-import ru.tinkoff.fintech.refactoring.store.employees.Cooker
+import ru.tinkoff.fintech.refactoring.store.employees.Employee
 
 class PizzaCafe(
-    override val menuFactory: MenuFactory = MenuFactoryImpl()
+    override var menu: Map<MenuKind, Menu<*>>,
+    employees: Map<Area, Set<Employee<*>>> = mapOf(),
 ) : Cafe(
-    menuFactory,
-    initWorkers(menuFactory)
+    menu,
+    employees,
 ) {
-
-    companion object {
-        private fun initWorkers(menuFactory: MenuFactory) = mapOf(
-            Area.FOOD to setOf(
-                Cooker(menuFactory),
-                Barista(menuFactory),
-            ),
-            Area.OTHER to setOf(Cleaner())
-        )
-    }
 }

@@ -1,47 +1,46 @@
 package ru.tinkoff.fintech.refactoring.store.employees
 
-import ru.tinkoff.fintech.refactoring.menu.DishMenu
-import ru.tinkoff.fintech.refactoring.menu.IngredientMenu
-import ru.tinkoff.fintech.refactoring.menu.MenuFactory
-import ru.tinkoff.fintech.refactoring.menu.MenuKind
+import ru.tinkoff.fintech.refactoring.menu.*
 import ru.tinkoff.fintech.refactoring.products.Dish
 import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.Order
 
 class Cooker(
-    menuFactory: MenuFactory,
-) : CafeWorker<Dish>("Повар", menuFactory) {
+    override val menu: Map<MenuKind, Menu<*>>,
+) : CafeWorker<Dish>("Повар", menu) {
+    private val pizzaMenu
+        get() = menu[MenuKind.PIZZA] as PizzaMenu
 
-    private val ingredientMenu = menuFactory.getMenu(MenuKind.INGREDIENT, IngredientMenu::class.java)!!
+    private val ingredientMenu
+        get() = menu[MenuKind.INGREDIENT] as IngredientMenu
 
     override fun start(container: Order) = cook(container)
 
     override val patternForOrder: (order: Order) -> Boolean
         get() = { order: Order ->
-//            order.type.menuClazz.isInstance(DishMenu::class.java)
             DishMenu::class.java.isAssignableFrom(order.type.menuClazz)
         }
 
     private fun cook(order: Order) {
-        val dish = getFoodByOrder(order)
-        val ingredients = dish.description.recipe
-        println("[$name] Делаю блюдо : ${dish.description.name}")
+        val dish = getFoodByOrder(order) ?: error("Невозможно приготовить ${order.name}")
+        val ingredients = dish.recipe
+        println("[$name] Делаю блюдо : ${dish.name}")
         println("[$name] Из ингридиетов:")
         var brewTime = 0
 
         ingredients.forEach {
             val ingredientName = it.key
             val count = it.value
-            if (ingredientMenu.getPrice(ingredientName) == null)
+            if (ingredientMenu.prices[ingredientName] == null)
                 error("Неизвестный ингредиент")
 
-            val price = ingredientMenu.getPrice(ingredientName)!! * count
+            val price = ingredientMenu.prices[ingredientName]!! * count
 
             println("[$name] - ${ingredientName}: в количестве $count за $price$")
             brewTime += count
         }
 
         println("[$name] время приготовления $brewTime минут")
-        val roundedPrice = "%.2f".format(dish.price)
+        val roundedPrice = "%.2f".format(dish.getPrice().invoke())
         println("[$name] в сумме за все $roundedPrice$")
     }
 }

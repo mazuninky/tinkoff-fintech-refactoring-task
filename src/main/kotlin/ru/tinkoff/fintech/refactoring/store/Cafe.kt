@@ -1,6 +1,6 @@
 package ru.tinkoff.fintech.refactoring.store
 
-import ru.tinkoff.fintech.refactoring.menu.MenuFactory
+import ru.tinkoff.fintech.refactoring.menu.Menu
 import ru.tinkoff.fintech.refactoring.menu.MenuKind
 import ru.tinkoff.fintech.refactoring.store.employees.Area
 import ru.tinkoff.fintech.refactoring.store.employees.CafeWorker
@@ -8,7 +8,7 @@ import ru.tinkoff.fintech.refactoring.store.employees.Employee
 import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.Order
 
 abstract class Cafe(
-    protected open val menuFactory: MenuFactory,
+    protected open var menu: Map<MenuKind, Menu<*>>,
     employees: Map<Area, Set<Employee<*>>> = mapOf(),
 ) {
 
@@ -33,9 +33,9 @@ abstract class Cafe(
     private var curOrderId = 0
 
     fun order(type: MenuKind, name: String): Order {
-        val localMenu = menuFactory.getMenu(type) ?: error("Нет такого типа меню ($type)")
+        val localMenu = menu[type] ?: error("Нет такого типа меню ($type)")
         val product = localMenu.menu[name] ?: error("В меню $type нет $name")
-        val price = product.price ?: error("Невозможно заказать $name (нет в наличии)")
+        val price = product.getPrice().invoke() ?: error("Невозможно заказать $name (нет в наличии)")
         val number = curOrderId++
 
         return Order(type, name, number, price)

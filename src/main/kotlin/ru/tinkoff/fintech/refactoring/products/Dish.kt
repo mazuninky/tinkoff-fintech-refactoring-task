@@ -1,11 +1,11 @@
 package ru.tinkoff.fintech.refactoring.products
 
-data class Dish(
+class Dish(
     override val name: String,
     val recipe: Map<String, Int>,
-    val getPrice: (Map<String, Int>) -> Double?,
+    private val getPriceWay: () -> Double?,
 ) : Product(name, true) {
-    override fun getPrice(): () -> Double? = { getPrice(recipe) }
+    override fun getPrice(): () -> Double? = { getPriceWay() }
 
     override fun toString(): String {
         return "{ $name : $recipe }"

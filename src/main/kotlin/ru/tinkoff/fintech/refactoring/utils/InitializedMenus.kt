@@ -1,19 +1,31 @@
 package ru.tinkoff.fintech.refactoring.utils
 
-import ru.tinkoff.fintech.refactoring.menu.CoffeeMenu
-import ru.tinkoff.fintech.refactoring.menu.IngredientMenu
-import ru.tinkoff.fintech.refactoring.menu.PizzaMenu
+import ru.tinkoff.fintech.refactoring.menu.*
 import ru.tinkoff.fintech.refactoring.products.Coffee
 import ru.tinkoff.fintech.refactoring.products.Dish
 import ru.tinkoff.fintech.refactoring.products.Ingredient
+import ru.tinkoff.fintech.refactoring.products.Product
 import java.time.Duration
 
-class InitialValues {
-    val ingredientMenu = initIngredientMenu()
-    val coffeeMenu = initCoffeeMenu()
-    val pizzaMenu = initPizzaMenu()
+class InitializedMenus {
+    private val ingredientMenu: IngredientMenu
+    private val coffeeMenu: CoffeeMenu
+    private val pizzaMenu: PizzaMenu
+    val mainMenu: Map<MenuKind, Menu<out Product>>
 
-    fun initIngredientMenu(): IngredientMenu {
+    init {
+        ingredientMenu = initIngredientMenu()
+        coffeeMenu = initCoffeeMenu()
+        pizzaMenu = initPizzaMenu()
+        mainMenu = mapOf(
+            MenuKind.PIZZA to pizzaMenu,
+            MenuKind.INGREDIENT to ingredientMenu,
+            MenuKind.COFFEE to coffeeMenu,
+        )
+    }
+
+
+    private fun initIngredientMenu(): IngredientMenu {
         val menu: Map<String, Ingredient> = mapOf(
             "яйца" to 3.48,
             "бекон" to 6.48,
@@ -31,7 +43,7 @@ class InitialValues {
         return IngredientMenu(menu)
     }
 
-    fun initCoffeeMenu(): CoffeeMenu {
+    private fun initCoffeeMenu(): CoffeeMenu {
         val localMenu = setOf(
             Coffee("эспрессо", Duration.ofMinutes(5), 5.0),
             Coffee("капучино", Duration.ofMinutes(6), 3.48),
@@ -39,7 +51,7 @@ class InitialValues {
         return CoffeeMenu(localMenu)
     }
 
-    fun getGettingDishPriceWay(getIngredient: (String) -> Ingredient?): (Map<String, Int>) -> Double? = {
+    private fun getDishPriceFromRecipe(getIngredient: (String) -> Ingredient?): (Map<String, Int>) -> Double? = {
 
         try {
             it
@@ -56,7 +68,7 @@ class InitialValues {
         }
     }
 
-    fun initPizzaMenu(): PizzaMenu {
+    private fun initPizzaMenu(): PizzaMenu {
         val menu = mapOf(
             "карбонара" to mapOf("яйца" to 1, "бекон" to 2, "тесто" to 1, "сыр" to 2),
             "маринара" to mapOf("томат" to 2, "оливки" to 3, "тесто" to 1),
@@ -71,9 +83,15 @@ class InitialValues {
             ),
         ).mapValues {
             val recipe = it.value
-            Dish(it.key, recipe, getGettingDishPriceWay { key ->
+            val gettingDishPriceWay: (Map<String, Int>) -> Double? = getDishPriceFromRecipe { key ->
                 ingredientMenu.get(key)
-            })
+            }
+
+
+
+            Dish(it.key, recipe) {
+                gettingDishPriceWay(recipe)
+            }
         }
 
         return PizzaMenu(menu)

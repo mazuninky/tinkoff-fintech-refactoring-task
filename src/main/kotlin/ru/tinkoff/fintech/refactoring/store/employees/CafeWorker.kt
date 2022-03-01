@@ -1,12 +1,13 @@
 package ru.tinkoff.fintech.refactoring.store.employees
 
-import ru.tinkoff.fintech.refactoring.menu.MenuFactory
+import ru.tinkoff.fintech.refactoring.menu.Menu
+import ru.tinkoff.fintech.refactoring.menu.MenuKind
 import ru.tinkoff.fintech.refactoring.products.Product
 import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.Order
 
-abstract class CafeWorker<FOOD_T : Product<*>>(
+abstract class CafeWorker<FOOD_T : Product>(
     final override val name: String,
-    val menuFactory: MenuFactory
+    protected open val menu: Map<MenuKind, Menu<*>>
 ) : Employee<Order> {
 
     final override fun finish(container: Order) {
@@ -17,8 +18,5 @@ abstract class CafeWorker<FOOD_T : Product<*>>(
 
     fun checkForProcessingOrder(order: Order): Boolean = patternForOrder(order)
 
-    fun getFoodByOrder(order: Order): FOOD_T {
-        val food = menuFactory.getMenu(order.type)?.menu?.get(order.name)
-        return food as FOOD_T
-    }
+    fun getFoodByOrder(order: Order): FOOD_T? = menu[order.type]?.get(order.name) as? FOOD_T
 }
