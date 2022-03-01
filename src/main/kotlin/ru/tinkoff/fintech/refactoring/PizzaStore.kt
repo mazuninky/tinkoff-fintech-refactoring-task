@@ -1,21 +1,25 @@
 package ru.tinkoff.fintech.refactoring
 
-data class PizzaOrder(
-    val number: Int,
-    val pizza: Pizza,
-    val price: Double
-)
+// В данной ситуации не совсем понятно, как поступить с одной стороны в интерфейс можно сразу вставить исполнителя
+// заказа и метод, который будет выполнять этот заказ ( в данной ситуации смогу избавится от switch в executeOrder),
+// с другой стороны - это сильно связывает классы
 
-data class CoffeeOrder(
-    val number: Int,
-    val pizza: Coffee,
-)
+
+interface Order {
+    val number: Int
+    val product : Product
+}
+
+class PizzaOrder(override val number: Int, override val product: Product) : Order
+
+class CoffeeOrder(override val number: Int, override val product: Product) : Order
+
 
 class PizzaStore {
     var orderNumber = 0
 
-    private val pizzaMaker: Employee = PizzaMaker()
-    private val barista: Employee = Barista()
+    private val pizzaMaker = PizzaMaker()
+    private val barista = Barista()
 
     fun orderCoffee(name: String): CoffeeOrder {
         val coffee = Coffee.getCoffeeByName(name)
@@ -23,50 +27,29 @@ class PizzaStore {
 
         return CoffeeOrder(
             number = ++orderNumber,
-            pizza = coffee
+            product = coffee
         )
     }
 
-    fun orderPizza(name: String): PizzaOrder {
-        val pizza = Pizza(name)
-        val ingredients = getIngredient(pizza)
-        var pizzaPrice = 0.0
-        ingredients.forEach { ingredient ->
-            val ingredientName = ingredient.first
-            val ingredientCount = ingredient.second
+    fun orderPizza(pizza : Pizza): PizzaOrder {
+        pizza.getIngredient().forEach { ingredient ->
 
-            val price = when (ingredientName) {
-                "яйца" -> 3.48
-                "бекон" -> 6.48
-                "тесто" -> 1.00
-                "томат" -> 1.53
-                "оливки" -> 1.53
-                "сыр" -> 0.98
-                "пармезан" -> 3.98
-                "грибы" -> 3.34
-                "спаржа" -> 3.34
-                "мясное ассорти" -> 9.38
-                "вяленая говядина" -> 12.24
-                else -> error("Неизвестный ингредиент")
-            }
-
-            pizzaPrice += price * ingredientCount
+            val price = PizzaIngredients.getIngredients(ingredient.name)
+            pizza.price += price * ingredient.amount
         }
 
         return PizzaOrder(
             number = ++orderNumber,
-            pizza = pizza,
-            price = pizzaPrice
+            product = pizza
         )
     }
 
-    fun executeOrder(pizzaOrder: PizzaOrder? = null, coffeeOrder: CoffeeOrder? = null) {
-        if (pizzaOrder != null) {
-            pizzaMaker.makePizza(pizzaOrder.number, pizzaOrder.pizza, getIngredient(pizzaOrder.pizza))
-        }
-
-        if (coffeeOrder != null) {
-            barista.makeCoffee(coffeeOrder.number, coffeeOrder.pizza)
+    fun executeOrder(order: Order?= null) {
+        if (order != null) {
+            when (order.product) {
+                is Pizza -> pizzaMaker.makePizza(order.number, order.product as Pizza)
+                is Coffee -> barista.makeCoffee(order.number, order.product as Coffee)
+            }
         }
     }
 }

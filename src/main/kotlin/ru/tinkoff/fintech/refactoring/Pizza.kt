@@ -1,16 +1,73 @@
 package ru.tinkoff.fintech.refactoring
 
-data class Pizza(
-    val name: String,
-)
+interface Pizza : Product {
+    fun getIngredient(): List<Ingredient>
 
-fun getIngredient(pizza: Pizza): List<Pair<String, Int>> {
-    return when (pizza.name) {
-        "карбонара" -> listOf("яйца" to 1, "бекон" to 2, "тесто" to 1, "сыр" to 2)
-        "маринара" -> listOf("томат" to 2, "оливки" to 3, "тесто" to 1)
-        "сардиния" -> listOf("салями" to 3, "оливки" to 1, "тесто" to 1, "сыр" to 3)
-        "вальтеллина" -> listOf("вяленая говядина" to 1, "зелень" to 1, "тесто" to 1, "пармезан" to 2)
-        "крестьянская" -> listOf("грибы" to 3, "томат" to 1, "тесто" to 1, "спаржа" to 1, "мясное ассорти" to 1)
-        else -> emptyList()
+}
+
+data class Ingredient(val name : String, val amount : Int)
+
+class PizzaCarbonara() : Pizza {
+
+    override val name: String = "карбонара"
+    override var price: Double = 0.0
+
+    override fun getIngredient(): List<Ingredient> {
+        return listOf(Ingredient("яйца", 1), 
+            Ingredient("бекон", 2), 
+            Ingredient("тесто", 1), 
+            Ingredient("сыр", 2))
+    }
+}
+
+class PizzaPeasant() : Pizza {
+
+    override val name: String = "крестьянская"
+    override var price: Double = 0.0
+
+    override fun getIngredient(): List<Ingredient> {
+        return listOf(Ingredient("грибы" , 3),
+            Ingredient("томат", 1),
+            Ingredient("тесто", 1),
+            Ingredient("спаржа", 1),
+            Ingredient("мясное ассорти", 1))
+    }
+}
+
+class PizzaValtellina() : Pizza {
+
+    override val name: String = "вальтеллина"
+    override var price: Double = 0.0
+
+    override fun getIngredient(): List<Ingredient> {
+        return listOf(Ingredient("вяленая говядина", 1),
+            Ingredient("зелень", 1),
+            Ingredient("тесто", 1),
+            Ingredient("пармезан", 2))
+    }
+}
+
+class PizzaSardinia() : Pizza {
+
+    override val name: String = "сардиния"
+    override var price: Double = 0.0
+
+    override fun getIngredient(): List<Ingredient> {
+        return listOf(Ingredient("салями", 3),
+            Ingredient("оливки", 1),
+            Ingredient("тесто", 1),
+            Ingredient("сыр", 3))
+    }
+}
+
+class PizzaMarinara() : Pizza {
+
+    override val name: String = "маринара"
+    override var price: Double = 0.0
+
+    override fun getIngredient(): List<Ingredient> {
+        return listOf(Ingredient("томат", 2),
+            Ingredient("оливки", 3),
+            Ingredient("тесто", 1))
     }
 }

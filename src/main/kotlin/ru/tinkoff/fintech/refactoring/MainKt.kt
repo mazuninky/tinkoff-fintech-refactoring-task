@@ -2,7 +2,9 @@ package ru.tinkoff.fintech.refactoring
 
 fun main() {
     val pizzaStore = PizzaStore()
-    val pizzaOrder = pizzaStore.orderPizza("карбонара")
+    val pizzaCarbonara = PizzaCarbonara()
+    val pizzaOrder = pizzaStore.orderPizza(pizzaCarbonara)
     val coffeeOrder = pizzaStore.orderCoffee("эспрессо")
-    pizzaStore.executeOrder(pizzaOrder, coffeeOrder)
+    pizzaStore.executeOrder(pizzaOrder)
+    pizzaStore.executeOrder(coffeeOrder)
 }
