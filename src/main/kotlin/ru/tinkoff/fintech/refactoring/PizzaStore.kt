@@ -28,9 +28,9 @@ class PizzaStore {
     fun orderPizza(name: String): PizzaOrder {
         val pizza = Pizza(name)
         val ingredients = getIngredient(pizza)
-        if(ingredients.isEmpty())
+        if (ingredients.isEmpty()) {
             error("Неизвестный вид пиццы!")
-
+        }
         return PizzaOrder(
             number = ++orderNumber,
             pizza = pizza,

@@ -9,6 +9,7 @@ interface IBarista {
 }
 
 class Barista : IBarista {
+
     override fun makeCoffee(coffeeOrder: CoffeeOrder) {
         val coffee = coffeeOrder.coffee
         val orderId = coffeeOrder.number
@@ -53,12 +54,9 @@ class PizzaMaker : IPizzaMaker {
             pizzaPrice += price * ingredientCount
             ingredientCounter += ingredientCount
         }
-
         println("[Пицца мейкер] время приготовления $ingredientCounter минут")
         val roundedPrice = "%.2f".format(pizzaPrice)
         println("[Пицца мейкер] в сумме за все $roundedPrice$")
-
         println("[Пицца мейкер] заказ $orderId готов")
     }
 }
-
