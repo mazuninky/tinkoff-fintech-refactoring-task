@@ -9,6 +9,7 @@ data class PizzaOrder(
 data class CoffeeOrder(
     val number: Int,
     val coffee: Coffee,
+    val price: Double
 )
 
 class PizzaStore {
@@ -19,15 +20,29 @@ class PizzaStore {
 
     fun orderCoffee(name: String) {
         val coffee = isCoffeeAvailable(name) ?: error("Неизвестный вид кофе!")
-        val coffeeOrder: CoffeeOrder = CoffeeOrder(++orderNumber, coffee)
+        val coffeeOrder = CoffeeOrder(++orderNumber, coffee, coffee.price)
         barista.makeCoffee(coffeeOrder)
     }
 
     fun orderPizza(name: String) {
         val pizza = isPizzaAvailable(name) ?: error("Такой пиццы нет!")
         val price = calculatePrice(pizza)
-        val pizzaOrder: PizzaOrder = PizzaOrder(++orderNumber, pizza, price)
+        val pizzaOrder = PizzaOrder(++orderNumber, pizza, price)
         pizzaMaker.makePizza(pizzaOrder)
+    }
+
+    fun calculatePrice(pizza: Pizza): Double {
+        pizza.ingredients.forEach { (ingredient, amount) ->
+            if (ingredient.remaining < amount) {
+                error("Не достаточно ингредиентов!")
+            }
+        }
+        var result = 0.00
+        pizza.ingredients.forEach { (ingredient, amount) ->
+            result += ingredient.price * amount
+            ingredient.remaining -= amount
+        }
+        return result
     }
 
 }

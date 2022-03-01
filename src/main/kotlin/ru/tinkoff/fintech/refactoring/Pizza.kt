@@ -1,19 +1,48 @@
 package ru.tinkoff.fintech.refactoring
 
-abstract class Pizza(
-    val name: String,
-    var composition: Map<Ingredient, Int>
-)
 
-class Carbonara : Pizza("карбонара", mapOf(Egg() to 1, Beckon() to 2, Dough() to 1, Cheese() to 2))
-class Marinara : Pizza("маринара", mapOf(Tomato() to 2, Olives() to 3, Dough() to 1))
-class Sardinya : Pizza("сардиния", mapOf(Salami() to 3, Olives() to 1, Dough() to 1, Cheese() to 3))
-class Valtellina : Pizza("вальтеллина", mapOf(BeefJerky() to 1, Grass() to 1, Dough() to 1, Parmesan() to 2))
-class Peasant :
-    Pizza("крестьянская", mapOf(Mushrooms() to 3, Tomato() to 1, Dough() to 1, Asparagus() to 1, Meat() to 1))
+enum class Pizza(val value: String, val ingredients: Array<Pair<Ingredient, Int>>) {
+    Carbonara(
+        "карбонара",
+        arrayOf(
+            Pair(Ingredient.EGG, 1), Pair(Ingredient.BECKON, 2), Pair(Ingredient.DOUGH, 1), Pair(Ingredient.CHEESE, 2)
+        )
+    ),
+    Marinara(
+        "маринара", arrayOf(Pair(Ingredient.TOMATO, 2), Pair(Ingredient.OLIVES, 3), Pair(Ingredient.DOUGH, 1))
+    ),
+    Sardinya(
+        "сардиния",
+        arrayOf(
+            Pair(Ingredient.SALAMI, 3),
+            Pair(Ingredient.OLIVES, 1),
+            Pair(Ingredient.DOUGH, 1),
+            Pair(Ingredient.CHEESE, 3)
+        )
+    ),
+    Valtellina(
+        "вальтеллина",
+        arrayOf(
+            Pair(Ingredient.BEEFJERKY, 1),
+            Pair(Ingredient.GRASS, 1),
+            Pair(Ingredient.DOUGH, 1),
+            Pair(Ingredient.PARMESAN, 2)
+        )
+    ),
+    Peasant(
+        "крестьянская",
+        arrayOf(
+            Pair(Ingredient.MUSHROOM, 3),
+            Pair(Ingredient.TOMATO, 1),
+            Pair(Ingredient.DOUGH, 1),
+            Pair(Ingredient.ASPARAGUS, 1),
+            Pair(Ingredient.MEAT, 1)
+        )
+    ),
+}
 
-val pizzaType = setOf(Carbonara(), Marinara(), Sardinya(), Valtellina(), Peasant())
+
 fun isPizzaAvailable(name: String): Pizza? {
-    return pizzaType.find { it.name == name }
+    return Pizza.values().find { it.value == name }
 }
 

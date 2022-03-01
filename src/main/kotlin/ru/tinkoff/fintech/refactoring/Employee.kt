@@ -2,9 +2,9 @@ package ru.tinkoff.fintech.refactoring
 
 class Barista {
     fun makeCoffee(coffeeOrder: CoffeeOrder) {
-        println("[Бариста] Готовлю напиток: ${coffeeOrder.coffee.name}")
+        println("[Бариста] Готовлю напиток: ${coffeeOrder.coffee.value}")
         println("[Бариста] Время приготовления: ${coffeeOrder.coffee.time} минут")
-        val roundedPrice = "%.2f".format(coffeeOrder.coffee.price)
+        val roundedPrice = "%.2f".format(coffeeOrder.price)
         println("[Бариста] Стоимость напитка: $roundedPrice")
 
         println("[Бариста] заказ ${coffeeOrder.number} готов")
@@ -15,13 +15,9 @@ class PizzaMaker {
     fun makePizza(pizzaOrder: PizzaOrder) {
         println("[Пицца мейкер] Делаю пиццу: ${pizzaOrder.pizza.name}")
         println("[Пицца мейкер] Из ингридиетов:")
-        var pizzaPrice = 0.0
         var ingredientCounter = 0
-        pizzaOrder.pizza.composition.forEach {
-            val ingredient = it.key
-            val ingredientCount = it.value
-
-            println("[Пицца мейкер] - ${ingredient.name}: в количестве $ingredientCount за ${ingredient.price}$")
+        pizzaOrder.pizza.ingredients.forEach { (ingredient, ingredientCount) ->
+            println("[Пицца мейкер] - ${ingredient.value}: в количестве $ingredientCount за ${ingredient.price}$")
             ingredientCounter += ingredientCount
         }
 
