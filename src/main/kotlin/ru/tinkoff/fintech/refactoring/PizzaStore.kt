@@ -1,6 +1,6 @@
 package ru.tinkoff.fintech.refactoring
 
-abstract class Order (open val number: Int, open val product: Product)
+abstract class Order(open val number: Int, open val product: Product)
 
 data class PizzaOrder(override val number: Int, override val product: Product) : Order(number, product)
 
@@ -13,7 +13,7 @@ class PizzaStore {
     private val barista = Barista()
 
     fun orderCoffee(name: String): Order {
-        val coffee = CoffeeDAO().getCoffeeByName(name);
+        val coffee = CoffeeFactory().getCoffeeByName(name);
 
         return CoffeeOrder(
             number = ++orderNumber,
@@ -22,7 +22,7 @@ class PizzaStore {
     }
 
     fun orderPizza(name: String): Order {
-        val pizza = PizzaDAO().getPizzaByName(name)
+        val pizza = PizzaFactory().getPizzaByName(name)
 
         return PizzaOrder(
             number = ++orderNumber,
