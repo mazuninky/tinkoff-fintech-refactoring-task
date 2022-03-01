@@ -79,4 +79,3 @@ class InitialValues {
         return PizzaMenu(menu)
     }
 }
-}
