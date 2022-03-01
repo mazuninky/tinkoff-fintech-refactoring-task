@@ -1,10 +1,10 @@
 package ru.tinkoff.fintech.refactoring
 
-interface Employee {
+interface IEmployee {
     fun work()
 }
 
-interface IBarista{
+interface IBarista {
     fun makeCoffee(coffeeOrder: CoffeeOrder)
 }
 
@@ -20,18 +20,18 @@ class Barista : IBarista {
     }
 }
 
-interface ICleaner{
+interface ICleaner {
     fun cleanFloor()
 }
 
-class Cleaner: ICleaner{
+class Cleaner : ICleaner {
 
-    override fun cleanFloor(){
+    override fun cleanFloor() {
         println("[Уборщик] Мою полы")
     }
 }
 
-interface IPizzaMaker{
+interface IPizzaMaker {
     fun makePizza(pizzaOrder: PizzaOrder)
 }
 

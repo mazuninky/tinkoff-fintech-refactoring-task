@@ -12,7 +12,6 @@ data class CoffeeOrder(
 
 class PizzaStore {
     private var orderNumber = 0
-
     private val pizzaMaker = PizzaMaker()
     private val barista = Barista()
 

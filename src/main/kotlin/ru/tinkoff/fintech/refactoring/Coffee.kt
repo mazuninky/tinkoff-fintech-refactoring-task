@@ -5,7 +5,6 @@ abstract class Coffee(
     val price: Double,
     val time: Int,
 ) {
-
     companion object {
         private val coffeeStore = listOf(Espresso(), Cappuccino())
 
