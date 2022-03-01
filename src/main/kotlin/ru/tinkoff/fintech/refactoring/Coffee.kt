@@ -1,28 +1,13 @@
 package ru.tinkoff.fintech.refactoring
 
-abstract class Coffee(
-    val name: String,
-    val price: Double,
-) {
+data class Coffee(override val name: String, override val price: Double, val brewTime: Int) : Product(name, price)
 
-    companion object {
-        private val coffeeStore = listOf(Espresso(), Cappuccino())
-
-        fun getCoffeeByName(name: String): Coffee? {
-            return coffeeStore.find { it.name == name }
+class CoffeeFactory {
+    fun getCoffeeByName(name: String): Coffee {
+        return when (name) {
+            "эспрессо" -> Coffee(name, 5.0, 5)
+            "капучино" -> Coffee(name, 3.48, 6)
+            else -> error("Неизвестный вид кофе")
         }
-    }
-}
-
-class Espresso: Coffee("эспрессо", 5.0)
-class Cappuccino: Coffee("капучино", 3.48)
-
-fun calculateCoffeeBrewTimeInMinutes(
-    coffee: Coffee
-): Int {
-    return when(coffee) {
-        is Espresso -> 5
-        is Cappuccino -> 6
-        else -> error("Неизвестный вид кофе")
     }
 }
