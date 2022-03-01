@@ -2,16 +2,13 @@ package ru.tinkoff.fintech.refactoring
 
 interface Employee {
     fun work()
-
 }
-interface IBarista:Employee{
+
+interface IBarista{
     fun makeCoffee(coffeeOrder: CoffeeOrder)
 }
 
 class Barista : IBarista {
-    override fun work() {
-        println("[Бариста] Прихожу на работу к 10 часам")
-    }
     override fun makeCoffee(coffeeOrder: CoffeeOrder) {
         val coffee = coffeeOrder.coffee
         val orderId = coffeeOrder.number
@@ -23,27 +20,22 @@ class Barista : IBarista {
     }
 }
 
-interface ICleaner:Employee{
+interface ICleaner{
     fun cleanFloor()
 }
 
 class Cleaner: ICleaner{
-    override fun work() {
-        println("[Уборщик] Прихожу на работу к 6 часам")
-    }
+
     override fun cleanFloor(){
         println("[Уборщик] Мою полы")
     }
 }
 
-interface IPizzaMaker:Employee{
+interface IPizzaMaker{
     fun makePizza(pizzaOrder: PizzaOrder)
 }
 
 class PizzaMaker : IPizzaMaker {
-    override fun work() {
-        println("[Пицца мейкер] Прихожу на работу к 8 часам")
-    }
 
     override fun makePizza(pizzaOrder: PizzaOrder) {
         val pizza = pizzaOrder.pizza

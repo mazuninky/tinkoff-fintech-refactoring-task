@@ -3,7 +3,6 @@ package ru.tinkoff.fintech.refactoring
 data class PizzaOrder(
     val number: Int,
     val pizza: Pizza,
-    val price: Double
 )
 
 data class CoffeeOrder(
@@ -12,7 +11,7 @@ data class CoffeeOrder(
 )
 
 class PizzaStore {
-    var orderNumber = 0
+    private var orderNumber = 0
 
     private val pizzaMaker = PizzaMaker()
     private val barista = Barista()
@@ -30,18 +29,12 @@ class PizzaStore {
     fun orderPizza(name: String): PizzaOrder {
         val pizza = Pizza(name)
         val ingredients = getIngredient(pizza)
-        var pizzaPrice = 0.0
-        ingredients.forEach {
-            val ingredientName = it.first
-            val ingredientCount = it.second
-            val price = ingredientsPrice(ingredientName)
-            pizzaPrice += price * ingredientCount
-        }
+        if(ingredients.isEmpty())
+            error("Неизвестный вид пиццы!")
 
         return PizzaOrder(
             number = ++orderNumber,
             pizza = pizza,
-            price = pizzaPrice
         )
     }
 
