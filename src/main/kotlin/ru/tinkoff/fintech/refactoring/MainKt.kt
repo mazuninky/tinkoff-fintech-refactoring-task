@@ -1,8 +1,9 @@
-package ru.tinkoff.fintech.refactoring
+package ru.tinkoff.fintech.homework.task1
+
+import kotlin.String
 
 fun main() {
     val pizzaStore = PizzaStore()
-    val pizzaOrder = pizzaStore.orderPizza("карбонара")
-    val coffeeOrder = pizzaStore.orderCoffee("эспрессо")
-    pizzaStore.executeOrder(pizzaOrder, coffeeOrder)
+    pizzaStore.orderPizza("карбонара")
+    pizzaStore.orderCoffee("капучино")
 }
