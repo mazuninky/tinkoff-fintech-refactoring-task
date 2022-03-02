@@ -34,13 +34,11 @@ abstract class Cafe(
 
     fun executeOrder(orders: Set<Order>) {
         orders.forEach { order ->
-
-            val correctEmployee: CafeWorker<*> = employees.getValue(Area.FOOD).find { employee ->
-                employee as CafeWorker<*>
-                employee.checkForProcessingOrder(order)
-            } as? CafeWorker<*> ?: error("Невозможно найти работника, который сможет приготовить заказ $order")
-
-            correctEmployee.work(order)
+            (employees.getValue(Area.FOOD)
+                .mapNotNull { it as? CafeWorker<*> }
+                .find { it.checkForProcessingOrder(order) }
+                ?: error("Невозможно найти работника, который сможет приготовить заказ $order")
+                    ).work(order)
         }
     }
 }
