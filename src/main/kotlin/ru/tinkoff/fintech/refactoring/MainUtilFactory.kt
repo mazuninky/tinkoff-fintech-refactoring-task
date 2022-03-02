@@ -46,31 +46,34 @@ class MainUtilFactory {
     )
 
     fun createPizzaMenu(ingredientMenu: IngredientMenu) = PizzaMenu(
-        mapOf(
-            "карбонара" to mapOf("яйца" to 1, "бекон" to 2, "тесто" to 1, "сыр" to 2),
-            "маринара" to mapOf("томат" to 2, "оливки" to 3, "тесто" to 1),
-            "сардиния" to mapOf("салями" to 3, "оливки" to 1, "тесто" to 1, "сыр" to 3),
-            "вальтеллина" to mapOf("вяленая говядина" to 1, "зелень" to 1, "тесто" to 1, "пармезан" to 2),
-            "крестьянская" to mapOf(
-                "грибы" to 3,
-                "томат" to 1,
-                "тесто" to 1,
-                "спаржа" to 1,
-                "мясное ассорти" to 1
-            ),
-        ).mapValues {
-            val recipe = it.value
-            val gettingDishPriceWay: (Map<String, Int>) -> Double? = {
-                getDishPriceFromRecipe(
-                    recipe.mapKeys { nameWithAmount -> ingredientMenu.get(nameWithAmount.key) }
-                )
-            }
-            Dish(it.key, recipe) {
-                gettingDishPriceWay(recipe)
-            }
+        mapForPizzaMenuInitializing.mapValues {
+            createDishFromItsRecipeAndIngredientMenu(it.key, it.value, ingredientMenu)
         }
-
     )
+
+    private val mapForPizzaMenuInitializing = mapOf(
+        "карбонара" to mapOf("яйца" to 1, "бекон" to 2, "тесто" to 1, "сыр" to 2),
+        "маринара" to mapOf("томат" to 2, "оливки" to 3, "тесто" to 1),
+        "сардиния" to mapOf("салями" to 3, "оливки" to 1, "тесто" to 1, "сыр" to 3),
+        "вальтеллина" to mapOf("вяленая говядина" to 1, "зелень" to 1, "тесто" to 1, "пармезан" to 2),
+        "крестьянская" to mapOf(
+            "грибы" to 3,
+            "томат" to 1,
+            "тесто" to 1,
+            "спаржа" to 1,
+            "мясное ассорти" to 1
+        ),
+    )
+
+    private fun createDishFromItsRecipeAndIngredientMenu(
+        name: String,
+        recipe: Map<String, Int>,
+        ingredientMenu: IngredientMenu
+    ) = Dish(name, recipe) {
+        getDishPriceFromRecipe(
+            recipe.mapKeys { nameWithAmount -> ingredientMenu.get(nameWithAmount.key) }
+        )
+    }
 
     private fun getDishPriceFromRecipe(mapWithIngredientKeys: Map<Ingredient?, Int>): Double? {
 
