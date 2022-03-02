@@ -4,6 +4,6 @@ abstract class Product(
     open val name: String,
     protected open var enabled: Boolean = false
 ) {
-    abstract fun getPrice(): () -> Double?
+    abstract val price: Double?
     fun isEnabled(): Boolean = enabled
 }

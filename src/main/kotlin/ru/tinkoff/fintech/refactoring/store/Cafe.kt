@@ -28,7 +28,7 @@ abstract class Cafe(
     fun order(type: MenuKind, name: String): Order {
         val localMenu = menu[type] ?: error("Нет такого типа меню ($type)")
         val product = localMenu.menu[name] ?: error("В меню $type нет $name")
-        val price = product.getPrice().invoke() ?: error("Невозможно заказать $name (нет в наличии)")
+        val price = product.price ?: error("Невозможно заказать $name (нет в наличии)")
         val number = curOrderId++
 
         return Order(type, name, number, price)

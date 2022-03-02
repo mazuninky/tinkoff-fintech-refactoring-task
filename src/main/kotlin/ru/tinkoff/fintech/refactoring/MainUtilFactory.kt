@@ -81,7 +81,7 @@ class MainUtilFactory {
             return null
 
         val prices = mapWithIngredientKeys.entries.map { entry ->
-            entry.key!!.getPrice().invoke() to entry.value
+            entry.key!!.price to entry.value
         }
 
         if (prices.any { pair -> pair.first == null })

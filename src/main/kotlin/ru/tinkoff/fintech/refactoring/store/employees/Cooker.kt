@@ -38,7 +38,7 @@ class Cooker(
         }
 
         println("[$name] время приготовления $brewTime минут")
-        val roundedPrice = "%.2f".format(dish.getPrice().invoke())
+        val roundedPrice = "%.2f".format(dish.price)
         println("[$name] в сумме за все $roundedPrice$")
     }
 }

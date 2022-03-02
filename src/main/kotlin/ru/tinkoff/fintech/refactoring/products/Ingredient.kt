@@ -2,14 +2,15 @@ package ru.tinkoff.fintech.refactoring.products
 
 class Ingredient(
     override val name: String,
-    private var price: Double?,
+    var localPrice: Double?,
 ) : Product(name, true) {
 
-    fun setPrice(price: Double?) {
-        this.price = price
+    fun setPrice(localPrice: Double?) {
+        this.localPrice = localPrice
     }
 
-    override fun getPrice(): () -> Double? = { price }
+    override val price: Double?
+        get() = localPrice
 
     override fun toString(): String {
         return name
