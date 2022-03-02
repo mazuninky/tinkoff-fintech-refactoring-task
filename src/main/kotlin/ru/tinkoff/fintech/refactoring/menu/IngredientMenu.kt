@@ -4,7 +4,7 @@ import ru.tinkoff.fintech.refactoring.products.Ingredient
 
 data class IngredientMenu(
     override val menu: Map<String, Ingredient>
-) : Menu<Ingredient> {
+) : Menu<Ingredient>(menu) {
 
     override val menuKind: MenuKind
         get() = MenuKind.INGREDIENT

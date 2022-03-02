@@ -4,8 +4,8 @@ import ru.tinkoff.fintech.refactoring.products.Coffee
 import java.time.Duration
 
 class CoffeeMenu(
-    override val menu: Map<String, Coffee>
-) : Menu<Coffee> {
+    menu: Map<String, Coffee>
+) : Menu<Coffee>(menu) {
 
     fun getBrewTime(name: String): Duration? {
         val coffee = menu[name]
