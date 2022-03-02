@@ -1,48 +1,50 @@
 package ru.tinkoff.fintech.refactoring
 
-
-enum class Pizza(val value: String, val ingredients: Array<Pair<Ingredient, Int>>) {
+enum class Pizza(val value: String, val ingredients: Map<Ingredient, Int>) {
     Carbonara(
-        "карбонара",
-        arrayOf(
-            Pair(Ingredient.EGG, 1), Pair(Ingredient.BECKON, 2), Pair(Ingredient.DOUGH, 1), Pair(Ingredient.CHEESE, 2)
+        value = "карбонара",
+        ingredients = mapOf(
+            (Ingredient.EGG to 1), (Ingredient.BECKON to 2), (Ingredient.DOUGH to 1), (Ingredient.CHEESE to 2)
         )
     ),
     Marinara(
-        "маринара", arrayOf(Pair(Ingredient.TOMATO, 2), Pair(Ingredient.OLIVES, 3), Pair(Ingredient.DOUGH, 1))
+        value = "маринара",
+        ingredients = mapOf((Ingredient.TOMATO to 2), (Ingredient.OLIVES to 3), (Ingredient.DOUGH to 1))
     ),
     Sardinya(
-        "сардиния",
-        arrayOf(
-            Pair(Ingredient.SALAMI, 3),
-            Pair(Ingredient.OLIVES, 1),
-            Pair(Ingredient.DOUGH, 1),
-            Pair(Ingredient.CHEESE, 3)
+        value = "сардиния",
+        ingredients = mapOf(
+            (Ingredient.SALAMI to 3),
+            (Ingredient.OLIVES to 1),
+            (Ingredient.DOUGH to 1),
+            (Ingredient.CHEESE to 3)
         )
     ),
     Valtellina(
-        "вальтеллина",
-        arrayOf(
-            Pair(Ingredient.BEEFJERKY, 1),
-            Pair(Ingredient.GRASS, 1),
-            Pair(Ingredient.DOUGH, 1),
-            Pair(Ingredient.PARMESAN, 2)
+        value = "вальтеллина",
+        ingredients = mapOf(
+            (Ingredient.BEEFJERKY to 1),
+            (Ingredient.GRASS to 1),
+            (Ingredient.DOUGH to 1),
+            (Ingredient.PARMESAN to 2)
         )
     ),
     Peasant(
-        "крестьянская",
-        arrayOf(
-            Pair(Ingredient.MUSHROOM, 3),
-            Pair(Ingredient.TOMATO, 1),
-            Pair(Ingredient.DOUGH, 1),
-            Pair(Ingredient.ASPARAGUS, 1),
-            Pair(Ingredient.MEAT, 1)
+        value = "крестьянская",
+        ingredients = mapOf(
+            (Ingredient.MUSHROOM to 3),
+            (Ingredient.TOMATO to 1),
+            (Ingredient.DOUGH to 1),
+            (Ingredient.ASPARAGUS to 1),
+            (Ingredient.MEAT to 1)
         )
-    ),
-}
+    );
 
+    companion object {
+        fun isPizzaAvailable(name: String): Pizza? {
+            return Pizza.values().find { it.value == name }
+        }
+    }
 
-fun isPizzaAvailable(name: String): Pizza? {
-    return Pizza.values().find { it.value == name }
 }
 

@@ -1,5 +1,6 @@
 package ru.tinkoff.fintech.refactoring
 
+
 class Barista {
     fun makeCoffee(coffeeOrder: CoffeeOrder) {
         println("[Бариста] Готовлю напиток: ${coffeeOrder.coffee.value}")
@@ -13,7 +14,7 @@ class Barista {
 
 class PizzaMaker {
     fun makePizza(pizzaOrder: PizzaOrder) {
-        println("[Пицца мейкер] Делаю пиццу: ${pizzaOrder.pizza.name}")
+        println("[Пицца мейкер] Делаю пиццу: ${pizzaOrder.pizza.value}")
         println("[Пицца мейкер] Из ингридиетов:")
         var ingredientCounter = 0
         pizzaOrder.pizza.ingredients.forEach { (ingredient, ingredientCount) ->
@@ -29,3 +30,4 @@ class PizzaMaker {
     }
 
 }
+

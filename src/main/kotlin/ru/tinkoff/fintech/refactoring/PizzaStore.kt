@@ -12,37 +12,63 @@ data class CoffeeOrder(
     val price: Double
 )
 
+
 class PizzaStore {
     var orderNumber = 0
 
     private val pizzaMaker: PizzaMaker = PizzaMaker()
     private val barista: Barista = Barista()
+    private val storage: Storage =
+        Storage(
+            mutableMapOf(
+                Ingredient.EGG to 5,
+                Ingredient.BECKON to 10,
+                Ingredient.DOUGH to 4,
+                Ingredient.CHEESE to 5
+            )
+        )
 
-    fun orderCoffee(name: String) {
-        val coffee = isCoffeeAvailable(name) ?: error("Неизвестный вид кофе!")
+
+    fun orderCoffee(unformattedName: String) {
+        val name = unformattedName.lowercase()
+        val coffee = Coffee.isCoffeeAvailable(name) ?: println("такого кофе нет!")
+        if (!(coffee is Coffee)) {
+            return
+        }
         val coffeeOrder = CoffeeOrder(++orderNumber, coffee, coffee.price)
         barista.makeCoffee(coffeeOrder)
     }
 
-    fun orderPizza(name: String) {
-        val pizza = isPizzaAvailable(name) ?: error("Такой пиццы нет!")
+    fun orderPizza(unformattedName: String) {
+        val name = unformattedName.lowercase()
+        val pizza = Pizza.isPizzaAvailable(name) ?: println("Такой пиццы нет!")
+        if (!(pizza is Pizza)) {
+            return
+        }
+        if (!isEnoughIngredients(pizza)) {
+            return
+        }
         val price = calculatePrice(pizza)
         val pizzaOrder = PizzaOrder(++orderNumber, pizza, price)
         pizzaMaker.makePizza(pizzaOrder)
     }
 
     fun calculatePrice(pizza: Pizza): Double {
-        pizza.ingredients.forEach { (ingredient, amount) ->
-            if (ingredient.remaining < amount) {
-                error("Не достаточно ингредиентов!")
-            }
-        }
         var result = 0.00
         pizza.ingredients.forEach { (ingredient, amount) ->
             result += ingredient.price * amount
-            ingredient.remaining -= amount
+            storage.takeIngredient(ingredient, amount)
         }
         return result
     }
 
+    fun isEnoughIngredients(pizza: Pizza): Boolean {
+        pizza.ingredients.forEach { (ingredients, amount) ->
+            if (storage.getRemainder(ingredients) < amount) {
+                println("не достаточно ингредиентов!")
+                return false
+            }
+        }
+        return true
+    }
 }
