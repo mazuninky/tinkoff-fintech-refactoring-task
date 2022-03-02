@@ -1,5 +1,6 @@
 package ru.tinkoff.fintech.refactoring
 
+
 data class PizzaOrder(
     val number: Int,
     val pizza: Pizza,
@@ -36,7 +37,7 @@ class PizzaStore {
             return
         }
         val coffeeOrder = CoffeeOrder(++orderNumber, coffee, coffee.price)
-        barista.makeCoffee(coffeeOrder)
+        barista.doWork(coffeeOrder)
     }
 
     fun orderPizza(unformattedName: String) {
@@ -50,7 +51,7 @@ class PizzaStore {
         }
         val price = calculatePrice(pizza)
         val pizzaOrder = PizzaOrder(++orderNumber, pizza, price)
-        pizzaMaker.makePizza(pizzaOrder)
+        pizzaMaker.doWork(pizzaOrder)
     }
 
     fun calculatePrice(pizza: Pizza): Double {
@@ -71,4 +72,4 @@ class PizzaStore {
         }
         return true
     }
-}
+}}

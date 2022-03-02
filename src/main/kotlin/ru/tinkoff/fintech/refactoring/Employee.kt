@@ -1,7 +1,14 @@
 package ru.tinkoff.fintech.refactoring
 
+interface Employee {
+    fun doWork(coffeeOrder: CoffeeOrder)
+    fun doWork(pizzaOrder: PizzaOrder)
+}
 
-class Barista {
+class Barista(): Employee {
+    override fun doWork(coffeeOrder: CoffeeOrder) {
+        makeCoffee(coffeeOrder)
+    }
     fun makeCoffee(coffeeOrder: CoffeeOrder) {
         println("[Бариста] Готовлю напиток: ${coffeeOrder.coffee.value}")
         println("[Бариста] Время приготовления: ${coffeeOrder.coffee.time} минут")
@@ -10,9 +17,16 @@ class Barista {
 
         println("[Бариста] заказ ${coffeeOrder.number} готов")
     }
+
+    override fun doWork(pizzaOrder: PizzaOrder) {
+        println("[Бариста] Я не готовлю пиццу")
+    }
 }
 
-class PizzaMaker {
+class PizzaMaker: Employee {
+    override fun doWork(pizzaOrder: PizzaOrder) {
+        makePizza(pizzaOrder)
+    }
     fun makePizza(pizzaOrder: PizzaOrder) {
         println("[Пицца мейкер] Делаю пиццу: ${pizzaOrder.pizza.value}")
         println("[Пицца мейкер] Из ингридиетов:")
@@ -29,5 +43,8 @@ class PizzaMaker {
         println("[Пицца мейкер] заказ ${pizzaOrder.number} готов")
     }
 
+    override fun doWork(coffeeOrder: CoffeeOrder) {
+        println("[Пицца мейкер] я не готовлю кофе")
+    }
 }
 
