@@ -1,72 +1,55 @@
 package ru.tinkoff.fintech.refactoring
 
 interface Employee {
-    fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>)
-    fun makeCoffee(orderId: Int, coffee: Coffee)
-    fun cleanFloor()
+    val name: String
+
+    fun say(message: Any?) = println("[$name] $message")
+
+    fun makePizza(order: PizzaOrder) {
+        say("Я не умею готовить пиццу")
+    }
+
+    fun makeCoffee(order: CoffeeOrder) {
+        say("Я не умею готовить кофе")
+    }
+
+    fun finish(orderId: Int, timeInMinutes: Int, price: Double) {
+        say("Время приготовления: $timeInMinutes минут")
+        val roundedPrice = "%.2f".format(price)
+        say("Стоимость заказа: $roundedPrice")
+        say("заказ $orderId готов")
+    }
+
+    fun cleanFloor() {
+        say("Я не умею мыть полы")
+    }
 }
 
 class Barista : Employee {
-    override fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>) {
-        println("[Бариста] Я не умею готовить пиццу")
-    }
+    override val name get() = "Бариста"
 
-    override fun cleanFloor() {
-        println("[Бариста] Я не умею мыть полы")
-    }
+    override fun makeCoffee(order: CoffeeOrder) {
+        val (orderId, coffee) = order
+        say("Готовлю напиток: $coffee")
 
-    override fun makeCoffee(orderId: Int, coffee: Coffee) {
-        println("[Бариста] Готовлю напиток: ${coffee.name}")
-        println("[Бариста] Время приготовления: ${calculateCoffeeBrewTimeInMinutes(coffee)} минут")
-        val roundedPrice = "%.2f".format(coffee.price)
-        println("[Бариста] Стоимость напитка: $roundedPrice")
-
-        println("[Бариста] заказ $orderId готов")
+        finish(orderId, Coffee.calculateBrewTimeInMinutes(coffee), coffee.price)
     }
 }
 
 class PizzaMaker : Employee {
-    override fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>) {
-        println("[Пицца мейкер] Делаю пиццу: ${pizza.name}")
-        println("[Пицца мейкер] Из ингридиетов:")
-        var pizzaPrice = 0.0
-        var ingredientCounter = 0
+    override val name get() = "Пицца мейкер"
+
+    override fun makePizza(order: PizzaOrder) {
+        val (orderId, pizza, ingredients) = order
+
+        say("Делаю пиццу: $pizza")
+        say("Из ингредиентов:")
         ingredients.forEach {
-            val ingredientName = it.first
-            val ingredientCount = it.second
-
-            val price = when (ingredientName) {
-                "яйца" -> 3.48
-                "бекон" -> 6.48
-                "тесто" -> 1.00
-                "томат" -> 1.53
-                "оливки" -> 1.53
-                "сыр" -> 0.98
-                "пармезан" -> 3.98
-                "грибы" -> 3.34
-                "спаржа" -> 3.34
-                "мясное ассорти" -> 9.38
-                "вяленая говядина" -> 12.24
-                else -> error("Неизвестный ингредиент")
-            }
-
-            println("[Пицца мейкер] - ${ingredientName}: в количестве $ingredientCount за $price$")
-            pizzaPrice += price * ingredientCount
-            ingredientCounter += ingredientCount
+            say("- ${it.name}: в количестве ${it.count} за ${it.price}$")
         }
+        val ingredientCounter = ingredients.sumOf { it.count }
+        val pizzaPrice = ingredients.sumOf { it.price * it.count }
 
-        println("[Пицца мейкер] время приготовления $ingredientCounter минут")
-        val roundedPrice = "%.2f".format(pizzaPrice)
-        println("[Пицца мейкер] в сумме за все $roundedPrice$")
-
-        println("[Пицца мейкер] заказ $orderId готов")
-    }
-
-    override fun makeCoffee(orderId: Int, coffee: Coffee) {
-        println("[Пицца мейкер] Я не умею готовить кофе")
-    }
-
-    override fun cleanFloor() {
-        println("[Пицца мейкер] Я не умею мыть полы")
+        finish(orderId, ingredientCounter, pizzaPrice)
     }
 }
