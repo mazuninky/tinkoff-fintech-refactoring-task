@@ -7,4 +7,6 @@ abstract class DishMenu(
 ) : Menu<Dish> {
     override val menu: Map<String, Dish>
         get() = localMenu
+    final override val menuKind: MenuKind
+        get() = MenuKind.DISH
 }
