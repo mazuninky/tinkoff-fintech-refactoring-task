@@ -10,6 +10,9 @@ abstract class CafeWorker<FOOD_T : Product>(
     protected open val menu: Map<MenuKind, Menu<*>>
 ) : Employee<Order> {
 
+    override val area: Area
+        get() = Area.FOOD
+
     fun checkForProcessingOrder(order: Order): Boolean = patternForOrder(order)
 
     fun getFoodByOrder(order: Order): FOOD_T? = menu[order.type]?.get(order.name) as? FOOD_T

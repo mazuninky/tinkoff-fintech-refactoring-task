@@ -5,12 +5,11 @@ import ru.tinkoff.fintech.refactoring.store.PizzaCafe
 
 fun main() {
     val ingredientMenu = getIngredientMenu()
-    val coffeeMenu = getCoffeMenu()
-    val pizzaMenu = getPizzaMenu(ingredientMenu)
+
     val mainMenu = mapOf(
-        MenuKind.PIZZA to pizzaMenu,
+        MenuKind.PIZZA to getPizzaMenu(ingredientMenu),
         MenuKind.INGREDIENT to ingredientMenu,
-        MenuKind.COFFEE to coffeeMenu,
+        MenuKind.COFFEE to getCoffeMenu(),
     )
 
 

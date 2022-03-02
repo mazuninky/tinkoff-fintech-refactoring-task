@@ -13,13 +13,12 @@ abstract class Cafe(
 ) {
 
     private val employees: MutableMap<Area, MutableSet<Employee<*>>> =
-        employees.mapValues {
-            for (value in it.value) {
-                if (!it.key.correctWorkerClazz.isAssignableFrom(value::class.java)) {
-                    throw IllegalStateException("Нельзя в данную область работы поставить работника \"${value.name}\"")
+        employees.mapValues { entry ->
+            entry.value.onEach { employee ->
+                if (entry.key != employee.area) {
+                    throw IllegalStateException("Нельзя в данную область работы поставить работника \"${employee.name}\"")
                 }
-            }
-            it.value.toMutableSet()
+            }.toMutableSet()
         }.toMutableMap()
 
     private var curOrderId = 0

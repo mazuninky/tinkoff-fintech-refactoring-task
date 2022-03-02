@@ -4,6 +4,9 @@ import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.Containe
 
 interface Employee<CONTAINER_T : ContainerForWork> {
     val name: String
+    val area: Area
+        get() = Area.OTHER
+
     fun work(container: CONTAINER_T) {
         start(container)
         finish(container)
