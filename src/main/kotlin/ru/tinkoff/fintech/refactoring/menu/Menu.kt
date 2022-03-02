@@ -2,8 +2,8 @@ package ru.tinkoff.fintech.refactoring.menu
 
 import ru.tinkoff.fintech.refactoring.products.Product
 
-interface Menu<PRODUCT_T : Product> {
-    val menu: Map<String, PRODUCT_T>
+interface Menu<T : Product> {
+    val menu: Map<String, T>
     fun getNames(): Set<String> = menu.keys
 
     val menuKind: MenuKind
@@ -16,5 +16,5 @@ interface Menu<PRODUCT_T : Product> {
             }
         }
 
-    fun get(key: String): PRODUCT_T? = menu[key]
+    fun get(key: String): T? = menu[key]
 }
