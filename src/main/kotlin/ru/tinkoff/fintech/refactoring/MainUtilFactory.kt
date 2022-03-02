@@ -71,21 +71,20 @@ class MainUtilFactory {
     )
 
     private fun getDishPriceFromRecipe(getIngredient: (String) -> Ingredient?): (Map<String, Int>) -> Double? = {
-
-        try {
-            val res = it
-                .mapKeys { entry ->
-                    getIngredient(entry.key) ?: throw IllegalStateException("Невозможно определить цену ${entry.key} ")
-                }
-                .entries.fold(0.0) { acc, entry ->
-                    val ingredientPrice = entry.key.getPrice().invoke()
-                        ?: throw IllegalStateException("Невозможно определить цену ${entry.key.name} ")
-                    acc + ingredientPrice * entry.value
-                }
-
-            res
-        } catch (e: IllegalStateException) {
+        val mapWithIngredients = it.mapKeys { entry -> getIngredient(entry.key) }
+        if (mapWithIngredients.any { entry -> entry.key == null }) {
             null
+        } else {
+            val prices = mapWithIngredients.entries.map { entry ->
+                entry.key!!.getPrice().invoke() to entry.value
+            }
+            if (prices.any { pair -> pair.first == null }) {
+                null
+            } else {
+                prices.sumOf { pair ->
+                    pair.first!! * pair.second
+                }
+            }
         }
     }
 }

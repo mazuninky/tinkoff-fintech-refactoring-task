@@ -24,7 +24,7 @@ fun main() {
             pizzaCafe.order(MenuKind.DISH, name)
         } catch (ex: IllegalStateException) {
             println(ex.message)
-            print("\n")
+            println()
             null
         }
     }
@@ -35,7 +35,7 @@ fun main() {
             pizzaCafe.order(MenuKind.COFFEE, name)
         } catch (ex: IllegalStateException) {
             println(ex.message)
-            print("\n")
+            println()
             null
         }
     }
