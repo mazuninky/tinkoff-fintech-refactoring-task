@@ -11,10 +11,9 @@ class Barista(
 
     override fun start(container: Order) = makeCoffee(container)
 
-    override val patternForOrder: (order: Order) -> Boolean
-        get() = { order ->
-            order.type == MenuKind.COFFEE
-        }
+    override fun needToProcessOrder(order: Order): Boolean =
+        order.type == MenuKind.COFFEE
+
 
     private fun makeCoffee(order: Order) {
         val coffee = getFoodByOrder(order) ?: error("Невозможно приготовить ${order.name}")

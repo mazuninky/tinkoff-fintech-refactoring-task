@@ -15,8 +15,8 @@ class Cooker(
 
     override fun start(container: Order) = cook(container)
 
-    override val patternForOrder: (order: Order) -> Boolean
-        get() = { order -> order.type == MenuKind.DISH }
+    override fun needToProcessOrder(order: Order): Boolean =
+        order.type == MenuKind.DISH
 
     private fun cook(order: Order) {
         val dish = getFoodByOrder(order) ?: error("Невозможно приготовить ${order.name}")

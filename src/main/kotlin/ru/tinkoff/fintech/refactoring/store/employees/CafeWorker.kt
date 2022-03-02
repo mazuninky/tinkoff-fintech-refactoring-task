@@ -13,7 +13,7 @@ abstract class CafeWorker<T : Product>(
     override val area: Area
         get() = Area.FOOD
 
-    fun checkForProcessingOrder(order: Order): Boolean = patternForOrder(order)
+    fun checkForProcessingOrder(order: Order): Boolean = needToProcessOrder(order)
 
     fun getFoodByOrder(order: Order): T? = menu[order.type]?.get(order.name) as? T
 
@@ -21,7 +21,5 @@ abstract class CafeWorker<T : Product>(
         println("[$name] заказ ${container.orderId} готов")
     }
 
-    protected abstract val patternForOrder: (order: Order) -> Boolean
-
-
+    protected abstract fun needToProcessOrder(order: Order): Boolean
 }

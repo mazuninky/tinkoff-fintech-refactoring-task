@@ -10,5 +10,4 @@ class Cleaner(override val name: String = "Уборщик") : Employee<Container
     override fun finish(container: ContainerForWork) {
         println("Уборщик.............")
     }
-
 }
