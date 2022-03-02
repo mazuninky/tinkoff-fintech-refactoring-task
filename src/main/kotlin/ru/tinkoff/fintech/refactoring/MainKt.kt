@@ -4,16 +4,17 @@ import ru.tinkoff.fintech.refactoring.menu.MenuKind
 import ru.tinkoff.fintech.refactoring.store.PizzaCafe
 
 fun main() {
-    val ingredientMenu = getIngredientMenu()
+    val factory = MainUtilFactory()
+
+    val ingredientMenu = factory.createIngredientMenu()
 
     val mainMenu = mapOf(
-        MenuKind.DISH to getPizzaMenu(ingredientMenu),
+        MenuKind.DISH to factory.createPizzaMenu(ingredientMenu),
         MenuKind.INGREDIENT to ingredientMenu,
-        MenuKind.COFFEE to getCoffeMenu(),
+        MenuKind.COFFEE to factory.createCoffeMenu(),
     )
 
-
-    val workers = getWorkers(mainMenu)
+    val workers = factory.createWorkers(mainMenu)
 
     val pizzaCafe = PizzaCafe(mainMenu, workers)
 
