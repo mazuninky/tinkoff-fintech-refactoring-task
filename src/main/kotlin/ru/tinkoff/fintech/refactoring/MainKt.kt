@@ -1,15 +1,22 @@
 package ru.tinkoff.fintech.refactoring
 
 import ru.tinkoff.fintech.refactoring.menu.MenuKind
-import ru.tinkoff.fintech.refactoring.utils.InitializedMenus
-import ru.tinkoff.fintech.refactoring.utils.InitializedPizzaCafe
+import ru.tinkoff.fintech.refactoring.store.PizzaCafe
 
 fun main() {
-    val initializedMenus = InitializedMenus()
-    val ingredientMenu = initializedMenus.ingredientMenu
+    val ingredientMenu = getIngredientMenu()
+    val coffeeMenu = getCoffeMenu()
+    val pizzaMenu = getPizzaMenu(ingredientMenu)
+    val mainMenu = mapOf(
+        MenuKind.PIZZA to pizzaMenu,
+        MenuKind.INGREDIENT to ingredientMenu,
+        MenuKind.COFFEE to coffeeMenu,
+    )
 
-    val initializedPizzaCafe = InitializedPizzaCafe(initializedMenus = initializedMenus)
-    val pizzaCafe = initializedPizzaCafe.pizzaCafe
+
+    val workers = getWorkers(mainMenu)
+
+    val pizzaCafe = PizzaCafe(mainMenu, workers)
 
     val order = setOf(
         pizzaCafe.order(MenuKind.PIZZA, "карбонара"),
