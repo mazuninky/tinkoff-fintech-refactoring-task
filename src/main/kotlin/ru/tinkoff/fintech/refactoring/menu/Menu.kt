@@ -9,12 +9,7 @@ interface Menu<T : Product> {
     val menuKind: MenuKind
 
     val prices: MutableMap<String, Double?>
-        get() {
-            return menu.entries.fold(mutableMapOf()) { acc, curEntry ->
-                acc[curEntry.key] = curEntry.value.getPrice().invoke()
-                acc
-            }
-        }
+        get() = menu.mapValues { it.value.getPrice().invoke() }.toMutableMap()
 
     fun get(key: String): T? = menu[key]
 }
