@@ -17,10 +17,32 @@ fun main() {
 
     val pizzaCafe = PizzaCafe(mainMenu, workers)
 
+    val pizzaz = listOf("карбонара", "сардиния")
+    val pizzaOrders = pizzaz.mapNotNull { name ->
+        try {
+            pizzaCafe.order(MenuKind.DISH, name)
+        } catch (ex: IllegalStateException) {
+            println(ex.message)
+            print("\n")
+            null
+        }
+    }
+
+    val coffees = listOf("эспрессо", "эспрессо".reversed())
+    val coffeeOrders = coffees.mapNotNull { name ->
+        try {
+            pizzaCafe.order(MenuKind.COFFEE, name)
+        } catch (ex: IllegalStateException) {
+            println(ex.message)
+            print("\n")
+            null
+        }
+    }
+
     val order = setOf(
-        pizzaCafe.order(MenuKind.DISH, "карбонара"),
-        pizzaCafe.order(MenuKind.COFFEE, "эспрессо"),
-    )
+        pizzaOrders, coffeeOrders
+    ).flatten().toSet()
+
     pizzaCafe.executeOrder(order)
 
     printLine()
