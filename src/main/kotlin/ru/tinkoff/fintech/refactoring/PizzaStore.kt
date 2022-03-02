@@ -16,7 +16,7 @@ class PizzaStore {
 
 
     fun orderCoffee(name: String) {
-        val coffee = Coffee.findCoffee(name.lowercase()) ?: null
+        val coffee = Coffee.findCoffee(name.lowercase())
         if (coffee == null) {
             println("такого кофе нет!")
             return
@@ -26,12 +26,13 @@ class PizzaStore {
     }
 
     fun orderPizza(name: String) {
-        val pizza = Pizza.findPizza(name.lowercase()) ?: null
+        val pizza = Pizza.findPizza(name.lowercase())
         if (pizza == null) {
             println("Такой пиццы нет!")
             return
         }
         if (!isEnoughIngredients(pizza)) {
+            println("не достаточно ингредиентов!")
             return
         }
         val price = calculatePrice(pizza)
@@ -48,13 +49,9 @@ class PizzaStore {
         return result
     }
 
-    fun isEnoughIngredients(pizza: Pizza): Boolean {
-        pizza.ingredients.forEach { (ingredients, amount) ->
-            if (storage.getRemainder(ingredients) < amount) {
-                println("не достаточно ингредиентов!")
-                return false
-            }
+    fun isEnoughIngredients(pizza: Pizza): Boolean =
+        pizza.ingredients.any { (ingredients, amount) ->
+            storage.getRemainder(ingredients) < amount
         }
-        return true
-    }
+
 }
