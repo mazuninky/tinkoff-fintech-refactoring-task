@@ -9,17 +9,19 @@ import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.Order
 
 abstract class Cafe(
     protected open var menu: Map<MenuKind, Menu<*>>,
-    employees: Map<Area, Set<Employee<*>>> = mapOf(),
+    employeesPerArea: Map<Area, Set<Employee<*>>> = mapOf(),
 ) {
 
-    private val employees: MutableMap<Area, MutableSet<Employee<*>>> =
-        employees.mapValues { entry ->
-            entry.value.onEach { employee ->
-                if (entry.key != employee.area) {
-                    throw IllegalStateException("Нельзя в данную область работы поставить работника \"${employee.name}\"")
-                }
-            }.toMutableSet()
-        }.toMutableMap()
+    private val employeesPerArea: MutableMap<Area, MutableSet<Employee<*>>> =
+        employeesPerArea.mapValues { it.value.toMutableSet() }.toMutableMap()
+
+    init {
+        employeesPerArea.forEach { (area, employees) ->
+            employees.forEach { employee ->
+                if (employee.area != area) throw IllegalStateException("В область работы $area нельзя поставить работника \"${employee.name}\"")
+            }
+        }
+    }
 
     private var curOrderId = 0
 
@@ -34,7 +36,7 @@ abstract class Cafe(
 
     fun executeOrder(orders: Set<Order>) {
         orders.forEach { order ->
-            (employees.getValue(Area.FOOD)
+            (employeesPerArea.getValue(Area.FOOD)
                 .mapNotNull { it as? CafeWorker<*> }
                 .find { it.checkForProcessingOrder(order) }
                 ?: error("Невозможно найти работника, который сможет приготовить заказ $order")
