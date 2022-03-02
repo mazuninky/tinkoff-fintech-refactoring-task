@@ -1,59 +1,62 @@
 package ru.tinkoff.fintech.refactoring
 
-interface Employee {              // open-closed principle
+interface Employee {
 
-    fun workInfo(): String
+    val title: String
 
 }
 
-class Barista(private val coffeeOrder: CoffeeOrder) : Employee {
+class Barista : Employee {
 
-    private val roundedPrice = "%.2f".format(coffeeOrder.getPriceCoffee())
+    override val title: String = "[Бариста]"
 
-    private var textWorkExecute = listOf(
-        "[Бариста] Готовлю напиток: ${coffeeOrder.getNameCoffee()}",
-        "[Бариста] Время приготовления: ${coffeeOrder.getTimeInMinutesCoffee()} минут",
-        "[Бариста] Стоимость напитка: $roundedPrice$",
-        "[Бариста] Заказ ${coffeeOrder.getNumberOrder()} готов\n").joinToString("\n")
+    fun makeCoffee(orderId: Int, coffee: Coffee) {
 
-    private var textWorkFail = listOf(
-        "[Бариста] Какой экзотический кофе: ${coffeeOrder.getNameCoffee()}!",
-        "[Бариста] Заказ ${coffeeOrder.getNumberOrder()} отклонен\n").joinToString("\n")
+        val roundedPrice = "%.2f".format(coffee.price)
 
-    override fun workInfo() = when (coffeeOrder.getTimeInMinutesCoffee()) {
-        0 -> textWorkFail
-        else -> textWorkExecute
+        val textWorkExecute = listOf(
+            "$title Готовлю напиток: ${coffee.name}",
+            "$title Время приготовления: ${coffee.time} минут",
+            "$title Стоимость напитка: $roundedPrice$",
+            "$title Заказ $orderId готов\n").joinToString("\n")
+
+        println(textWorkExecute)
+    }
+
+}
+
+class Cleaner : Employee {
+    override val title: String = "[Уборщик]"
+
+    private val textWorkExecute = listOf(
+        "$title Ну что опять!?",
+        "$title ...ворчание...",
+        "$title Уборка закончена!\n").joinToString("\n")
+
+    fun cleanFloor() = println(textWorkExecute)
+
+}
+
+class PizzaMaker : Employee {
+
+    override val title: String = "[Пицца мейкер]"
+
+    fun makePizza(orderId: Int, pizza: Pizza) {
+
+        val roundedPrice = "%.2f".format(pizza.getPizzaTextPriceTime()[1])
+
+        val textWorkExecute = listOf(
+            "$title Делаю пиццу: ${pizza.name}",
+            "$title Из ингридиетов:",
+            pizza.getPizzaTextPriceTime()[0],
+            "$title время приготовления ${pizza.getPizzaTextPriceTime()[2]} минут",
+            "$title в сумме за все $roundedPrice$",
+            "$title заказ $orderId готов\n").joinToString("\n")
+
+        println(textWorkExecute)
+
     }
 }
-
-class CleanWoman : Employee {
-    override fun workInfo() = listOf("[Уборщица] Ну что опять!?",
-        "[Уборщица] ...ворчание...",
-        "[Уборщица] Уборка закончена!\n").joinToString("\n")
-}
-
-class PizzaMaker(private val pizzaOrder: PizzaOrder) : Employee {
-
-    private val roundedPrice = "%.2f".format(pizzaOrder.getPricePizza())
-
-    private var textWorkExecute = listOf(
-        "[Пицца мейкер] Делаю пиццу: ${pizzaOrder.getNamePizza()}",
-        "[Пицца мейкер] Из ингридиетов:",
-        pizzaOrder.getTextIngredientWithPrice(),
-        "[Пицца мейкер] время приготовления ${pizzaOrder.getTimeInMinutesPizza()} минут",
-        "[Пицца мейкер] в сумме за все $roundedPrice$",
-        "[Пицца мейкер] заказ ${pizzaOrder.getNumberOrder()} готов\n").joinToString("\n")
-
-    private var textWorkFail = listOf(
-        "[Пицца мейкер] Новый тренд в мире пиццы: ${pizzaOrder.getNamePizza()}!",
-        "[Пицца мейкер] Заказ ${pizzaOrder.getNumberOrder()} отклонен\n").joinToString("\n")
-
-    override fun workInfo() = when (pizzaOrder.getTimeInMinutesPizza()) {
-        0 -> textWorkFail
-        else -> textWorkExecute
-    }
-}
-
 
 
 

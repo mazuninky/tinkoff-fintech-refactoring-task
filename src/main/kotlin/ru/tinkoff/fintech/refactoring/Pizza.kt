@@ -1,22 +1,30 @@
 package ru.tinkoff.fintech.refactoring
 
-class Pizza(val name: String, private val ingredientsPrice: IngredientsPrice) {
 
-    private var pizzaMenuWithIngredients = mutableMapOf(
-        "карбонара" to listOf("яйца" to 1, "бекон" to 2, "тесто" to 1, "сыр" to 2),
-        "маринара" to listOf("томат" to 2, "оливки" to 3, "тесто" to 1),
-        "сардиния" to listOf("салями" to 3, "оливки" to 1, "тесто" to 1, "сыр" to 3),
-        "вальтеллина" to listOf("вяленая говядина" to 1, "зелень" to 1, "тесто" to 1, "пармезан" to 2),
-        "крестьянская" to listOf("грибы" to 3, "томат" to 1, "тесто" to 1, "спаржа" to 1, "мясное ассорти" to 1))
+data class Pizza(val name: String, val pizzaValueIngredients: MutableMap<String, List<Pair<String, Int>>>) {
 
-    fun getPizzaInfoPriceTime(): List<Any> {
+    private var ingredientsPrice = mutableMapOf(
+        "яйца" to 3.48,
+        "бекон" to 6.48,
+        "тесто" to 1.00,
+        "томат" to 1.53,
+        "оливки" to 1.53,
+        "сыр" to 0.98,
+        "пармезан" to 3.98,
+        "грибы" to 3.34,
+        "спаржа" to 3.34,
+        "мясное ассорти" to 9.38,
+        "вяленая говядина" to 12.24
+    )
+
+    fun getPizzaTextPriceTime(): List<Any> {
         var pizzaPrice = 0.0
         var ingredientCounterAndTime = 0
-        val textIngredientWithPrice= mutableListOf<String>()
-        pizzaMenuWithIngredients[name]?.forEach {
+        val textIngredientWithPrice = mutableListOf<String>()
+        pizzaValueIngredients[name]?.forEach {
             val ingredientName = it.first
             val ingredientCount = it.second
-            val price = ingredientsPrice.getPrice(ingredientName)
+            val price = ingredientsPrice[ingredientName] ?: error("Неизвестный ингредиент")
             textIngredientWithPrice.add("[Пицца мейкер] - ${ingredientName}: в количестве $ingredientCount за $price$")
             pizzaPrice += price * ingredientCount
             ingredientCounterAndTime += ingredientCount
@@ -24,14 +32,7 @@ class Pizza(val name: String, private val ingredientsPrice: IngredientsPrice) {
         return listOf<Any>(textIngredientWithPrice.joinToString("\n"), pizzaPrice, ingredientCounterAndTime)
     }
 
-    // fun addInPizzaMenu
 }
 
-class PizzaOrder(private val numberOrder: Int, private val pizza: Pizza) {
-    fun getNumberOrder() = numberOrder
-    fun getNamePizza() = pizza.name
-    fun getTextIngredientWithPrice() = pizza.getPizzaInfoPriceTime()[0]
-    fun getPricePizza() = pizza.getPizzaInfoPriceTime()[1]
-    fun getTimeInMinutesPizza() = pizza.getPizzaInfoPriceTime()[2]
-}
+
 
