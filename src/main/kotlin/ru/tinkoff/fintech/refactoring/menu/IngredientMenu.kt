@@ -7,4 +7,7 @@ data class IngredientMenu(
 ) : Menu<Ingredient> {
     override val menu: Map<String, Ingredient>
         get() = localMenu
+
+    override val menuKind: MenuKind
+        get() = MenuKind.INGREDIENT
 }

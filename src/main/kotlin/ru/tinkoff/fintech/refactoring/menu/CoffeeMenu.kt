@@ -14,4 +14,7 @@ class CoffeeMenu(
 
     override val menu: Map<String, Coffee>
         get() = locaMenu
+
+    override val menuKind: MenuKind
+        get() = MenuKind.COFFEE
 }

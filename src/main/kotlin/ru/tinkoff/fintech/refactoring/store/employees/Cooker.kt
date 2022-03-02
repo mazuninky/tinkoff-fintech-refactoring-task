@@ -1,6 +1,9 @@
 package ru.tinkoff.fintech.refactoring.store.employees
 
-import ru.tinkoff.fintech.refactoring.menu.*
+import ru.tinkoff.fintech.refactoring.menu.IngredientMenu
+import ru.tinkoff.fintech.refactoring.menu.Menu
+import ru.tinkoff.fintech.refactoring.menu.MenuKind
+import ru.tinkoff.fintech.refactoring.menu.PizzaMenu
 import ru.tinkoff.fintech.refactoring.products.Dish
 import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.Order
 
@@ -8,7 +11,7 @@ class Cooker(
     override val menu: Map<MenuKind, Menu<*>>,
 ) : CafeWorker<Dish>("Повар", menu) {
     private val pizzaMenu
-        get() = menu[MenuKind.PIZZA] as PizzaMenu
+        get() = menu[MenuKind.DISH] as PizzaMenu
 
     private val ingredientMenu
         get() = menu[MenuKind.INGREDIENT] as IngredientMenu
@@ -16,9 +19,7 @@ class Cooker(
     override fun start(container: Order) = cook(container)
 
     override val patternForOrder: (order: Order) -> Boolean
-        get() = { order: Order ->
-            DishMenu::class.java.isAssignableFrom(order.type.menuClazz)
-        }
+        get() = { order -> order.type == MenuKind.DISH }
 
     private fun cook(order: Order) {
         val dish = getFoodByOrder(order) ?: error("Невозможно приготовить ${order.name}")

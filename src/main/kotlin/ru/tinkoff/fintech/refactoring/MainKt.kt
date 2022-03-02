@@ -7,7 +7,7 @@ fun main() {
     val ingredientMenu = getIngredientMenu()
 
     val mainMenu = mapOf(
-        MenuKind.PIZZA to getPizzaMenu(ingredientMenu),
+        MenuKind.DISH to getPizzaMenu(ingredientMenu),
         MenuKind.INGREDIENT to ingredientMenu,
         MenuKind.COFFEE to getCoffeMenu(),
     )
@@ -18,7 +18,7 @@ fun main() {
     val pizzaCafe = PizzaCafe(mainMenu, workers)
 
     val order = setOf(
-        pizzaCafe.order(MenuKind.PIZZA, "карбонара"),
+        pizzaCafe.order(MenuKind.DISH, "карбонара"),
         pizzaCafe.order(MenuKind.COFFEE, "эспрессо"),
     )
     pizzaCafe.executeOrder(order)
@@ -27,7 +27,7 @@ fun main() {
 
     ingredientMenu.get("яйца")!!.setPrice(100000.0)
     pizzaCafe.executeOrder(
-        setOf(pizzaCafe.order(MenuKind.PIZZA, "карбонара"))
+        setOf(pizzaCafe.order(MenuKind.DISH, "карбонара"))
     )
 }
 

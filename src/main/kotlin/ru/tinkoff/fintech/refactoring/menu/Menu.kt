@@ -6,6 +6,8 @@ interface Menu<PRODUCT_T : Product> {
     val menu: Map<String, PRODUCT_T>
     fun getNames(): Set<String> = menu.keys
 
+    val menuKind: MenuKind
+
     val prices: MutableMap<String, Double?>
         get() {
             return menu.entries.fold(mutableMapOf()) { acc, curEntry ->

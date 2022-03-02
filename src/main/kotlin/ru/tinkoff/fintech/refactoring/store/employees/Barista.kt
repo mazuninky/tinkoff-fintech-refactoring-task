@@ -12,7 +12,7 @@ class Barista(
     override fun start(container: Order) = makeCoffee(container)
 
     override val patternForOrder: (order: Order) -> Boolean
-        get() = { order: Order ->
+        get() = { order ->
             order.type == MenuKind.COFFEE
         }
 
