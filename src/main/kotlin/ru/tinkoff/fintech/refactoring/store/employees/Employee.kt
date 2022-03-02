@@ -2,9 +2,9 @@ package ru.tinkoff.fintech.refactoring.store.employees
 
 import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.ContainerForWork
 
-interface Employee<T : ContainerForWork> {
-    val name: String
-    val area: Area
+abstract class Employee<T : ContainerForWork> {
+    abstract val name: String
+    open val area: Area
         get() = Area.OTHER
 
     fun work(container: T) {
@@ -12,7 +12,7 @@ interface Employee<T : ContainerForWork> {
         finish(container)
     }
 
-    fun start(container: T)
+    protected abstract fun start(container: T)
 
-    fun finish(container: T)
+    protected abstract fun finish(container: T)
 }

@@ -8,7 +8,7 @@ import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.Order
 abstract class CafeWorker<T : Product>(
     final override val name: String,
     protected open val menu: Map<MenuKind, Menu<*>>
-) : Employee<Order> {
+) : Employee<Order>() {
 
     override val area: Area
         get() = Area.FOOD
