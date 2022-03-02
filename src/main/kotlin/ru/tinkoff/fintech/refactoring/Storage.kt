@@ -5,6 +5,9 @@ class Storage(
 ) {
     fun takeIngredient(ingredient: Ingredient, amount: Int) {
         var curentAmout = data.get(ingredient) ?: error("такого ингредиента нет!")
+        if (curentAmout < amount) {
+            error("ингредиента: ${ingredient.value} нет")
+        }
         data.put(ingredient, curentAmout - amount)
     }
 

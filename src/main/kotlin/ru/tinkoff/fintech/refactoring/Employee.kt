@@ -1,14 +1,14 @@
 package ru.tinkoff.fintech.refactoring
 
-interface Employee {
-    fun doWork(coffeeOrder: CoffeeOrder)
-    fun doWork(pizzaOrder: PizzaOrder)
+interface Employee<T> {
+    fun doWork(order: T)
 }
 
-class Barista(): Employee {
-    override fun doWork(coffeeOrder: CoffeeOrder) {
-        makeCoffee(coffeeOrder)
+class Barista : Employee<CoffeeOrder> {
+    override fun doWork(order: CoffeeOrder) {
+        makeCoffee(order)
     }
+
     fun makeCoffee(coffeeOrder: CoffeeOrder) {
         println("[Бариста] Готовлю напиток: ${coffeeOrder.coffee.value}")
         println("[Бариста] Время приготовления: ${coffeeOrder.coffee.time} минут")
@@ -18,15 +18,13 @@ class Barista(): Employee {
         println("[Бариста] заказ ${coffeeOrder.number} готов")
     }
 
-    override fun doWork(pizzaOrder: PizzaOrder) {
-        println("[Бариста] Я не готовлю пиццу")
-    }
 }
 
-class PizzaMaker: Employee {
-    override fun doWork(pizzaOrder: PizzaOrder) {
-        makePizza(pizzaOrder)
+class PizzaMaker : Employee<PizzaOrder> {
+    override fun doWork(order: PizzaOrder) {
+        makePizza(order)
     }
+
     fun makePizza(pizzaOrder: PizzaOrder) {
         println("[Пицца мейкер] Делаю пиццу: ${pizzaOrder.pizza.value}")
         println("[Пицца мейкер] Из ингридиетов:")
@@ -42,9 +40,4 @@ class PizzaMaker: Employee {
 
         println("[Пицца мейкер] заказ ${pizzaOrder.number} готов")
     }
-
-    override fun doWork(coffeeOrder: CoffeeOrder) {
-        println("[Пицца мейкер] я не готовлю кофе")
-    }
 }
-

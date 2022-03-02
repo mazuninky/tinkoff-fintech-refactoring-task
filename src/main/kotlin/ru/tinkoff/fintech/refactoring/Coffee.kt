@@ -5,7 +5,7 @@ enum class Coffee(val value: String, val price: Double, val time: Int) {
     CAPPUCINO("капучино", 3.48, 6);
 
     companion object {
-        fun isCoffeeAvailable(name: String): Coffee? {
+        fun findCoffee(name: String): Coffee? {
             return Coffee.values().find { it.value == name }
         }
     }

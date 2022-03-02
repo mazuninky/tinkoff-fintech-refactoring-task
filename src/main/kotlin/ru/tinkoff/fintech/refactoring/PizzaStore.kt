@@ -1,49 +1,34 @@
 package ru.tinkoff.fintech.refactoring
 
-
-data class PizzaOrder(
-    val number: Int,
-    val pizza: Pizza,
-    val price: Double
-)
-
-data class CoffeeOrder(
-    val number: Int,
-    val coffee: Coffee,
-    val price: Double
-)
-
-
 class PizzaStore {
     var orderNumber = 0
 
     private val pizzaMaker: PizzaMaker = PizzaMaker()
     private val barista: Barista = Barista()
-    private val storage: Storage =
-        Storage(
-            mutableMapOf(
-                Ingredient.EGG to 5,
-                Ingredient.BECKON to 10,
-                Ingredient.DOUGH to 4,
-                Ingredient.CHEESE to 5
-            )
+    private val storage = Storage(
+        mutableMapOf(
+            Ingredient.EGG to 5,
+            Ingredient.BACON to 10,
+            Ingredient.DOUGH to 4,
+            Ingredient.CHEESE to 5
         )
+    )
 
 
-    fun orderCoffee(unformattedName: String) {
-        val name = unformattedName.lowercase()
-        val coffee = Coffee.isCoffeeAvailable(name) ?: println("такого кофе нет!")
-        if (!(coffee is Coffee)) {
+    fun orderCoffee(name: String) {
+        val coffee = Coffee.findCoffee(name.lowercase()) ?: null
+        if (coffee == null) {
+            println("такого кофе нет!")
             return
         }
         val coffeeOrder = CoffeeOrder(++orderNumber, coffee, coffee.price)
         barista.doWork(coffeeOrder)
     }
 
-    fun orderPizza(unformattedName: String) {
-        val name = unformattedName.lowercase()
-        val pizza = Pizza.isPizzaAvailable(name) ?: println("Такой пиццы нет!")
-        if (!(pizza is Pizza)) {
+    fun orderPizza(name: String) {
+        val pizza = Pizza.findPizza(name.lowercase()) ?: null
+        if (pizza == null) {
+            println("Такой пиццы нет!")
             return
         }
         if (!isEnoughIngredients(pizza)) {
@@ -72,4 +57,4 @@ class PizzaStore {
         }
         return true
     }
-}}
+}
