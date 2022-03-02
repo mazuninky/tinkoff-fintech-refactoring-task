@@ -60,31 +60,32 @@ class MainUtilFactory {
             ),
         ).mapValues {
             val recipe = it.value
-            val gettingDishPriceWay: (Map<String, Int>) -> Double? = getDishPriceFromRecipe { key ->
-                ingredientMenu.get(key)
+            val gettingDishPriceWay: (Map<String, Int>) -> Double? = {
+                getDishPriceFromRecipe(
+                    recipe.mapKeys { nameWithAmount -> ingredientMenu.get(nameWithAmount.key) }
+                )
             }
-
             Dish(it.key, recipe) {
                 gettingDishPriceWay(recipe)
             }
         }
+
     )
 
-    private fun getDishPriceFromRecipe(getIngredient: (String) -> Ingredient?): (Map<String, Int>) -> Double? = {
-        val mapWithIngredients = it.mapKeys { entry -> getIngredient(entry.key) }
-        if (mapWithIngredients.any { entry -> entry.key == null }) {
-            null
-        } else {
-            val prices = mapWithIngredients.entries.map { entry ->
-                entry.key!!.getPrice().invoke() to entry.value
-            }
-            if (prices.any { pair -> pair.first == null }) {
-                null
-            } else {
-                prices.sumOf { pair ->
-                    pair.first!! * pair.second
-                }
-            }
+    private fun getDishPriceFromRecipe(mapWithIngredientKeys: Map<Ingredient?, Int>): Double? {
+
+        if (mapWithIngredientKeys.any { entry -> entry.key == null })
+            return null
+
+        val prices = mapWithIngredientKeys.entries.map { entry ->
+            entry.key!!.getPrice().invoke() to entry.value
+        }
+
+        if (prices.any { pair -> pair.first == null })
+            return null
+
+        return prices.sumOf { pair ->
+            pair.first!! * pair.second
         }
     }
 }
