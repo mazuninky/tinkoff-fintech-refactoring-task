@@ -11,10 +11,14 @@ data class CoffeeOrder(
 )
 
 class PizzaStore {
-    private val pizzaDao: PizzaDao = PizzaDao()
-    private val coffeeDao = CoffeeDao()
-    private val pizzaMaker = PizzaMakerImpl()
-    private val barista = BaristaImpl()
+    private val pizzaDao: PizzaDao = PizzaDao(
+        listOf(Carbonara(), Marinara(), Sardinia(), Valtellina(), Krestyanskaya())
+    )
+    private val coffeeDao = CoffeeDao(
+        listOf(Espresso(), Cappuccino())
+    )
+    private val pizzaMaker = SimplePizzaMaker()
+    private val barista = SimpleBarista()
     var orderId = 0
 
     fun orderCoffee(name: String): CoffeeOrder {

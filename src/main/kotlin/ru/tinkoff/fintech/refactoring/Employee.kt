@@ -8,7 +8,7 @@ interface PizzaMaker {
     fun makePizza(pizzaOrder: PizzaOrder)
 }
 
-class BaristaImpl : Barista {
+class SimpleBarista : Barista {
     override fun makeCoffee(coffeeOrder: CoffeeOrder) {
         println("[Бариста] Готовлю напиток: ${coffeeOrder.coffee.name}")
         println("[Бариста] Время приготовления: ${coffeeOrder.coffee.brewTimeInMinutes} минут")
@@ -19,7 +19,7 @@ class BaristaImpl : Barista {
     }
 }
 
-class PizzaMakerImpl : PizzaMaker {
+class SimplePizzaMaker : PizzaMaker {
     override fun makePizza(pizzaOrder: PizzaOrder) {
         println("[Пицца мейкер] Делаю пиццу: ${pizzaOrder.pizza.name}")
         println("[Пицца мейкер] Из ингредиентов:")
