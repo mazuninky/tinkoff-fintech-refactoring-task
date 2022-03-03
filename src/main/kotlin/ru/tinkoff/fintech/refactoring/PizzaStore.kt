@@ -46,3 +46,21 @@ class PizzaStore {
         }
     }
 }
+
+//    fun executeOrder(  pizzaOrder: PizzaOrder? = null, coffeeOrder: CoffeeOrder? = null) {
+//        if (pizzaOrder != null) {
+//            pizzaMaker.makePizza(pizzaOrder)
+//        }
+//
+//        if (coffeeOrder != null) {
+//            barista.makeCoffee(coffeeOrder)
+//        }
+//    }
+//
+//    fun executeOrder(coffeeOrder: CoffeeOrder? = null) {
+//        executeOrder(null, coffeeOrder)
+//    }
+//
+//    fun executeOrder(pizzaOrder: PizzaOrder? = null) {
+//        executeOrder(pizzaOrder, null)
+//    }
