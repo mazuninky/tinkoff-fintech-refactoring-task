@@ -1,9 +1,7 @@
 package ru.tinkoff.fintech.refactoring
-
 data class Pizza(
     val name: String,
 )
-
 fun getIngredient(pizza: Pizza): List<Pair<String, Int>> {
     return when (pizza.name) {
         "карбонара" -> listOf("яйца" to 1, "бекон" to 2, "тесто" to 1, "сыр" to 2)
