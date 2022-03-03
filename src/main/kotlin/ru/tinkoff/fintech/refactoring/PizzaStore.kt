@@ -1,6 +1,6 @@
 package ru.tinkoff.fintech.refactoring
 
-class CoffeeDepartment()
+class CoffeeDepartment(private val barista: Barista)
 {
     private val coffeeList = listOf(
         Coffee("эспрессо", 5.0, 5),
@@ -11,21 +11,19 @@ class CoffeeDepartment()
     }
     fun executeOrder(coffeeOrder: CoffeeOrder)
     {
-        coffeeOrder.barista.makeCoffee(coffeeOrder.number, coffeeOrder.coffee)
+        barista.makeCoffee(coffeeOrder.number, coffeeOrder.coffee)
     }
 }
 data class PizzaOrder(
     val number: Int,
     val pizza: Pizza,
-    var pizzaMaker: PizzaMaker
 )
 
 data class CoffeeOrder(
     val number: Int,
     val coffee: Coffee,
-    var barista: Barista
 )
-class PizzaDepartment()
+class PizzaDepartment(private val pizzaMaker: PizzaMaker)
 {
     private val ingredientList = listOf(
         Ingredient("яйца", 3.48),               //0
@@ -79,30 +77,30 @@ class PizzaDepartment()
     }
     fun executeOrder(pizzaOrder: PizzaOrder)
     {
-        pizzaOrder.pizzaMaker.makePizza(pizzaOrder.number, pizzaOrder.pizza)
+        pizzaMaker.makePizza(pizzaOrder.number, pizzaOrder.pizza)
     }
 }
 
 class PizzaStore {
     var lastOrderNumber = 0
 
-    val coffeeDepartment = CoffeeDepartment()
-    val pizzaDepartment = PizzaDepartment()
-
     private val pizzaMaker: PizzaMaker = PizzaMaker()
     private val barista: Barista = Barista()
+
+    val coffeeDepartment = CoffeeDepartment(barista)
+    val pizzaDepartment = PizzaDepartment(pizzaMaker)
 
     fun orderCoffee(name: String): CoffeeOrder {
         val coffee = coffeeDepartment.getCoffeeByName(name)
             ?: error("Неизвестный вид кофе!")
 
-        return CoffeeOrder(++lastOrderNumber, coffee, barista)
+        return CoffeeOrder(++lastOrderNumber, coffee)
     }
 
     fun orderPizza(name: String): PizzaOrder {
         val pizza = pizzaDepartment.getPizzaByName(name)
             ?: error("Неизвестный вид пиццы!")
 
-        return PizzaOrder(++lastOrderNumber, pizza, pizzaMaker)
+        return PizzaOrder(++lastOrderNumber, pizza)
     }
 }
