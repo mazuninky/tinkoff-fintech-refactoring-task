@@ -2,7 +2,11 @@ package ru.tinkoff.fintech.refactoring
 
 import ru.tinkoff.fintech.refactoring.Ingredient.*
 
-enum class Pizza(val value: String, val ingredients: Map<Ingredient, Int>) {
+enum class Pizza(
+    val value: String,
+    val ingredients: Map<Ingredient, Int>,
+    val price: Double = ingredients.map { (ingredients, amount) -> ingredients.price * amount }.sum()
+) {
     Carbonara(
         value = "карбонара",
         ingredients = mapOf(

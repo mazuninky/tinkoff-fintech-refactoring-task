@@ -29,21 +29,17 @@ class PizzaStore {
         val pizza = Pizza.findPizza(name)
         if (pizza == null) {
             println("Такой пиццы нет!")
-        } else if (isEnoughIngredients(pizza)) {
+        } else if (notEnoughIngredients(pizza)) {
             println("не достаточно ингредиентов!")
         } else {
-            val price = calculatePrice(pizza)
+            val price = pizza.price
             val pizzaOrder = PizzaOrder(++orderNumber, pizza, price)
             storage.takeIngredientForPizza(pizza)
             pizzaMaker.doWork(pizzaOrder)
         }
     }
 
-    fun calculatePrice(pizza: Pizza): Double =
-        pizza.ingredients.map { it.key.price * it.value }.sum()
-
-
-    fun isEnoughIngredients(pizza: Pizza): Boolean =
+    fun notEnoughIngredients(pizza: Pizza): Boolean =
         pizza.ingredients.any { (ingredients, amount) ->
             storage.getRemainder(ingredients) < amount
         }
