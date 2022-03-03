@@ -1,20 +1,23 @@
 package ru.tinkoff.fintech.refactoring
 
+import ru.tinkoff.fintech.refactoring.menu.Menu
 import ru.tinkoff.fintech.refactoring.menu.MenuKind
+import ru.tinkoff.fintech.refactoring.menu.MenuRepository
+import ru.tinkoff.fintech.refactoring.menu.MenuService
 import ru.tinkoff.fintech.refactoring.store.PizzaCafe
+import ru.tinkoff.fintech.refactoring.store.PricesRepository
+import ru.tinkoff.fintech.refactoring.store.PricesService
+import ru.tinkoff.fintech.refactoring.store.employees.Area
+import ru.tinkoff.fintech.refactoring.store.employees.Barista
+import ru.tinkoff.fintech.refactoring.store.employees.Cleaner
+import ru.tinkoff.fintech.refactoring.store.employees.Cooker
 
 fun main() {
-    val factory = MainUtilFactory()
+    val menuService = MenuService(MenuRepository())
+    val priceService = PricesService(PricesRepository(), menuService)
 
-    val ingredientMenu = factory.createIngredientMenu()
 
-    val mainMenu = mapOf(
-        MenuKind.DISH to factory.createPizzaMenu(ingredientMenu),
-        MenuKind.INGREDIENT to ingredientMenu,
-        MenuKind.COFFEE to factory.createCoffeMenu(),
-    )
-
-    val workers = factory.createWorkers(mainMenu)
+    val workers = createWorkers()
 
     val pizzaCafe = PizzaCafe(mainMenu, workers)
 
@@ -55,3 +58,12 @@ fun main() {
 }
 
 private fun printLine() = print("\n\n---------------------------------------------------------\n\n")
+
+private fun createWorkers(mainMenu: Map<MenuKind, Menu<*>>) =
+    mapOf(
+        Area.FOOD to setOf(
+            Cooker(mainMenu),
+            Barista(mainMenu),
+        ),
+        Area.OTHER to setOf(Cleaner())
+    )

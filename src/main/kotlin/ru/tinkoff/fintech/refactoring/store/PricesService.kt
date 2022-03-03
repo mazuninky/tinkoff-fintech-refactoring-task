@@ -1,19 +1,18 @@
 package ru.tinkoff.fintech.refactoring.store
 
-import ru.tinkoff.fintech.refactoring.menu.IngredientMenu
-import ru.tinkoff.fintech.refactoring.menu.Menu
 import ru.tinkoff.fintech.refactoring.menu.MenuKind
 import ru.tinkoff.fintech.refactoring.menu.MenuKind.*
+import ru.tinkoff.fintech.refactoring.menu.MenuService
 import ru.tinkoff.fintech.refactoring.products.Dish
 import ru.tinkoff.fintech.refactoring.products.Ingredient
 import ru.tinkoff.fintech.refactoring.products.Product
 
 class PricesService(
     private val pricesRepository: PricesRepository,
-    private val mainMenu: Map<MenuKind, Menu<*>>,
+    private val menuService: MenuService,
 ) {
-    fun <T : Product> calcPrice(product: T, productMenu: Menu<T>): Double? {
-        val menuKind = productMenu.menuKind
+    fun calcPrice(menuKind: MenuKind, product: Product): Double? {
+        val menu = menuService.getMenu(menuKind)
 
         if (menuKind == INGREDIENT || menuKind == COFFEE) {
             val pricesByMenuKind = pricesRepository.getPricesByMenuKind(menuKind)
@@ -26,7 +25,7 @@ class PricesService(
         if (menuKind == DISH) {
             product as Dish
             val ingredientsWithAmount = product.recipe.mapValues {
-                val ingredient = mainMenu.getValue(INGREDIENT).get(it.key) as Ingredient?
+                val ingredient = menuService.forceGetMenu(INGREDIENT).get(it.key) as Ingredient?
 
                 if (ingredient == null)
                     null
@@ -46,7 +45,7 @@ class PricesService(
 
     private fun getDishPriceFromRecipe(ingredientsWithAmount: Map<Ingredient, Int>): Double? {
         val prices = ingredientsWithAmount.entries.map { (ingredient, amount) ->
-            calcPrice(ingredient, mainMenu.getValue(INGREDIENT) as IngredientMenu) to amount
+            calcPrice(INGREDIENT, ingredient) to amount
         }
 
         if (prices.any { pair -> pair.first == null })
