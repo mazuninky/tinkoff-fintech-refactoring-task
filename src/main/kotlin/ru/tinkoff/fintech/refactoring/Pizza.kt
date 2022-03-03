@@ -1,16 +1,41 @@
 package ru.tinkoff.fintech.refactoring
 
 data class Pizza(
-    val name: String,
+    val name: String
 )
 
-fun getIngredient(pizza: Pizza): List<Pair<String, Int>> {
+fun getIngredient(pizza: Pizza): List<Pair<Ingredient, Int>> {
     return when (pizza.name) {
-        "карбонара" -> listOf("яйца" to 1, "бекон" to 2, "тесто" to 1, "сыр" to 2)
-        "маринара" -> listOf("томат" to 2, "оливки" to 3, "тесто" to 1)
-        "сардиния" -> listOf("салями" to 3, "оливки" to 1, "тесто" to 1, "сыр" to 3)
-        "вальтеллина" -> listOf("вяленая говядина" to 1, "зелень" to 1, "тесто" to 1, "пармезан" to 2)
-        "крестьянская" -> listOf("грибы" to 3, "томат" to 1, "тесто" to 1, "спаржа" to 1, "мясное ассорти" to 1)
+        "карбонара" -> listOf(
+            Ingredient.EGG to 1,
+            Ingredient.BACON to 2,
+            Ingredient.DOUGH to 1,
+            Ingredient.CHEESE to 2
+        )
+        "маринара" -> listOf(
+            Ingredient.TOMATO to 2,
+            Ingredient.OLIVES to 3,
+            Ingredient.DOUGH to 1
+        )
+        "сардиния" -> listOf(
+            Ingredient.SALAMI to 3,
+            Ingredient.OLIVES to 1,
+            Ingredient.DOUGH to 1,
+            Ingredient.CHEESE to 3
+        )
+        "вальтеллина" -> listOf(
+            Ingredient.BEEFJERKY to 1,
+            Ingredient.GREENS to 1,
+            Ingredient.DOUGH to 1,
+            Ingredient.PARMESAN to 2
+        )
+        "крестьянская" -> listOf(
+            Ingredient.MUSHROOMS to 3,
+            Ingredient.TOMATO to 1,
+            Ingredient.DOUGH to 1,
+            Ingredient.ASPARAGUS to 1,
+            Ingredient.COULDCUTS to 1
+        )
         else -> emptyList()
     }
 }
