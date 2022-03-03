@@ -1,14 +1,14 @@
 package ru.tinkoff.fintech.refactoring
-
+interface Order{}
 data class PizzaOrder(
     val number: Int,
     val pizza: Pizza,
-)
+) : Order
 
 data class CoffeeOrder(
     val number: Int,
     val coffee: Coffee,
-)
+):Order
 
 class PizzaStore {
     private var orderNumber = 0
@@ -37,21 +37,12 @@ class PizzaStore {
         )
     }
 
-    fun executeOrder(pizzaOrder: PizzaOrder? = null, coffeeOrder: CoffeeOrder? = null) {
-        if (pizzaOrder != null) {
-            pizzaMaker.makePizza(pizzaOrder)
+    fun executeOrder(vararg orderList: Order) {
+        for(currentOrder in orderList){
+            when(currentOrder){
+                is PizzaOrder -> pizzaMaker.makePizza(currentOrder)
+                is CoffeeOrder -> barista.makeCoffee(currentOrder)
+            }
         }
-
-        if (coffeeOrder != null) {
-            barista.makeCoffee(coffeeOrder)
-        }
-    }
-
-    fun executeOrder(coffeeOrder: CoffeeOrder? = null) {
-        executeOrder(null, coffeeOrder)
-    }
-
-    fun executeOrder(pizzaOrder: PizzaOrder? = null) {
-        executeOrder(pizzaOrder, null)
     }
 }
