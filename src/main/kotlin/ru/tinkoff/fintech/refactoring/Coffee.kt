@@ -11,7 +11,7 @@ class Coffee(
             Coffee("капучино", 3.48, 6)
         )
 
-        fun getCoffeeByName(name: String): Coffee? {
+        fun getByName(name: String): Coffee? {
             return coffeeList.find { it.name == name }
         }
     }
