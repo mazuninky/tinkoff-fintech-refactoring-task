@@ -9,30 +9,22 @@ class CoffeeDepartment()
     fun getCoffeeByName(name: String): Coffee? {
         return coffeeList.find { it.name == name }
     }
+    fun executeOrder(coffeeOrder: CoffeeOrder)
+    {
+        coffeeOrder.barista.makeCoffee(coffeeOrder.number, coffeeOrder.coffee)
+    }
 }
 data class PizzaOrder(
     val number: Int,
     val pizza: Pizza,
     var pizzaMaker: PizzaMaker
 )
-{
-    fun execute()
-    {
-        pizzaMaker.makePizza(number, pizza)
-    }
-}
 
 data class CoffeeOrder(
     val number: Int,
     val coffee: Coffee,
     var barista: Barista
 )
-{
-    fun execute()
-    {
-        barista.makeCoffee(number, coffee)
-    }
-}
 class PizzaDepartment()
 {
     private val ingredientList = listOf(
@@ -85,13 +77,17 @@ class PizzaDepartment()
     fun getPizzaByName(name: String): Pizza? {
         return pizzaList.find { it.name == name }
     }
+    fun executeOrder(pizzaOrder: PizzaOrder)
+    {
+        pizzaOrder.pizzaMaker.makePizza(pizzaOrder.number, pizzaOrder.pizza)
+    }
 }
 
 class PizzaStore {
     var lastOrderNumber = 0
 
-    private val coffeeDepartment = CoffeeDepartment()
-    private val pizzaDepartment = PizzaDepartment()
+    val coffeeDepartment = CoffeeDepartment()
+    val pizzaDepartment = PizzaDepartment()
 
     private val pizzaMaker: PizzaMaker = PizzaMaker()
     private val barista: Barista = Barista()
