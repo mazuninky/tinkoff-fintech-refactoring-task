@@ -1,54 +1,36 @@
 package ru.tinkoff.fintech.refactoring
 
-interface Employee {
-    fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>)
-    fun makeCoffee(orderId: Int, coffee: Coffee)
-    fun cleanFloor()
+interface Barista {
+    fun makeCoffee(coffeeOrder: CoffeeOrder)
 }
 
-class Barista : Employee {
-    override fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>) {
-        println("[Бариста] Я не умею готовить пиццу")
-    }
+interface PizzaMaker {
+    fun makePizza(pizzaOrder: PizzaOrder)
+}
 
-    override fun cleanFloor() {
-        println("[Бариста] Я не умею мыть полы")
-    }
+class OrderlyBarista : Barista {
 
-    override fun makeCoffee(orderId: Int, coffee: Coffee) {
-        println("[Бариста] Готовлю напиток: ${coffee.name}")
-        println("[Бариста] Время приготовления: ${calculateCoffeeBrewTimeInMinutes(coffee)} минут")
-        val roundedPrice = "%.2f".format(coffee.price)
+    override fun makeCoffee(coffeeOrder: CoffeeOrder) {
+        println("[Бариста] Готовлю напиток: ${coffeeOrder.coffee.name}")
+        println("[Бариста] Время приготовления: ${coffeeOrder.coffee.brewTimeMinutes} минут")
+        val roundedPrice = "%.2f".format(coffeeOrder.coffee.price)
         println("[Бариста] Стоимость напитка: $roundedPrice")
 
-        println("[Бариста] заказ $orderId готов")
+        println("[Бариста] заказ ${coffeeOrder.number} готов")
     }
 }
 
-class PizzaMaker : Employee {
-    override fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>) {
-        println("[Пицца мейкер] Делаю пиццу: ${pizza.name}")
+class OrderlyPizzaMaker : PizzaMaker {
+
+    override fun makePizza(orderPizza: PizzaOrder) {
+        println("[Пицца мейкер] Делаю пиццу: ${orderPizza.pizza.name}")
         println("[Пицца мейкер] Из ингридиетов:")
         var pizzaPrice = 0.0
         var ingredientCounter = 0
-        ingredients.forEach {
-            val ingredientName = it.first
+        orderPizza.pizza.ingredients.forEach {
+            val ingredientName = it.first.name
+            val price = it.first.price
             val ingredientCount = it.second
-
-            val price = when (ingredientName) {
-                "яйца" -> 3.48
-                "бекон" -> 6.48
-                "тесто" -> 1.00
-                "томат" -> 1.53
-                "оливки" -> 1.53
-                "сыр" -> 0.98
-                "пармезан" -> 3.98
-                "грибы" -> 3.34
-                "спаржа" -> 3.34
-                "мясное ассорти" -> 9.38
-                "вяленая говядина" -> 12.24
-                else -> error("Неизвестный ингредиент")
-            }
 
             println("[Пицца мейкер] - ${ingredientName}: в количестве $ingredientCount за $price$")
             pizzaPrice += price * ingredientCount
@@ -59,14 +41,6 @@ class PizzaMaker : Employee {
         val roundedPrice = "%.2f".format(pizzaPrice)
         println("[Пицца мейкер] в сумме за все $roundedPrice$")
 
-        println("[Пицца мейкер] заказ $orderId готов")
-    }
-
-    override fun makeCoffee(orderId: Int, coffee: Coffee) {
-        println("[Пицца мейкер] Я не умею готовить кофе")
-    }
-
-    override fun cleanFloor() {
-        println("[Пицца мейкер] Я не умею мыть полы")
+        println("[Пицца мейкер] заказ ${orderPizza.number} готов")
     }
 }
