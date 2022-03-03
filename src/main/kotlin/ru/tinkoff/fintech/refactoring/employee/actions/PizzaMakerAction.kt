@@ -1,7 +1,7 @@
 package ru.tinkoff.fintech.refactoring.employee.actions
 
-import ru.tinkoff.fintech.refactoring.Pizza
+import ru.tinkoff.fintech.refactoring.orders.PizzaOrder
 
 interface PizzaMakerAction {
-    fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>)
+    fun makePizza(order:PizzaOrder)
 }
