@@ -14,13 +14,11 @@ class Barista : Employee {
 
         val roundedPrice = "%.2f".format(coffee.price)
 
-        val textWorkExecute = listOf(
-            "$title Готовлю напиток: ${coffee.name}",
-            "$title Время приготовления: ${coffee.time} минут",
-            "$title Стоимость напитка: $roundedPrice$",
-            "$title Заказ $orderId готов\n").joinToString("\n")
+        println("$title Готовлю напиток: ${coffee.coffeeName}")
+        println("$title Время приготовления: ${coffee.time} минут")
+        println("$title Стоимость напитка: $roundedPrice$")
+        println("$title Заказ $orderId готов\n")
 
-        println(textWorkExecute)
     }
 
 }
@@ -28,12 +26,11 @@ class Barista : Employee {
 class Cleaner : Employee {
     override val title: String = "[Уборщик]"
 
-    private val textWorkExecute = listOf(
-        "$title Ну что опять!?",
-        "$title ...ворчание...",
-        "$title Уборка закончена!\n").joinToString("\n")
-
-    fun cleanFloor() = println(textWorkExecute)
+    fun cleanFloor() {
+        println("$title Ну что опять!?")
+        println("$title ...ворчание...")
+        println("$title Уборка закончена!\n")
+    }
 
 }
 
@@ -41,19 +38,24 @@ class PizzaMaker : Employee {
 
     override val title: String = "[Пицца мейкер]"
 
-    fun makePizza(orderId: Int, pizza: Pizza) {
+    fun makePizza(orderId: Int, pizza: Pizza,ingredientsPrice: Map<String, Double>) {
 
-        val roundedPrice = "%.2f".format(pizza.getPizzaTextPriceTime()[1])
-
-        val textWorkExecute = listOf(
-            "$title Делаю пиццу: ${pizza.name}",
-            "$title Из ингридиетов:",
-            pizza.getPizzaTextPriceTime()[0],
-            "$title время приготовления ${pizza.getPizzaTextPriceTime()[2]} минут",
-            "$title в сумме за все $roundedPrice$",
-            "$title заказ $orderId готов\n").joinToString("\n")
-
-        println(textWorkExecute)
+        var pizzaPrice = 0.0
+        var ingredientCounterAndTime = 0
+        println("$title Делаю пиццу: ${pizza.pizzaName}")
+        println("$title Из ингридиетов:")
+        pizza.pizzaValueIngredients.forEach {
+            val ingredientName = it.key
+            val ingredientCount = it.value
+            val price = ingredientsPrice[ingredientName] ?: error("Неизвестный ингредиент")
+            println("$title - ${ingredientName}: в количестве $ingredientCount за $price$")
+            pizzaPrice += price * ingredientCount
+            ingredientCounterAndTime += ingredientCount
+        }
+        val roundedPrice = "%.2f".format(pizzaPrice)
+        println("$title время приготовления $ingredientCounterAndTime минут")
+        println("$title в сумме за все $roundedPrice$")
+        println("$title заказ $orderId готов\n")
 
     }
 }
