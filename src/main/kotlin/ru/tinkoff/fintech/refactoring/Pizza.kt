@@ -5,7 +5,6 @@ import ru.tinkoff.fintech.refactoring.Ingredient.*
 enum class Pizza(
     val value: String,
     val ingredients: Map<Ingredient, Int>,
-    val price: Double = ingredients.map { (ingredients, amount) -> ingredients.price * amount }.sum()
 ) {
     Carbonara(
         value = "карбонара",
@@ -52,6 +51,8 @@ enum class Pizza(
             MEAT to 1
         )
     );
+
+    val price: Double = ingredients.map { (ingredients, amount) -> ingredients.price * amount }.sum()
 
     companion object {
         fun findPizza(name: String): Pizza? {
