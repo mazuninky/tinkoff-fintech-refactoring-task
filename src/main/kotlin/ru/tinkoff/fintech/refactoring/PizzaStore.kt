@@ -4,17 +4,9 @@ import ru.tinkoff.fintech.refactoring.employee.Barista
 import ru.tinkoff.fintech.refactoring.employee.PizzaMaker
 import ru.tinkoff.fintech.refactoring.employee.actions.BaristaAction
 import ru.tinkoff.fintech.refactoring.employee.actions.PizzaMakerAction
+import ru.tinkoff.fintech.refactoring.orders.CoffeeOrder
+import ru.tinkoff.fintech.refactoring.orders.PizzaOrder
 
-data class PizzaOrder(
-    val number: Int,
-    val pizza: Pizza,
-    val price: Double
-)
-
-data class CoffeeOrder(
-    val number: Int,
-    val pizza: Coffee,
-)
 
 class PizzaStore {
     var orderNumber = 0
@@ -27,8 +19,8 @@ class PizzaStore {
             ?: error("Неизвестный вид кофе!")
 
         return CoffeeOrder(
-            number = ++orderNumber,
-            pizza = coffee
+            id = ++orderNumber,
+            coffee = coffee
         )
     }
 
@@ -59,9 +51,8 @@ class PizzaStore {
         }
 
         return PizzaOrder(
-            number = ++orderNumber,
+            id = ++orderNumber,
             pizza = pizza,
-            price = pizzaPrice
         )
     }
 
