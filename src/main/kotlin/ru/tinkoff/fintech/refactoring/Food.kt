@@ -6,8 +6,8 @@ abstract class Food(
 ) {
 
     companion object {
-        private val foodStore = listOf(Eggs(), Bacon(), Dough(), Tomato(), Olives(), Cheese(), Parmesan(), Mushrooms(),
-            Asparagus(), ColdCuts(), BeefJerky())
+        private val foodStore = listOf(Eggs(), Bacon(), Dough(), Tomato(), Olives(), Cheese(),
+            Parmesan(), Mushrooms(), Asparagus(), ColdCuts(), BeefJerky())
 
         fun getFoodByName(name: String): Food {
             val food = foodStore.find { it.name == name }

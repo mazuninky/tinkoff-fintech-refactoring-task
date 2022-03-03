@@ -1,34 +1,52 @@
 package ru.tinkoff.fintech.refactoring
 
+interface Employee {
+    val employeeTypeRu: String
 
-class Barista{
-    fun makeCoffee(orderId: Int, coffee: Coffee) {
-        println("[Бариста] Готовлю напиток: ${coffee.name}")
-        println("[Бариста] Время приготовления: ${coffee.coffeeBrewTimeInMins()} минут")
-        val roundedPrice = "%.2f".format(coffee.price)
-        println("[Бариста] Стоимость напитка: $roundedPrice")
+    fun makePizza(pizzaOrder: PizzaOrder) {
+        println("[$employeeTypeRu] Я не умею готовить пиццу")
+    }
 
-        println("[Бариста] заказ $orderId готов")
+    fun makeCoffee(coffeeOrder: CoffeeOrder){
+        println("[$employeeTypeRu] Я не умею готовить пиццу")
+    }
+
+    fun cleanFloor() {
+        println("[$employeeTypeRu] Я не умею мыть полы")
     }
 }
 
-class PizzaMaker{
+class Barista: Employee{
+    override val employeeTypeRu = "Бариста"
 
-    fun makePizza(pizzaOrder: PizzaOrder) {
-        println("[Пицца мейкер] Делаю пиццу: ${pizzaOrder.pizza.name}")
-        println("[Пицца мейкер] Из ингридиетов:")
+    override fun makeCoffee(coffeeOrder: CoffeeOrder) {
+        println("[$employeeTypeRu] Готовлю напиток: ${coffeeOrder.coffee.name}")
+        println("[$employeeTypeRu] Время приготовления: ${coffeeOrder.coffee.brewTimeInMins} минут")
+        val roundedPrice = "%.2f".format(coffeeOrder.coffee.price)
+        println("[$employeeTypeRu] Стоимость напитка: $roundedPrice")
+
+        println("[$employeeTypeRu] заказ ${coffeeOrder.orderID} готов")
+    }
+}
+
+class PizzaMaker: Employee{
+    override val employeeTypeRu = "Пицца мейкер"
+
+    override fun makePizza(pizzaOrder: PizzaOrder) {
+        println("[$employeeTypeRu] Делаю пиццу: ${pizzaOrder.pizza.name}")
+        println("[$employeeTypeRu] Из ингридиетов:")
         pizzaOrder.pizza.ingredients.forEach {
 
             if (it.food.name == "unknown food")
                 error("Неизвестный ингредиент")
 
-            println("[Пицца мейкер] - ${it.food.name}: в количестве ${it.count} за ${it.food.price}$")
+            println("[$employeeTypeRu] - ${it.food.name}: в количестве ${it.count} за ${it.food.price}$")
         }
 
-        println("[Пицца мейкер] время приготовления $ минут")
-        val roundedPrice = "%.2f".format(pizzaOrder.pizza.getPrice())
-        println("[Пицца мейкер] в сумме за все $roundedPrice$")
+        println("[$employeeTypeRu] время приготовления $ минут")
+        val roundedPrice = "%.2f".format(pizzaOrder.pizza.price)
+        println("[$employeeTypeRu] в сумме за все $roundedPrice$")
 
-        println("[Пицца мейкер] заказ ${pizzaOrder.number} готов")
+        println("[$employeeTypeRu] заказ ${pizzaOrder.orderID} готов")
     }
 }
