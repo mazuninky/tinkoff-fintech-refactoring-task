@@ -1,6 +1,5 @@
 package ru.tinkoff.fintech.refactoring
 
-import ru.tinkoff.fintech.refactoring.menu.Menu
 import ru.tinkoff.fintech.refactoring.menu.MenuKind
 import ru.tinkoff.fintech.refactoring.menu.MenuRepository
 import ru.tinkoff.fintech.refactoring.menu.MenuService
@@ -15,13 +14,12 @@ import ru.tinkoff.fintech.refactoring.store.employees.Cooker
 fun main() {
     val menuService = MenuService(MenuRepository())
     val priceService = PricesService(PricesRepository(), menuService)
-
-
     val workers = createWorkers()
 
-    val pizzaCafe = PizzaCafe(mainMenu, workers)
+    val pizzaCafe = PizzaCafe(menuService, priceService, workers)
 
     val pizzaz = listOf("карбонара", "сардиния")
+
     val pizzaOrders = pizzaz.mapNotNull { name ->
         try {
             pizzaCafe.order(MenuKind.DISH, name)
@@ -59,11 +57,11 @@ fun main() {
 
 private fun printLine() = print("\n\n---------------------------------------------------------\n\n")
 
-private fun createWorkers(mainMenu: Map<MenuKind, Menu<*>>) =
+private fun createWorkers() =
     mapOf(
         Area.FOOD to setOf(
-            Cooker(mainMenu),
-            Barista(mainMenu),
+            Cooker(),
+            Barista(),
         ),
         Area.OTHER to setOf(Cleaner())
     )
