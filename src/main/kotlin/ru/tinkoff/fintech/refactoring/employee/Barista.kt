@@ -1,19 +1,18 @@
 package ru.tinkoff.fintech.refactoring.employee
 
-import ru.tinkoff.fintech.refactoring.Coffee
 import ru.tinkoff.fintech.refactoring.Pizza
-import ru.tinkoff.fintech.refactoring.calculateCoffeeBrewTimeInMinutes
 import ru.tinkoff.fintech.refactoring.employee.actions.BaristaAction
 import ru.tinkoff.fintech.refactoring.employee.actions.PizzaMakerAction
+import ru.tinkoff.fintech.refactoring.orders.CoffeeOrder
 
 class Barista : BaristaAction {
-    override fun makeCoffee(orderId: Int, coffee: Coffee) {
-        println("[Бариста] Готовлю напиток: ${coffee.name}")
-        println("[Бариста] Время приготовления: ${calculateCoffeeBrewTimeInMinutes(coffee)} минут")
-        val roundedPrice = "%.2f".format(coffee.price)
+    override fun makeCoffee(order: CoffeeOrder) {
+        println("[Бариста] Готовлю напиток: ${order.coffee.name}")
+        println("[Бариста] Время приготовления: ${order.coffee.BrewTimeInMinutes} минут")
+        val roundedPrice = "%.2f".format(order.coffee.price)
         println("[Бариста] Стоимость напитка: $roundedPrice")
 
-        println("[Бариста] заказ $orderId готов")
+        println("[Бариста] заказ ${order.id} готов")
     }
 }
 
