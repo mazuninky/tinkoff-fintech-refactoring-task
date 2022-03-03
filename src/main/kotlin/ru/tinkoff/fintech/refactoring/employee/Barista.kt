@@ -1,20 +1,12 @@
-package ru.tinkoff.fintech.refactoring
+package ru.tinkoff.fintech.refactoring.employee
 
-interface Employee {
-    fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>)
-    fun makeCoffee(orderId: Int, coffee: Coffee)
-    fun cleanFloor()
-}
+import ru.tinkoff.fintech.refactoring.Coffee
+import ru.tinkoff.fintech.refactoring.Pizza
+import ru.tinkoff.fintech.refactoring.calculateCoffeeBrewTimeInMinutes
+import ru.tinkoff.fintech.refactoring.employee.actions.BaristaAction
+import ru.tinkoff.fintech.refactoring.employee.actions.PizzaMakerAction
 
-class Barista : Employee {
-    override fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>) {
-        println("[Бариста] Я не умею готовить пиццу")
-    }
-
-    override fun cleanFloor() {
-        println("[Бариста] Я не умею мыть полы")
-    }
-
+class Barista : BaristaAction {
     override fun makeCoffee(orderId: Int, coffee: Coffee) {
         println("[Бариста] Готовлю напиток: ${coffee.name}")
         println("[Бариста] Время приготовления: ${calculateCoffeeBrewTimeInMinutes(coffee)} минут")
@@ -25,7 +17,7 @@ class Barista : Employee {
     }
 }
 
-class PizzaMaker : Employee {
+class PizzaMaker : PizzaMakerAction {
     override fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>) {
         println("[Пицца мейкер] Делаю пиццу: ${pizza.name}")
         println("[Пицца мейкер] Из ингридиетов:")
@@ -60,13 +52,5 @@ class PizzaMaker : Employee {
         println("[Пицца мейкер] в сумме за все $roundedPrice$")
 
         println("[Пицца мейкер] заказ $orderId готов")
-    }
-
-    override fun makeCoffee(orderId: Int, coffee: Coffee) {
-        println("[Пицца мейкер] Я не умею готовить кофе")
-    }
-
-    override fun cleanFloor() {
-        println("[Пицца мейкер] Я не умею мыть полы")
     }
 }

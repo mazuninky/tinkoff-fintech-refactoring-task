@@ -1,5 +1,10 @@
 package ru.tinkoff.fintech.refactoring
 
+import ru.tinkoff.fintech.refactoring.employee.Barista
+import ru.tinkoff.fintech.refactoring.employee.PizzaMaker
+import ru.tinkoff.fintech.refactoring.employee.actions.BaristaAction
+import ru.tinkoff.fintech.refactoring.employee.actions.PizzaMakerAction
+
 data class PizzaOrder(
     val number: Int,
     val pizza: Pizza,
@@ -14,8 +19,8 @@ data class CoffeeOrder(
 class PizzaStore {
     var orderNumber = 0
 
-    private val pizzaMaker: Employee = PizzaMaker()
-    private val barista: Employee = Barista()
+    private val pizzaMaker: PizzaMakerAction = PizzaMaker()
+    private val barista: BaristaAction = Barista()
 
     fun orderCoffee(name: String): CoffeeOrder {
         val coffee = Coffee.getCoffeeByName(name)
