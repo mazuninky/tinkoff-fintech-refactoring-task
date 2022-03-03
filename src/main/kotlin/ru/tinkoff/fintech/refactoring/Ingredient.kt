@@ -2,6 +2,7 @@ package ru.tinkoff.fintech.refactoring
 
 abstract class Ingredient(val name: String, val price: Double, val count: Int = 1)
 
+/************************************************************************Ingredients with price************************/
 class Eggs(count: Int = 1) : Ingredient("яйца", 3.48 * count)
 
 class Bacon(count: Int = 1) : Ingredient("бекон", 6.48 * count)
@@ -24,7 +25,8 @@ class Meet(count: Int = 1) : Ingredient("мясное ассорти", 9.38 * co
 
 class BeefJerky(count: Int = 1) : Ingredient("вяленая говядина", 12.24 * count)
 
-//Unspecified price
+/******************************************************Unspecified price************************************************/
+
 class Greenery(count: Int = 1) : Ingredient("зелень", 0.001 * count)
 
 class Salami(count: Int = 1) : Ingredient("салями", 0.001 * count)
