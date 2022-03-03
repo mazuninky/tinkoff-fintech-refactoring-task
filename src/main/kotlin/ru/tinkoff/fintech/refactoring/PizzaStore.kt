@@ -1,13 +1,13 @@
 package ru.tinkoff.fintech.refactoring
 
 data class PizzaOrder(
-    val number: Int,
+    val orderID: Int,
     val pizza: Pizza,
     val price: Double
 )
 
 data class CoffeeOrder(
-    val number: Int,
+    val orderID: Int,
     val coffee: Coffee,
 )
 
@@ -23,28 +23,32 @@ class PizzaStore {
             ?: error("Неизвестный вид кофе!")
 
         return CoffeeOrder(
-            number = ++orderNumber,
+            orderID = ++orderNumber,
             coffee = coffee
         )
     }
 
     fun orderPizza(name: String): PizzaOrder {
-        val pizza = Pizza.getPizzaByName(name)?: error("нет такой пиццы")
+        val pizza = Pizza.getPizzaByName(name)
+            ?: error("Неизвестный вид пиццы!")
 
         return PizzaOrder(
-            number = ++orderNumber,
+            orderID = ++orderNumber,
             pizza = pizza,
-            price = pizza.getPrice()
+            price = pizza.price
         )
     }
 
-    fun executeOrder(pizzaOrder: PizzaOrder? = null, coffeeOrder: CoffeeOrder? = null) {
+
+    fun executeOrder(pizzaOrder: PizzaOrder? = null){
         if (pizzaOrder != null) {
             pizzaMaker.makePizza(pizzaOrder)
         }
+    }
 
+    fun executeOrder(coffeeOrder: CoffeeOrder? = null){
         if (coffeeOrder != null) {
-            barista.makeCoffee(coffeeOrder.number, coffeeOrder.coffee)
+            barista.makeCoffee(coffeeOrder)
         }
     }
 }

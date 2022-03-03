@@ -12,12 +12,14 @@ abstract class Pizza (
     val name: String,
     val ingredients: List<Ingredient>
 ) {
-    fun getPrice(): Double {
-      var summ = 0.0
-      this.ingredients.forEach{
-          summ += it.food.price * it.count
-      }
-      return summ
+    val price: Double
+
+    init {
+        var sum = 0.0
+        this.ingredients.forEach{
+            sum += it.food.price * it.count
+        }
+        price = sum
     }
 
     companion object {

@@ -2,13 +2,13 @@ package ru.tinkoff.fintech.refactoring
 
 
 class Barista{
-    fun makeCoffee(orderId: Int, coffee: Coffee) {
-        println("[Бариста] Готовлю напиток: ${coffee.name}")
-        println("[Бариста] Время приготовления: ${coffee.coffeeBrewTimeInMins()} минут")
-        val roundedPrice = "%.2f".format(coffee.price)
+    fun makeCoffee(order: CoffeeOrder) {
+        println("[Бариста] Готовлю напиток: ${order.coffee.name}")
+        println("[Бариста] Время приготовления: ${order.coffee.coffeeBrewTimeInMins()} минут")
+        val roundedPrice = "%.2f".format(order.coffee.price)
         println("[Бариста] Стоимость напитка: $roundedPrice")
 
-        println("[Бариста] заказ $orderId готов")
+        println("[Бариста] заказ ${order.orderID} готов")
     }
 }
 
@@ -26,9 +26,9 @@ class PizzaMaker{
         }
 
         println("[Пицца мейкер] время приготовления $ минут")
-        val roundedPrice = "%.2f".format(pizzaOrder.pizza.getPrice())
+        val roundedPrice = "%.2f".format(pizzaOrder.pizza.price)
         println("[Пицца мейкер] в сумме за все $roundedPrice$")
 
-        println("[Пицца мейкер] заказ ${pizzaOrder.number} готов")
+        println("[Пицца мейкер] заказ ${pizzaOrder.orderID} готов")
     }
 }
