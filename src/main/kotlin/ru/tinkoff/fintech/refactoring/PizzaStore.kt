@@ -46,4 +46,12 @@ class PizzaStore {
             barista.makeCoffee(coffeeOrder)
         }
     }
+
+    fun executeOrder(coffeeOrder: CoffeeOrder? = null) {
+        executeOrder(null, coffeeOrder)
+    }
+
+    fun executeOrder(pizzaOrder: PizzaOrder? = null) {
+        executeOrder(pizzaOrder, null)
+    }
 }
