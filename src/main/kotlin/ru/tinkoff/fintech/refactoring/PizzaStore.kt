@@ -6,52 +6,44 @@ class PizzaStore {
     private val pizzaMaker: PizzaMaker = PizzaMaker()
     private val barista: Barista = Barista()
     private val storage = Storage(
-        mutableMapOf(
-            Ingredient.EGG to 5,
+        mapOf(
+            Ingredient.EGG to 10,
             Ingredient.BACON to 10,
-            Ingredient.DOUGH to 4,
-            Ingredient.CHEESE to 5
+            Ingredient.DOUGH to 10,
+            Ingredient.CHEESE to 4
         )
     )
 
 
     fun orderCoffee(name: String) {
-        val coffee = Coffee.findCoffee(name.lowercase())
+        val coffee = Coffee.findCoffee(name)
         if (coffee == null) {
             println("такого кофе нет!")
-            return
+        } else {
+            val coffeeOrder = CoffeeOrder(++orderNumber, coffee, coffee.price)
+            barista.doWork(coffeeOrder)
         }
-        val coffeeOrder = CoffeeOrder(++orderNumber, coffee, coffee.price)
-        barista.doWork(coffeeOrder)
     }
 
     fun orderPizza(name: String) {
-        val pizza = Pizza.findPizza(name.lowercase())
+        val pizza = Pizza.findPizza(name)
         if (pizza == null) {
             println("Такой пиццы нет!")
-            return
-        }
-        if (!isEnoughIngredients(pizza)) {
+        } else if (isEnoughIngredients(pizza)) {
             println("не достаточно ингредиентов!")
-            return
+        } else {
+            val price = calculatePrice(pizza)
+            val pizzaOrder = PizzaOrder(++orderNumber, pizza, price, storage)
+            pizzaMaker.doWork(pizzaOrder)
         }
-        val price = calculatePrice(pizza)
-        val pizzaOrder = PizzaOrder(++orderNumber, pizza, price)
-        pizzaMaker.doWork(pizzaOrder)
     }
 
-    fun calculatePrice(pizza: Pizza): Double {
-        var result = 0.00
-        pizza.ingredients.forEach { (ingredient, amount) ->
-            result += ingredient.price * amount
-            storage.takeIngredient(ingredient, amount)
-        }
-        return result
-    }
+    fun calculatePrice(pizza: Pizza): Double =
+        pizza.ingredients.map { it.key.price * it.value }.sum()
+
 
     fun isEnoughIngredients(pizza: Pizza): Boolean =
         pizza.ingredients.any { (ingredients, amount) ->
             storage.getRemainder(ingredients) < amount
         }
-
 }

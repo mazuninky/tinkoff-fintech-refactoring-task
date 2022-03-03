@@ -32,6 +32,7 @@ class PizzaMaker : Employee<PizzaOrder> {
         pizzaOrder.pizza.ingredients.forEach { (ingredient, ingredientCount) ->
             println("[Пицца мейкер] - ${ingredient.value}: в количестве $ingredientCount за ${ingredient.price}$")
             ingredientCounter += ingredientCount
+            pizzaOrder.storage.takeIngredient(ingredient, ingredientCount)
         }
 
         println("[Пицца мейкер] время приготовления $ingredientCounter минут")

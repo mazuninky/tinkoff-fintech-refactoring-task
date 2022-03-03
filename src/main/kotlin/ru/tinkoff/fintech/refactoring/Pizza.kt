@@ -51,9 +51,11 @@ enum class Pizza(val value: String, val ingredients: Map<Ingredient, Int>) {
 
     companion object {
         fun findPizza(name: String): Pizza? {
-            return Pizza.values().find { it.value == name }
+            val lowercaseName = name.lowercase()
+            return Pizza.values().find { it.value == lowercaseName }
         }
     }
 
 }
+
 

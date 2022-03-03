@@ -1,8 +1,10 @@
 package ru.tinkoff.fintech.refactoring
 
+
 class Storage(
-    var data: MutableMap<Ingredient, Int>
+    private val map: Map<Ingredient, Int>,
 ) {
+    private var data = map.toMutableMap()
     fun takeIngredient(ingredient: Ingredient, amount: Int) {
         val currentAmount = getRemainder(ingredient)
         if (currentAmount < amount) {

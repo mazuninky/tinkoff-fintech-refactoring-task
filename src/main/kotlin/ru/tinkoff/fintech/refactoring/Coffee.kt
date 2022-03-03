@@ -6,7 +6,8 @@ enum class Coffee(val value: String, val price: Double, val time: Int) {
 
     companion object {
         fun findCoffee(name: String): Coffee? {
-            return Coffee.values().find { it.value == name }
+            val lowercaseName = name.lowercase()
+            return Coffee.values().find { it.value == lowercaseName }
         }
     }
 }
