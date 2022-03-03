@@ -6,7 +6,8 @@ import ru.tinkoff.fintech.refactoring.Espresso
 
 class CoffeeStore {
     companion object {
-        private val coffeeStore = listOf(Espresso(), Cappuccino())
+        private val coffeeStore =
+            listOf(Espresso(), Cappuccino())
 
         fun getCoffeeByName(name: String): Coffee? {
             return coffeeStore.find { it.name == name }

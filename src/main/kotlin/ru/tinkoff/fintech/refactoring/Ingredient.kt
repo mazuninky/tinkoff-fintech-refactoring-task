@@ -24,7 +24,6 @@ class Meet(count: Int = 1) : Ingredient("мясное ассорти", 9.38)
 
 class BeefJerky(count: Int = 1) : Ingredient("вяленая говядина", 12.24)
 
-
 //Unspecified price
 class Greenery(count: Int = 1) : Ingredient("зелень", 0.001)
 

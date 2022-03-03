@@ -4,7 +4,8 @@ abstract class Pizza(
     val name: String,
     val ingredients: List<Ingredient>
 ) {
-    val price: Double = ingredients.sumOf {it.price}
+    val price: Double =
+        ingredients.sumOf { it.price }
 }
 
 

@@ -8,14 +8,16 @@ import ru.tinkoff.fintech.refactoring.orders.PizzaOrder
 
 
 class PizzaStore {
-    private var orderNumber = 0
-
-    private val pizzaMaker: PizzaMaker = PizzaMaker()
-    private val barista: Barista= Barista()
+    private var orderNumber =
+        0
+    private val pizzaMaker: PizzaMaker =
+        PizzaMaker()
+    private val barista: Barista =
+        Barista()
 
     fun orderCoffee(name: String): CoffeeOrder {
-        val coffee = CoffeeStore.getCoffeeByName(name)
-            ?: error("Неизвестный вид кофе!")
+        val coffee =
+            CoffeeStore.getCoffeeByName(name) ?: error("Неизвестный вид кофе!")
 
         return CoffeeOrder(
             id = ++orderNumber,
@@ -24,7 +26,8 @@ class PizzaStore {
     }
 
     fun orderPizza(name: String): PizzaOrder {
-        val pizza = getPizzaByName(name) ?: error("Неизвестный тип пиццы")
+        val pizza =
+            getPizzaByName(name) ?: error("Неизвестный тип пиццы")
 
         return PizzaOrder(
             id = ++orderNumber,
@@ -43,7 +46,8 @@ class PizzaStore {
     }
 
     companion object {
-        private val pizzaStore = listOf(Carbonara(), Marinara(), Sardinia(), Valtellina(), Peasant())
+        private val pizzaStore =
+            listOf(Carbonara(), Marinara(), Sardinia(), Valtellina(), Peasant())
 
         fun getPizzaByName(name: String): Pizza? {
             return pizzaStore.find { it.name == name }
