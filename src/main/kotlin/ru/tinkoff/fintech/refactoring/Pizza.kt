@@ -1,7 +1,7 @@
 package ru.tinkoff.fintech.refactoring
 
 data class Pizza(
-    val name: String,
+    val name: String
 )
 
 fun getIngredient(pizza: Pizza): List<Pair<String, Int>> {
@@ -14,3 +14,4 @@ fun getIngredient(pizza: Pizza): List<Pair<String, Int>> {
         else -> emptyList()
     }
 }
+

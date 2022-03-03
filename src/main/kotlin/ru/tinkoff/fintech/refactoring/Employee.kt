@@ -1,32 +1,17 @@
 package ru.tinkoff.fintech.refactoring
 
-interface Employee {
-    fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>)
-    fun makeCoffee(orderId: Int, coffee: Coffee)
-    fun cleanFloor()
-}
 
-class Barista : Employee {
-    override fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>) {
-        println("[Бариста] Я не умею готовить пиццу")
-    }
-
-    override fun cleanFloor() {
-        println("[Бариста] Я не умею мыть полы")
-    }
-
-    override fun makeCoffee(orderId: Int, coffee: Coffee) {
+class Barista{
+    fun makeCoffee(orderId: Int, coffee: Coffee) {
         println("[Бариста] Готовлю напиток: ${coffee.name}")
-        println("[Бариста] Время приготовления: ${calculateCoffeeBrewTimeInMinutes(coffee)} минут")
-        val roundedPrice = "%.2f".format(coffee.price)
-        println("[Бариста] Стоимость напитка: $roundedPrice")
-
+        println("[Бариста] Время приготовления: ${coffee.brewTime} минут")
+        println("[Бариста] Стоимость напитка: ${"%.2f".format(coffee.price)}")
         println("[Бариста] заказ $orderId готов")
     }
 }
 
-class PizzaMaker : Employee {
-    override fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>) {
+class PizzaMaker {
+    fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>) {
         println("[Пицца мейкер] Делаю пиццу: ${pizza.name}")
         println("[Пицца мейкер] Из ингридиетов:")
         var pizzaPrice = 0.0
@@ -34,7 +19,6 @@ class PizzaMaker : Employee {
         ingredients.forEach {
             val ingredientName = it.first
             val ingredientCount = it.second
-
             val price = when (ingredientName) {
                 "яйца" -> 3.48
                 "бекон" -> 6.48
@@ -56,17 +40,7 @@ class PizzaMaker : Employee {
         }
 
         println("[Пицца мейкер] время приготовления $ingredientCounter минут")
-        val roundedPrice = "%.2f".format(pizzaPrice)
-        println("[Пицца мейкер] в сумме за все $roundedPrice$")
-
+        println("[Пицца мейкер] в сумме за все ${"%.2f".format(pizzaPrice)}$")
         println("[Пицца мейкер] заказ $orderId готов")
-    }
-
-    override fun makeCoffee(orderId: Int, coffee: Coffee) {
-        println("[Пицца мейкер] Я не умею готовить кофе")
-    }
-
-    override fun cleanFloor() {
-        println("[Пицца мейкер] Я не умею мыть полы")
     }
 }
