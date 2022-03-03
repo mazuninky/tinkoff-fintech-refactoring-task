@@ -33,7 +33,8 @@ class PizzaStore {
             println("не достаточно ингредиентов!")
         } else {
             val price = calculatePrice(pizza)
-            val pizzaOrder = PizzaOrder(++orderNumber, pizza, price, storage)
+            val pizzaOrder = PizzaOrder(++orderNumber, pizza, price)
+            storage.takeIngredientForPizza(pizza)
             pizzaMaker.doWork(pizzaOrder)
         }
     }

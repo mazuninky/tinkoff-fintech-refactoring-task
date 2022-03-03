@@ -4,7 +4,6 @@ data class PizzaOrder(
     val number: Int,
     val pizza: Pizza,
     val price: Double,
-    val storage: Storage
 )
 
 data class CoffeeOrder(
@@ -13,3 +12,4 @@ data class CoffeeOrder(
     val price: Double
 
 )
+
