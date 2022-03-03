@@ -10,7 +10,7 @@ class Barista : BaristaAction {
         println("[Бариста] Готовлю напиток: ${order.coffee.name}")
         println("[Бариста] Время приготовления: ${order.coffee.BrewTimeInMinutes} минут")
         val roundedPrice = "%.2f".format(order.coffee.price)
-        println("[Бариста] Стоимость напитка: $roundedPrice")
+        println("[Бариста] Стоимость напитка: $roundedPrice$")
 
         println("[Бариста] заказ ${order.id} готов")
     }
