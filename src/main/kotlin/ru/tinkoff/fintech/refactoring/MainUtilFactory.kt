@@ -68,34 +68,6 @@ class MainUtilFactory {
     private fun createDishFromItsRecipeAndIngredientMenu(
         name: String,
         recipe: Map<String, Int>,
-        ingredientMenu: IngredientMenu
-    ) = Dish(name, recipe) {
-        val ingredientsWithAmount = recipe.mapValues {
-            val ingredient = ingredientMenu.get(it.key)
-            if (ingredient == null)
-                null
-            else
-                ingredient to it.value
-        }
-        if (ingredientsWithAmount.containsValue(null))
-            null
-        else
-            getDishPriceFromRecipe(
-                ingredientsWithAmount.map { it.value!!.first to it.value!!.second }.toMap()
-            )
-    }
-
-    private fun getDishPriceFromRecipe(ingredientsWithAmount: Map<Ingredient, Int>): Double? {
-        val prices = ingredientsWithAmount.entries.map { (ingredient, amount) ->
-            ingredient.price to amount
-        }
-
-        if (prices.any { pair -> pair.first == null })
-            return null
-
-        return prices.sumOf { (price, amount) ->
-            price!! * amount
-        }
-    }
+    ) = Dish(name, recipe)
 }
 

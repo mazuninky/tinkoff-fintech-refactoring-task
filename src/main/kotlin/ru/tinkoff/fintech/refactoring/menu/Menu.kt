@@ -9,8 +9,5 @@ abstract class Menu<T : Product>(
 
     abstract val menuKind: MenuKind
 
-    val prices: MutableMap<String, Double?>
-        get() = menu.mapValues { it.value.price }.toMutableMap()
-
     fun get(key: String): T? = menu[key]
 }
