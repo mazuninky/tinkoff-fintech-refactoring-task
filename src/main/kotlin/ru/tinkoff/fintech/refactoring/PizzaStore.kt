@@ -1,72 +1,58 @@
 package ru.tinkoff.fintech.refactoring
 
-data class PizzaOrder(
+data class OrderPizza(
     val number: Int,
-    val pizza: Pizza,
-    val price: Double
+    val pizza: Pizza
 )
 
-data class CoffeeOrder(
+data class OrderCoffee(
     val number: Int,
-    val pizza: Coffee,
+    val coffee: Coffee
 )
 
 class PizzaStore {
-    var orderNumber = 0
+    private var orderNumber = 0
 
-    private val pizzaMaker: Employee = PizzaMaker()
-    private val barista: Employee = Barista()
+    private val pizzaMaker = Chef()
+    private val barista = Barista()
 
-    fun orderCoffee(name: String): CoffeeOrder {
-        val coffee = Coffee.getCoffeeByName(name)
+    private val availableCoffee = listOf(Espresso(), Cappuccino())
+
+    private val availablePizza = listOf(Carbonara(), Marinara(), Sardinia(), Valtellina(), Peasant())
+
+    private fun getPizzaByName(name: String): Pizza? {
+        return availablePizza.find { it.name == name }
+    }
+
+    private fun getCoffeeByName(name: String): Coffee? {
+        return availableCoffee.find { it.name == name }
+    }
+
+    fun orderCoffee(name: String): OrderCoffee {
+        val coffee = getCoffeeByName(name)
             ?: error("Неизвестный вид кофе!")
 
-        return CoffeeOrder(
+        return OrderCoffee(
             number = ++orderNumber,
-            pizza = coffee
+            coffee = coffee
         )
     }
 
-    fun orderPizza(name: String): PizzaOrder {
-        val pizza = Pizza(name)
-        val ingredients = getIngredient(pizza)
-        var pizzaPrice = 0.0
-        ingredients.forEach { ingredient ->
-            val ingredientName = ingredient.first
-            val ingredientCount = ingredient.second
+    fun orderPizza(name: String): OrderPizza {
+        val pizza = getPizzaByName(name)
+            ?: error("Неизвестный вид пиццы!")
 
-            val price = when (ingredientName) {
-                "яйца" -> 3.48
-                "бекон" -> 6.48
-                "тесто" -> 1.00
-                "томат" -> 1.53
-                "оливки" -> 1.53
-                "сыр" -> 0.98
-                "пармезан" -> 3.98
-                "грибы" -> 3.34
-                "спаржа" -> 3.34
-                "мясное ассорти" -> 9.38
-                "вяленая говядина" -> 12.24
-                else -> error("Неизвестный ингредиент")
-            }
-
-            pizzaPrice += price * ingredientCount
-        }
-
-        return PizzaOrder(
+        return OrderPizza(
             number = ++orderNumber,
-            pizza = pizza,
-            price = pizzaPrice
+            pizza = pizza
         )
     }
 
-    fun executeOrder(pizzaOrder: PizzaOrder? = null, coffeeOrder: CoffeeOrder? = null) {
-        if (pizzaOrder != null) {
-            pizzaMaker.makePizza(pizzaOrder.number, pizzaOrder.pizza, getIngredient(pizzaOrder.pizza))
-        }
+    fun executeOrder(order: OrderCoffee) {
+        barista.makeCoffee(order.number, order.coffee)
+    }
 
-        if (coffeeOrder != null) {
-            barista.makeCoffee(coffeeOrder.number, coffeeOrder.pizza)
-        }
+    fun executeOrder(order: OrderPizza) {
+        pizzaMaker.makePizza(order.number, order.pizza)
     }
 }
