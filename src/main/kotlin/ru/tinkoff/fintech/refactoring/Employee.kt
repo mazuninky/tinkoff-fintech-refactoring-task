@@ -45,12 +45,10 @@ class PizzaMaker : Employee {
         println("$title Делаю пиццу: ${pizza.pizzaName}")
         println("$title Из ингридиетов:")
         pizza.pizzaValueIngredients.forEach {
-            val ingredientName = it.key
-            val ingredientCount = it.value
-            val price = ingredientsPrice[ingredientName] ?: error("Неизвестный ингредиент")
-            println("$title - ${ingredientName}: в количестве $ingredientCount за $price$")
-            pizzaPrice += price * ingredientCount
-            ingredientCounterAndTime += ingredientCount
+            val price = ingredientsPrice[it.key] ?: error("Неизвестный ингредиент")
+            println("$title - ${it.key}: в количестве ${it.value} за $price$")
+            pizzaPrice += price * it.value
+            ingredientCounterAndTime += it.value
         }
         val roundedPrice = "%.2f".format(pizzaPrice)
         println("$title время приготовления $ingredientCounterAndTime минут")
