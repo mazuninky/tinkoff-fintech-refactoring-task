@@ -13,7 +13,8 @@ import ru.tinkoff.fintech.refactoring.store.employees.Cooker
 
 fun main() {
     val menuService = MenuService(MenuRepository())
-    val priceService = PricesService(PricesRepository(), menuService)
+    val priceRepository = PricesRepository()
+    val priceService = PricesService(priceRepository, menuService)
     val workers = createWorkers()
 
     val pizzaCafe = PizzaCafe(menuService, priceService, workers)
@@ -49,7 +50,9 @@ fun main() {
 
     printLine()
 
-    ingredientMenu.get("яйца")!!.setPrice(100000.0)
+    val ingredientPrices = priceRepository.getPricesByMenuKind(MenuKind.INGREDIENT)!!
+    ingredientPrices["яйца"] = 100000.0
+
     pizzaCafe.executeOrder(
         setOf(pizzaCafe.order(MenuKind.DISH, "карбонара"))
     )

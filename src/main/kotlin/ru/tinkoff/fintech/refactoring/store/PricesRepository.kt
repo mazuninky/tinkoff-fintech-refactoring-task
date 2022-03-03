@@ -3,14 +3,14 @@ package ru.tinkoff.fintech.refactoring.store
 import ru.tinkoff.fintech.refactoring.menu.MenuKind
 
 class PricesRepository {
-    fun getPricesByMenuKind(menuKind: MenuKind): Map<String, Double>? = prices[menuKind]
+    fun getPricesByMenuKind(menuKind: MenuKind): MutableMap<String, Double>? = prices[menuKind]
 
-    private val prices = mapOf(
-        MenuKind.COFFEE to mapOf(
+    private var prices: Map<MenuKind, MutableMap<String, Double>> = mutableMapOf(
+        MenuKind.COFFEE to mutableMapOf(
             "эспрессо" to 5.0,
             "капучино" to 3.48
         ),
-        MenuKind.INGREDIENT to mapOf(
+        MenuKind.INGREDIENT to mutableMapOf(
             "яйца" to 3.48,
             "бекон" to 6.48,
             "тесто" to 1.00,

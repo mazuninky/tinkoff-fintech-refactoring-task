@@ -7,8 +7,8 @@ import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.Order
 
 abstract class CafeWorker<T : Product>(
     final override val name: String,
-    open var menuService: MenuService? = null,
-    open var priceService: PricesService? = null,
+    var menuService: MenuService? = null,
+    var priceService: PricesService? = null,
 ) : Employee<Order>() {
 
     override val area: Area

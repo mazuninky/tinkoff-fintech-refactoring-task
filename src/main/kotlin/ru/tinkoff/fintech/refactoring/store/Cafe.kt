@@ -8,8 +8,8 @@ import ru.tinkoff.fintech.refactoring.store.employees.Employee
 import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.Order
 
 abstract class Cafe(
-    protected open val menuService: MenuService,
-    protected open val pricesService: PricesService,
+    protected val menuService: MenuService,
+    protected val pricesService: PricesService,
     employeesPerArea: Map<Area, Set<Employee<*>>> = mapOf(),
 ) {
 
@@ -22,6 +22,13 @@ abstract class Cafe(
                 if (employee.area != area) throw IllegalStateException("В область работы $area нельзя поставить работника \"${employee.name}\"")
             }
         }
+
+        employeesPerArea.getValue(Area.FOOD)
+            .filterIsInstance<CafeWorker<*>>()
+            .forEach {
+                it.menuService = menuService
+                it.priceService = pricesService
+            }
     }
 
     private var curOrderId = 0

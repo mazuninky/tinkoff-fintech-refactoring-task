@@ -9,8 +9,8 @@ import ru.tinkoff.fintech.refactoring.store.PricesService
 import ru.tinkoff.fintech.refactoring.store.employees.containersForWork.Order
 
 class Cooker(
-    override var menuService: MenuService? = null,
-    override var priceService: PricesService? = null,
+    menuService: MenuService? = null,
+    priceService: PricesService? = null,
 ) : CafeWorker<Dish>("Повар", menuService, priceService) {
 
     private val ingredientMenu
