@@ -1,7 +1,7 @@
 package ru.tinkoff.fintech.refactoring
 
 
-enum class Pizza(val pizzaName: String, val pizzaValueIngredients: Map<String, Int>) {
+enum class Pizza(val pizzaName: String, val ingredients: Map<String, Int>) {
     CARBONARA(
         "карбонара", mapOf("яйца" to 1, "бекон" to 2, "тесто" to 1, "сыр" to 2)
     ),

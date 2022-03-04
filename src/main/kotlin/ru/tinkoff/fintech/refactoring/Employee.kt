@@ -44,7 +44,7 @@ class PizzaMaker : Employee {
         var ingredientCounterAndTime = 0
         println("$title Делаю пиццу: ${pizza.pizzaName}")
         println("$title Из ингридиетов:")
-        pizza.pizzaValueIngredients.forEach {
+        pizza.ingredients.forEach {
             val price = ingredientsPrice[it.key] ?: error("Неизвестный ингредиент")
             println("$title - ${it.key}: в количестве ${it.value} за $price$")
             pizzaPrice += price * it.value
