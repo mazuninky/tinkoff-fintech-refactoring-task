@@ -16,12 +16,12 @@ class PizzaStore {
         "мясное ассорти" to 9.38,
         "вяленая говядина" to 12.24)
 
-    fun executeOrderPizzaMaker(namePizza: String) =
-        PizzaMaker().makePizza(++orderNumber, Pizza.getPizzaByName(namePizza), ingredientsPrice)
+    fun executeOrderPizza(pizzaName: String) =
+        PizzaMaker().makePizza(++orderNumber, Pizza.getPizzaByName(pizzaName), ingredientsPrice)
 
 
-    fun executeOrderBarista(nameCoffee: String) =
-        Barista().makeCoffee(++orderNumber, Coffee.getCoffeeByName(nameCoffee))
+    fun executeOrderCoffee(coffeeName: String) =
+        Barista().makeCoffee(++orderNumber, Coffee.getCoffeeByName(coffeeName))
 
     fun executeCleaning() = Cleaner().cleanFloor()
 }
