@@ -29,27 +29,6 @@ enum class Pizza(val pizzaName: String, val pizzaValueIngredients: Map<String, I
 
 
 }
-/*
-fun getPizzaTextPriceTime(): List<Any> {
-    var pizzaPrice = 0.0
-    var ingredientCounterAndTime = 0
-    val textIngredientWithPrice = mutableListOf<String>()
-    pizzaValueIngredients[name]?.forEach {
-        val ingredientName = it.first
-        val ingredientCount = it.second
-        val price = ingredientsPrice[ingredientName] ?: error("Неизвестный ингредиент")
-        textIngredientWithPrice.add("[Пицца мейкер] - ${ingredientName}: в количестве $ingredientCount за $price$")
-        pizzaPrice += price * ingredientCount
-        ingredientCounterAndTime += ingredientCount
-    }
-    return listOf<Any>(
-        textIngredientWithPrice.joinToString("\n"),
-        pizzaPrice,
-        ingredientCounterAndTime
-    )
-}
 
-}
-*/
 
 
