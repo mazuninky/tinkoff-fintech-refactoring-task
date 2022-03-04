@@ -40,12 +40,7 @@ class PizzaStore {
     }
 
     fun executeOrder(pizzaOrder: PizzaOrder? = null, coffeeOrder: CoffeeOrder? = null) {
-        if (pizzaOrder != null) {
-            pizzaMaker.makePizza(pizzaOrder)
-        }
-
-        if (coffeeOrder != null) {
-            barista.makeCoffee(coffeeOrder)
-        }
+        pizzaOrder?.let { print(pizzaMaker.makePizza(pizzaOrder)) }
+        coffeeOrder?.let { print(barista.makeCoffee(coffeeOrder)) }
     }
 }
