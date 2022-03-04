@@ -11,13 +11,13 @@ class PizzaMaker(
         println("[Повар] Делаю блюдо : ${order.name}")
         println("[Повар] Из ингридиетов:")
 
-        val roundedPrice = "%.2f".format(
-            recipe.entries.sumOf { (ingredientName, amount) ->
-                val price = calculatePrice(ingredientName, amount)
-                println("[Повар] - ${ingredientName}: в количестве $amount за $price$")
-                price
-            }
-        )
+        val totalPrice = recipe.entries.sumOf { (ingredientName, amount) ->
+            val price = calculatePrice(ingredientName, amount)
+            println("[Повар] - ${ingredientName}: в количестве $amount за $price$")
+            price
+        }
+
+        val roundedPrice = "%.2f".format(totalPrice)
 
         val time = recipe.entries.sumOf { it.value }
         println("[Повар] время приготовления $time минут")
