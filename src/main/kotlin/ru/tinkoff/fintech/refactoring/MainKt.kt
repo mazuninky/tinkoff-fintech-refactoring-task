@@ -1,5 +1,7 @@
 package ru.tinkoff.fintech.refactoring
 
+import ru.tinkoff.fintech.refactoring.Order.OrderType
+
 fun main() {
 
     val pizzaCafe = PizzaCafe()
