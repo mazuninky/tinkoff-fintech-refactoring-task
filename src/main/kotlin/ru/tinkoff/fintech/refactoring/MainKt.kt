@@ -13,6 +13,6 @@ fun main() {
         coffees,
     ).flatten().toSet()
 
-    pizzaCafe.executeOrder(order)
+    pizzaCafe.executeOrders(order)
 
 }

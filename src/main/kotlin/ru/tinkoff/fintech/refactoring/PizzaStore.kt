@@ -16,19 +16,21 @@ class PizzaCafe {
     private val barista = Barista()
     private var curOrderId = 0
 
-    fun executeOrder(orders: Set<Pair<OrderType, String>>) {
-        orders.map { (type, name) -> Order(type, name, curOrderId++) }.forEach { order ->
-            try {
-                when (order.type) {
-                    OrderType.PIZZA -> cooker.cook(order)
-                    OrderType.COFFEE -> barista.makeCoffee(order)
-                }
-            } catch (e: IllegalStateException) {
-                printLine()
-                println(e.message)
-                println("Невозможно продолжить выполнение заказа ${order.orderId}")
-                printLine()
+    fun executeOrders(orders: Set<Pair<OrderType, String>>) {
+        orders.map { (type, name) -> Order(type, name, curOrderId++) }.forEach { order -> executeOrder(order) }
+    }
+
+    private fun executeOrder(order: Order) {
+        try {
+            when (order.type) {
+                OrderType.PIZZA -> cooker.cook(order)
+                OrderType.COFFEE -> barista.makeCoffee(order)
             }
+        } catch (e: IllegalStateException) {
+            printLine()
+            println(e.message)
+            println("Невозможно продолжить выполнение заказа ${order.orderId}")
+            printLine()
         }
     }
 }
