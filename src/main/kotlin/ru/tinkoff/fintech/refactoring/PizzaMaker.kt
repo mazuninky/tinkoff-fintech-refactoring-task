@@ -1,6 +1,6 @@
 package ru.tinkoff.fintech.refactoring
 
-class Cooker(
+class PizzaMaker(
     private val pizzaMenu: Map<String, Pizza> = defaultPizzaMenu,
     private val ingredientPriceList: Map<String, Double> = defaultIngredientPriceList,
 ) {
