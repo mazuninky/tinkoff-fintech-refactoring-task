@@ -1,7 +1,7 @@
 package ru.tinkoff.fintech.refactoring
 
 class PizzaCafe {
-    private val cooker = Cooker()
+    private val cooker = PizzaMaker()
     private val barista = Barista()
     private var curOrderId = 0
 
