@@ -8,7 +8,7 @@ class Barista {
         println("[Бариста] Готовлю напиток: ${order.name}")
         println("[Бариста] Время приготовления: ${coffee.first} минут")
         val roundedPrice = "%.2f".format(price)
-        println("[Бариста] Стоимость напитка: $roundedPrice")
+        println("[Бариста] Стоимость напитка: $roundedPrice$")
     }
 }
 

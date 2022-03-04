@@ -16,13 +16,8 @@ class PizzaCafe {
     private val barista = Barista()
     private var curOrderId = 0
 
-    fun order(orderType: OrderType, name: String): Order {
-        val number = curOrderId++
-        return Order(orderType, name, number)
-    }
-
-    fun executeOrder(orders: Set<Order>) {
-        orders.forEach { order ->
+    fun executeOrder(orders: Set<Pair<OrderType, String>>) {
+        orders.map { (type, name) -> Order(type, name, curOrderId++) }.forEach { order ->
             try {
                 when (order.type) {
                     OrderType.PIZZA -> cooker.cook(order)
