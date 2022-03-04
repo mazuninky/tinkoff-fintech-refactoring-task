@@ -1,7 +1,5 @@
 package ru.tinkoff.fintech.refactoring
 
-import ru.tinkoff.fintech.refactoring.Order.OrderType
-
 class PizzaCafe {
     private val cooker = Cooker()
     private val barista = Barista()
