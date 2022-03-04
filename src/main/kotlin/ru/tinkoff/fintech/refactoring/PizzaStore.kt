@@ -1,72 +1,47 @@
 package ru.tinkoff.fintech.refactoring
 
 data class PizzaOrder(
-    val number: Int,
-    val pizza: Pizza,
-    val price: Double
+    val orderId: Int,
+    val pizza: Pizza
 )
 
 data class CoffeeOrder(
-    val number: Int,
-    val pizza: Coffee,
+    val orderId: Int,
+    val coffee: Coffee,
 )
 
 class PizzaStore {
-    var orderNumber = 0
-
-    private val pizzaMaker: Employee = PizzaMaker()
-    private val barista: Employee = Barista()
+    private val pizzaDao: PizzaDao = PizzaDao(
+        listOf(Carbonara(), Marinara(), Sardinia(), Valtellina(), Krestyanskaya())
+    )
+    private val coffeeDao = CoffeeDao(
+        listOf(Espresso(), Cappuccino())
+    )
+    private val pizzaMaker = SimplePizzaMaker()
+    private val barista = SimpleBarista()
+    var orderId = 0
 
     fun orderCoffee(name: String): CoffeeOrder {
-        val coffee = Coffee.getCoffeeByName(name)
+        val coffee = coffeeDao.getCoffeeByName(name)
             ?: error("Неизвестный вид кофе!")
-
         return CoffeeOrder(
-            number = ++orderNumber,
-            pizza = coffee
+            orderId = ++orderId,
+            coffee = coffee
         )
     }
 
     fun orderPizza(name: String): PizzaOrder {
-        val pizza = Pizza(name)
-        val ingredients = getIngredient(pizza)
-        var pizzaPrice = 0.0
-        ingredients.forEach { ingredient ->
-            val ingredientName = ingredient.first
-            val ingredientCount = ingredient.second
-
-            val price = when (ingredientName) {
-                "яйца" -> 3.48
-                "бекон" -> 6.48
-                "тесто" -> 1.00
-                "томат" -> 1.53
-                "оливки" -> 1.53
-                "сыр" -> 0.98
-                "пармезан" -> 3.98
-                "грибы" -> 3.34
-                "спаржа" -> 3.34
-                "мясное ассорти" -> 9.38
-                "вяленая говядина" -> 12.24
-                else -> error("Неизвестный ингредиент")
-            }
-
-            pizzaPrice += price * ingredientCount
-        }
-
+        val pizza = pizzaDao.getPizzaByName(name)
+            ?: error("Неизвестный вид пиццы!")
         return PizzaOrder(
-            number = ++orderNumber,
-            pizza = pizza,
-            price = pizzaPrice
+            orderId = ++orderId,
+            pizza = pizza
         )
     }
 
-    fun executeOrder(pizzaOrder: PizzaOrder? = null, coffeeOrder: CoffeeOrder? = null) {
-        if (pizzaOrder != null) {
-            pizzaMaker.makePizza(pizzaOrder.number, pizzaOrder.pizza, getIngredient(pizzaOrder.pizza))
-        }
-
-        if (coffeeOrder != null) {
-            barista.makeCoffee(coffeeOrder.number, coffeeOrder.pizza)
-        }
+    fun executeOrder(pizzaOrder: PizzaOrder? = null, coffeeOrder: CoffeeOrder? = null): Order {
+        val pizzaOrderInfo = pizzaOrder?.let { pizzaMaker.makePizza(it) }
+        val coffeeOrderInfo = coffeeOrder?.let { barista.makeCoffee(it) }
+        return Order(coffeeOrderInfo, pizzaOrderInfo)
     }
 }
