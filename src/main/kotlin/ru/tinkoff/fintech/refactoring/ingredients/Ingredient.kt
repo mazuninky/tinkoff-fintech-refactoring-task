@@ -1,8 +1,8 @@
-package ru.tinkoff.fintech.refactoring
+package ru.tinkoff.fintech.refactoring.ingredients
 
 abstract class Ingredient(val name: String, val price: Double, val count: Int = 1)
 
-/************************************************************************Ingredients with price************************/
+/******************************************************Ingredients with price*******************************************/
 class Eggs(count: Int = 1) : Ingredient("яйца", 3.48 * count)
 
 class Bacon(count: Int = 1) : Ingredient("бекон", 6.48 * count)

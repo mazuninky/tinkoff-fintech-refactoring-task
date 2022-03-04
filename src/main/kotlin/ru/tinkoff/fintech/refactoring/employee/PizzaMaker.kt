@@ -5,10 +5,8 @@ import ru.tinkoff.fintech.refactoring.orders.PizzaOrder
 
 class PizzaMaker : PizzaMakerAction {
     override fun makePizza(order: PizzaOrder) {
-        var ingredientCounter =
-            0
-        val roundedPrice =
-            "%.2f".format(order.pizza.price)
+        var ingredientCounter = 0
+        val roundedPrice = "%.2f".format(order.pizza.price)
 
         println("[Пицца мейкер] Делаю пиццу: ${order.pizza.name}")
         println("[Пицца мейкер] Из ингридиетов:")

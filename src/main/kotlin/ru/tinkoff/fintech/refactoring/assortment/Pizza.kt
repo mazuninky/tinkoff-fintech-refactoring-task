@@ -1,13 +1,13 @@
-package ru.tinkoff.fintech.refactoring
+package ru.tinkoff.fintech.refactoring.assortment
 
-abstract class Pizza(
+import ru.tinkoff.fintech.refactoring.ingredients.*
+
+sealed class Pizza(
     val name: String,
     val ingredients: List<Ingredient>
 ) {
-    val price: Double =
-        ingredients.sumOf { it.price }
+    val price: Double = ingredients.sumOf { it.price }
 }
-
 
 class Carbonara : Pizza("карбонара", listOf(Eggs(1), Bacon(2), Dough(1), Cheese(2)))
 

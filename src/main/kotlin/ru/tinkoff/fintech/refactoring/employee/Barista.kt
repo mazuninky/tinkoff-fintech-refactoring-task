@@ -5,8 +5,7 @@ import ru.tinkoff.fintech.refactoring.orders.CoffeeOrder
 
 class Barista : BaristaAction {
     override fun makeCoffee(order: CoffeeOrder) {
-        val roundedPrice =
-            "%.2f".format(order.coffee.price)
+        val roundedPrice = "%.2f".format(order.coffee.price)
 
         println("[Бариста] Готовлю напиток: ${order.coffee.name}")
         println("[Бариста] Время приготовления: ${order.coffee.BrewTimeInMinutes} минут")
