@@ -39,8 +39,9 @@ class PizzaStore {
         )
     }
 
-    fun executeOrder(pizzaOrder: PizzaOrder? = null, coffeeOrder: CoffeeOrder? = null) {
-        pizzaOrder?.let { print(pizzaMaker.makePizza(pizzaOrder)) }
-        coffeeOrder?.let { print(barista.makeCoffee(coffeeOrder)) }
+    fun executeOrder(pizzaOrder: PizzaOrder? = null, coffeeOrder: CoffeeOrder? = null): Order {
+        val pizzaOrderInfo = pizzaOrder?.let { pizzaMaker.makePizza(it) }
+        val coffeeOrderInfo = coffeeOrder?.let { barista.makeCoffee(it) }
+        return Order(coffeeOrderInfo, pizzaOrderInfo)
     }
 }
