@@ -1,8 +1,8 @@
 package ru.tinkoff.fintech.refactoring
 
 class Cooker(
-    private val pizzaMenu: Map<String, Pizza> = initializePizzaMenu(),
-    private val ingredientMenu: Map<String, Double> = initializeIngredientMenu(),
+    private val pizzaMenu: Map<String, Pizza> = defaultPizzaMenu,
+    private val ingredientPriceList: Map<String, Double> = defaultIngredientPriceList,
 ) {
 
     fun makePizza(order: Order) {
@@ -14,19 +14,19 @@ class Cooker(
         val time = recipe.entries.sumOf { it.value }
 
         println("[Повар] время приготовления $time минут")
-        val roundedPrice = "%.2f".format(calculatePrice(recipe))
+        val roundedPrice = "%.2f".format(
+            recipe.entries.sumOf { (ingredientName, amount) ->
+                var price = (ingredientPriceList[ingredientName] ?: error("Неизвестный ингредиент"))
+                price *= amount
+                println("[Повар] - ${ingredientName}: в количестве $amount за $price$")
+                price
+            }
+        )
         println("[Повар] в сумме за все $roundedPrice$")
     }
-
-    private fun calculatePrice(recipe: Map<String, Int>) =
-        recipe.entries.sumOf { (ingredientName, amount) ->
-            val price = (ingredientMenu[ingredientName] ?: error("Неизвестный ингредиент")) * amount
-            println("[Повар] - ${ingredientName}: в количестве $amount за $price$")
-            price
-        }
 }
 
-private fun initializePizzaMenu() = mapOf(
+private val defaultPizzaMenu = mapOf(
     "карбонара" to mapOf("яйца" to 1, "бекон" to 2, "тесто" to 1, "сыр" to 2),
     "маринара" to mapOf("томат" to 2, "оливки" to 3, "тесто" to 1),
     "сардиния" to mapOf("салями" to 3, "оливки" to 1, "тесто" to 1, "сыр" to 3),
@@ -40,7 +40,7 @@ private fun initializePizzaMenu() = mapOf(
     ),
 ).mapValues { Pizza(it.key, it.value) }
 
-private fun initializeIngredientMenu() = mapOf(
+private val defaultIngredientPriceList = mapOf(
     "яйца" to 3.48,
     "бекон" to 6.48,
     "тесто" to 1.00,
