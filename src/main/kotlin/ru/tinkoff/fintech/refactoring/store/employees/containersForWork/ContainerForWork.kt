@@ -1,3 +1,0 @@
-package ru.tinkoff.fintech.refactoring.store.employees.containersForWork
-
-interface ContainerForWork
