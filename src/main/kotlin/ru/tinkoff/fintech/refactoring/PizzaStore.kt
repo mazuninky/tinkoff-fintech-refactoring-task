@@ -6,7 +6,7 @@ class PizzaCafe {
     private var curOrderId = 0
 
     fun executeOrders(orders: Set<Pair<OrderType, String>>) {
-        orders.map { (type, name) -> Order(type, name, curOrderId++) }.forEach { order -> executeOrder(order) }
+        orders.map { (type, name) -> Order(++curOrderId, type, name) }.forEach { order -> executeOrder(order) }
     }
 
     private fun executeOrder(order: Order) {

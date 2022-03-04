@@ -1,9 +1,9 @@
 package ru.tinkoff.fintech.refactoring
 
 data class Order(
+    val orderId: Int,
     val type: OrderType,
     val name: String,
-    val orderId: Int,
 )
 
 enum class OrderType {

@@ -11,18 +11,22 @@ class Cooker(
         println("[Повар] Делаю блюдо : ${order.name}")
         println("[Повар] Из ингридиетов:")
 
-        val time = recipe.entries.sumOf { it.value }
-
-        println("[Повар] время приготовления $time минут")
         val roundedPrice = "%.2f".format(
             recipe.entries.sumOf { (ingredientName, amount) ->
-                var price = (ingredientPriceList[ingredientName] ?: error("Неизвестный ингредиент"))
-                price *= amount
+                val price = calculatePrice(ingredientName, amount)
                 println("[Повар] - ${ingredientName}: в количестве $amount за $price$")
                 price
             }
         )
+
+        val time = recipe.entries.sumOf { it.value }
+        println("[Повар] время приготовления $time минут")
         println("[Повар] в сумме за все $roundedPrice$")
+    }
+
+    private fun calculatePrice(ingredientName: String, amount: Int): Double {
+        val price = ingredientPriceList[ingredientName] ?: error("Неизвестный ингредиент")
+        return price * amount
     }
 }
 
