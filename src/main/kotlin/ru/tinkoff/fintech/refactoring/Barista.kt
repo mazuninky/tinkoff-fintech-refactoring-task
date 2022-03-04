@@ -1,6 +1,8 @@
 package ru.tinkoff.fintech.refactoring
 
-class Barista {
+class Barista(
+    private val coffeeMenu: Map<String, Coffee> = initializeCoffeeMenu()
+) {
     fun makeCoffee(order: Order) {
         val coffee = coffeeMenu[order.name] ?: error("Невозможно приготовить \"${order.name}\"")
         val price = coffee.price
@@ -13,13 +15,7 @@ class Barista {
 }
 
 
-private val coffeeMenu = listOf(
+private fun initializeCoffeeMenu() = listOf(
     Coffee("эспрессо", 5, 5.0),
     Coffee("капучино", 6, 3.48),
 ).associateBy { it.name }
-
-private data class Coffee(
-    val name: String,
-    val brewTime: Int,
-    val price: Double,
-)

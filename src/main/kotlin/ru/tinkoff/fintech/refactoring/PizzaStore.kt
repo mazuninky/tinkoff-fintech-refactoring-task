@@ -14,7 +14,7 @@ class PizzaCafe {
     private fun executeOrder(order: Order) {
         try {
             when (order.type) {
-                OrderType.PIZZA -> cooker.cook(order)
+                OrderType.PIZZA -> cooker.makePizza(order)
                 OrderType.COFFEE -> barista.makeCoffee(order)
             }
         } catch (e: IllegalStateException) {

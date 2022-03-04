@@ -1,22 +1,24 @@
 package ru.tinkoff.fintech.refactoring
 
-class Cooker {
+class Cooker(
+    private val pizzaMenu: Map<String, Pizza> = initializePizzaMenu(),
+    private val ingredientMenu: Map<String, Double> = initializeIngredientMenu(),
+) {
 
-    fun cook(order: Order) {
-        val recipe = pizzaMenu[order.name] ?: error("Невозможно приготовить \"${order.name}\"")
+    fun makePizza(order: Order) {
+        val recipe = pizzaMenu[order.name]?.recipe ?: error("Невозможно приготовить \"${order.name}\"")
 
         println("[Повар] Делаю блюдо : ${order.name}")
         println("[Повар] Из ингридиетов:")
 
-        val price = calcPrice(recipe)
-        val brewTime = recipe.entries.sumOf { it.value }
+        val time = recipe.entries.sumOf { it.value }
 
-        println("[Повар] время приготовления $brewTime минут")
-        val roundedPrice = "%.2f".format(price)
+        println("[Повар] время приготовления $time минут")
+        val roundedPrice = "%.2f".format(calculatePrice(recipe))
         println("[Повар] в сумме за все $roundedPrice$")
     }
 
-    private fun calcPrice(recipe: Map<String, Int>) =
+    private fun calculatePrice(recipe: Map<String, Int>) =
         recipe.entries.sumOf { (ingredientName, amount) ->
             val price = (ingredientMenu[ingredientName] ?: error("Неизвестный ингредиент")) * amount
             println("[Повар] - ${ingredientName}: в количестве $amount за $price$")
@@ -24,7 +26,7 @@ class Cooker {
         }
 }
 
-private val pizzaMenu = mapOf(
+private fun initializePizzaMenu() = mapOf(
     "карбонара" to mapOf("яйца" to 1, "бекон" to 2, "тесто" to 1, "сыр" to 2),
     "маринара" to mapOf("томат" to 2, "оливки" to 3, "тесто" to 1),
     "сардиния" to mapOf("салями" to 3, "оливки" to 1, "тесто" to 1, "сыр" to 3),
@@ -36,9 +38,9 @@ private val pizzaMenu = mapOf(
         "спаржа" to 1,
         "мясное ассорти" to 1
     ),
-)
+).mapValues { Pizza(it.key, it.value) }
 
-private val ingredientMenu = mapOf(
+private fun initializeIngredientMenu() = mapOf(
     "яйца" to 3.48,
     "бекон" to 6.48,
     "тесто" to 1.00,
