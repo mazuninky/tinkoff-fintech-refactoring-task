@@ -1,10 +1,10 @@
 package ru.tinkoff.fintech.refactoring
 
-import ru.tinkoff.fintech.refactoring.stores.PizzaStore
+import ru.tinkoff.fintech.refactoring.stores.Store
 
 fun main() {
-    val pizzaStore = PizzaStore()
-    val pizzaOrder = pizzaStore.orderPizza("карбонара")
-    val coffeeOrder = pizzaStore.orderCoffee("эспрессо")
-    pizzaStore.executeOrder(pizzaOrder, coffeeOrder)
+    val store = Store()
+    store.orderPizza("карбонара")
+    store.orderCoffee("эспрессо")
+    store.execute()
 }

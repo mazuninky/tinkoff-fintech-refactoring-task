@@ -5,10 +5,9 @@ import ru.tinkoff.fintech.refactoring.assortment.Coffee
 import ru.tinkoff.fintech.refactoring.assortment.Espresso
 
 class CoffeeStore {
-    companion object {
-        fun getCoffeeByName(name: String): Coffee? {
-            val coffeeStore = listOf(Espresso(), Cappuccino())
-            return coffeeStore.find { it.name == name }
-        }
+    private val coffeeStore = listOf(Espresso(), Cappuccino())
+
+    fun getCoffeeByName(name: String): Coffee? {
+        return coffeeStore.find { it.name == name }
     }
 }
