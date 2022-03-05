@@ -15,8 +15,8 @@ data class CoffeeOrder(
 class PizzaStore {
     var orderNumber = 0
 
-    private val pizzaMaker: Employee = PizzaMaker()
-    private val barista: Employee = Barista()
+    private val pizzaMaker = PizzaMakerImpl()
+    private val barista = BaristaImpl()
 
     fun orderCoffee(name: String): CoffeeOrder {
         val coffee = Coffee.getCoffeeByName(name)
