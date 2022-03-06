@@ -1,24 +1,9 @@
 package ru.tinkoff.fintech.refactoring
 
-interface CoffeeBrewer {
-    fun calculateCoffeeBrewTimeInMinutes(): Int
-}
-
-abstract class Coffee(val name: String, val price: Double) : CoffeeBrewer {
+enum class Coffee(val coffeeName: String, val price: Double, val brewTime: Int) {
+    ESPRESSO("эспрессо", 5.0, 5), CAPPUCCINO("капучино", 3.48, 6);
 
     companion object {
-        private val coffeeStore = listOf(Espresso(), Cappuccino())
-
-        fun getCoffeeByName(name: String): Coffee? {
-            return coffeeStore.find { it.name == name }
-        }
+        fun getCoffeeByName(name: String): Coffee? = values().find { it.coffeeName == name }
     }
-}
-
-class Espresso : Coffee("эспрессо", 5.0) {
-    override fun calculateCoffeeBrewTimeInMinutes() = 5
-}
-
-class Cappuccino : Coffee("капучино", 3.48) {
-    override fun calculateCoffeeBrewTimeInMinutes() = 6
 }
