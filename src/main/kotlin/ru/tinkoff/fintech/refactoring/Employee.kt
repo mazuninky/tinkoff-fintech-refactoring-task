@@ -1,24 +1,27 @@
 package ru.tinkoff.fintech.refactoring
 
+interface Employee<T> {
+    fun make(order: T)
+}
 
-class Barista {
-    fun makeCoffee(orderId: Int, coffee: Coffee) {
-        println("[Бариста] Готовлю напиток: ${coffee.name}")
-        println("[Бариста] Время приготовления: ${calculateCoffeeBrewTimeInMinutes(coffee)} минут")
-        val roundedPrice = "%.2f".format(coffee.price)
+class Barista : Employee<CoffeeOrder> {
+    override fun make(order: CoffeeOrder) {
+        println("[Бариста] Готовлю напиток: ${order.coffee.productName}")
+        println("[Бариста] Время приготовления: ${calculateCoffeeBrewTimeInMinutes(order.coffee)} минут")
+        val roundedPrice = "%.2f".format(order.coffee.price)
         println("[Бариста] Стоимость напитка: $roundedPrice")
 
-        println("[Бариста] заказ $orderId готов")
+        println("[Бариста] заказ ${order.number} готов")
     }
 }
 
-class PizzaMaker {
-    fun makePizza(orderId: Int, pizza: Pizza, ingredients: List<Pair<String, Int>>) {
-        println("[Пицца мейкер] Делаю пиццу: ${pizza.name}")
+class PizzaMaker : Employee<PizzaOrder> {
+    override fun make(order: PizzaOrder) {
+        println("[Пицца мейкер] Делаю пиццу: ${order.pizza.productName}")
         println("[Пицца мейкер] Из ингридиетов:")
         var pizzaPrice = 0.0
         var ingredientCounter = 0
-        ingredients.forEach {
+        order.pizza.ingredients.forEach {
             val ingredientName = it.first
             val ingredientCount = it.second
 
@@ -33,7 +36,7 @@ class PizzaMaker {
         val roundedPrice = "%.2f".format(pizzaPrice)
         println("[Пицца мейкер] в сумме за все $roundedPrice$")
 
-        println("[Пицца мейкер] заказ $orderId готов")
+        println("[Пицца мейкер] заказ ${order.number} готов")
     }
 
 
