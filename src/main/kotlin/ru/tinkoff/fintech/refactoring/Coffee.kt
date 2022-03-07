@@ -1,28 +1,48 @@
 package ru.tinkoff.fintech.refactoring
 
-abstract class Coffee(
-    val name: String,
-    val price: Double,
-) {
+class CoffeeStore {
+    private val coffeeStore = listOf(Espresso(), Cappuccino())
 
-    companion object {
-        private val coffeeStore = listOf(Espresso(), Cappuccino())
-
-        fun getCoffeeByName(name: String): Coffee? {
-            return coffeeStore.find { it.name == name }
-        }
+    fun getCoffeeByName(name: String): Coffee? {
+        return coffeeStore.find { it.name == name }
     }
 }
 
-class Espresso: Coffee("эспрессо", 5.0)
-class Cappuccino: Coffee("капучино", 3.48)
+interface Coffee : Product {
 
-fun calculateCoffeeBrewTimeInMinutes(
-    coffee: Coffee
-): Int {
-    return when(coffee) {
-        is Espresso -> 5
-        is Cappuccino -> 6
-        else -> error("Неизвестный вид кофе")
+    val acidityInStars : Int
+    val bitternessInStars : Int
+    val bouquetInStars : Int
+    fun calculateCoffeeBrewTimeInMinutes(): Int
+
+}
+
+class Espresso: Coffee {
+    override val name: String = "эспрессо"
+    override var price: Double = 5.0
+    override val acidityInStars: Int
+        get() = 4
+    override val bitternessInStars: Int
+        get() = 3
+    override val bouquetInStars: Int
+        get() = 4
+
+    override fun calculateCoffeeBrewTimeInMinutes(): Int {
+        return 5
     }
+}
+
+class Cappuccino: Coffee{
+    override val acidityInStars: Int
+        get() = 3
+    override val bitternessInStars: Int
+        get() = 2
+    override val bouquetInStars: Int
+        get() = 4
+
+    override fun calculateCoffeeBrewTimeInMinutes(): Int {
+        return 6
+    }
+    override val name: String = "капучино"
+    override var price: Double = 3.48
 }
