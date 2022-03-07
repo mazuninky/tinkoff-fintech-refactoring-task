@@ -13,10 +13,7 @@ class PizzaCarbonara() : Pizza {
     override var price: Double = 0.0
 
     override fun getIngredient(): List<Ingredient> {
-        return listOf(Ingredient("яйца", 1), 
-            Ingredient("бекон", 2), 
-            Ingredient("тесто", 1), 
-            Ingredient("сыр", 2))
+        return PizzaIngredients.getIngredients4Pizza("карбонара")
     }
 }
 
@@ -26,11 +23,7 @@ class PizzaPeasant() : Pizza {
     override var price: Double = 0.0
 
     override fun getIngredient(): List<Ingredient> {
-        return listOf(Ingredient("грибы" , 3),
-            Ingredient("томат", 1),
-            Ingredient("тесто", 1),
-            Ingredient("спаржа", 1),
-            Ingredient("мясное ассорти", 1))
+        return PizzaIngredients.getIngredients4Pizza("крестьянская")
     }
 }
 
@@ -40,10 +33,7 @@ class PizzaValtellina() : Pizza {
     override var price: Double = 0.0
 
     override fun getIngredient(): List<Ingredient> {
-        return listOf(Ingredient("вяленая говядина", 1),
-            Ingredient("зелень", 1),
-            Ingredient("тесто", 1),
-            Ingredient("пармезан", 2))
+        return PizzaIngredients.getIngredients4Pizza("вальтеллина")
     }
 }
 
@@ -53,10 +43,7 @@ class PizzaSardinia() : Pizza {
     override var price: Double = 0.0
 
     override fun getIngredient(): List<Ingredient> {
-        return listOf(Ingredient("салями", 3),
-            Ingredient("оливки", 1),
-            Ingredient("тесто", 1),
-            Ingredient("сыр", 3))
+        return PizzaIngredients.getIngredients4Pizza("сардиния")
     }
 }
 
@@ -66,8 +53,6 @@ class PizzaMarinara() : Pizza {
     override var price: Double = 0.0
 
     override fun getIngredient(): List<Ingredient> {
-        return listOf(Ingredient("томат", 2),
-            Ingredient("оливки", 3),
-            Ingredient("тесто", 1))
+        return PizzaIngredients.getIngredients4Pizza("маринара")
     }
 }

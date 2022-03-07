@@ -16,7 +16,7 @@ object PizzaIngredients {
 //    "мясное ассорти" to 9.38,
 //    "вяленая говядина" to 12.24)
 
-    fun getIngredients(ingredientName : String): Double {
+    fun getIngredientPrice(ingredientName: String): Double {
         return when (ingredientName) {
             "яйца" -> 3.48
             "бекон" -> 6.48
@@ -29,6 +29,42 @@ object PizzaIngredients {
             "спаржа" -> 3.34
             "мясное ассорти" -> 9.38
             "вяленая говядина" -> 12.24
+            else -> error("Неизвестный ингредиент")
+        }
+    }
+
+    fun getIngredients4Pizza(ingredientName: String): List<Ingredient> {
+        return when (ingredientName) {
+            "карбонара" -> listOf(
+                Ingredient("яйца", 1),
+                Ingredient("бекон", 2),
+                Ingredient("тесто", 1),
+                Ingredient("сыр", 2)
+            )
+            "крестьянская" -> listOf(
+                Ingredient("грибы", 3),
+                Ingredient("томат", 1),
+                Ingredient("тесто", 1),
+                Ingredient("спаржа", 1),
+                Ingredient("мясное ассорти", 1)
+            )
+            "вальтеллина" -> listOf(
+                Ingredient("вяленая говядина", 1),
+                Ingredient("зелень", 1),
+                Ingredient("тесто", 1),
+                Ingredient("пармезан", 2)
+            )
+            "сардиния" -> listOf(
+                Ingredient("салями", 3),
+                Ingredient("оливки", 1),
+                Ingredient("тесто", 1),
+                Ingredient("сыр", 3)
+            )
+            "маринара" -> listOf(
+                Ingredient("томат", 2),
+                Ingredient("оливки", 3),
+                Ingredient("тесто", 1)
+            )
             else -> error("Неизвестный ингредиент")
         }
     }

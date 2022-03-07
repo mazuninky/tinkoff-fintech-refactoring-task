@@ -5,51 +5,52 @@ package ru.tinkoff.fintech.refactoring
 // с другой стороны - это сильно связывает классы
 
 
-interface Order {
-    val number: Int
-    val product : Product
-}
-
-class PizzaOrder(override val number: Int, override val product: Product) : Order
-
-class CoffeeOrder(override val number: Int, override val product: Product) : Order
-
-
 class PizzaStore {
-    var orderNumber = 0
+    private var orderNumber = 0
 
     private val pizzaMaker = PizzaMaker()
     private val barista = Barista()
+    private val coffeeStore = CoffeeStore()
+    private var receipt = Receipt(orderNumber)
 
-    fun orderCoffee(name: String): CoffeeOrder {
-        val coffee = Coffee.getCoffeeByName(name)
-            ?: error("Неизвестный вид кофе!")
-
-        return CoffeeOrder(
-            number = ++orderNumber,
-            product = coffee
-        )
+    fun makeNewOrder() {
+        receipt = Receipt(orderNumber)
+        receipt.makeNewOrder()
+        orderNumber += 1
     }
 
-    fun orderPizza(pizza : Pizza): PizzaOrder {
+    fun orderCoffee(name: String) {
+        val coffee = coffeeStore.getCoffeeByName(name)
+            ?: error("Неизвестный вид кофе!")
+
+        receipt.addPoint2Receipt(Order(
+            number = orderNumber,
+            product = coffee
+        ))
+    }
+
+    fun orderPizza(pizza : Pizza) {
         pizza.getIngredient().forEach { ingredient ->
 
-            val price = PizzaIngredients.getIngredients(ingredient.name)
+            val price = PizzaIngredients.getIngredientPrice(ingredient.name)
             pizza.price += price * ingredient.amount
         }
 
-        return PizzaOrder(
-            number = ++orderNumber,
+        receipt.addPoint2Receipt(Order(
+            number = orderNumber,
             product = pizza
-        )
+        ))
     }
 
-    fun executeOrder(order: Order?= null) {
-        if (order != null) {
+    fun executeOrder() {
+        val orderList = receipt.getPoints()
+        for (order in orderList) {
             when (order.product) {
-                is Pizza -> pizzaMaker.makePizza(order.number, order.product as Pizza)
-                is Coffee -> barista.makeCoffee(order.number, order.product as Coffee)
+                is Pizza -> pizzaMaker.makePizza(order.number, order.product)
+                is Coffee -> barista.makeCoffee(order.number, order.product)
             }
         }
+        receipt.printReceipt()
+        println("Заказ $orderNumber готов")
     }
 }
