@@ -5,19 +5,24 @@ interface CoffeeBrewer {
     fun calculateCoffeeBrewTimeInMinutes(): Int
 }
 
+interface CoffeeDAO {
+    fun getCoffeeByName(name: String): Coffee?
+}
+
+class CoffeeDAOImpl : CoffeeDAO {
+
+    private val coffeeStore = listOf(Espresso(), Cappuccino())
+
+    override fun getCoffeeByName(name: String): Coffee? {
+        return coffeeStore.find { it.name == name }
+    }
+
+}
+
 abstract class Coffee(
     val name: String,
     val price: Double,
-) : CoffeeBrewer {
-
-    companion object {
-        private val coffeeStore = listOf(Espresso(), Cappuccino())
-
-        fun getCoffeeByName(name: String): Coffee? {
-            return coffeeStore.find { it.name == name }
-        }
-    }
-}
+) : CoffeeBrewer
 
 
 class Espresso : Coffee("эспрессо", 5.0) {

@@ -1,22 +1,27 @@
 package ru.tinkoff.fintech.refactoring.menu
 
+interface IngredientDAO {
+    fun getIngredientByName(name: String): Ingredient?
+}
+
+class IngredientDAOImpl : IngredientDAO {
+
+    private val ingredientsStore = listOf(
+        Egg(), Bacon(), Dough(), Tomato(), Olive(), Cheese(),
+        Parmesan(), Mushroom(), Asparagus(), MeatPlatter(), BeefJerky()
+    )
+
+    override fun getIngredientByName(name: String): Ingredient? {
+
+        return ingredientsStore.find { it.name == name }
+    }
+
+}
+
 abstract class Ingredient(
     val name: String,
     val price: Double
-) {
-    companion object {
-
-        private val ingredientsStore = listOf(
-            Egg(), Bacon(), Dough(), Tomato(), Olive(), Cheese(),
-            Parmesan(), Mushroom(), Asparagus(), MeatPlatter(), BeefJerky()
-        )
-
-        fun getIngredientByName(name: String): Ingredient? {
-
-            return ingredientsStore.find { it.name == name }
-        }
-    }
-}
+)
 
 class Egg : Ingredient("яйца", 3.48)
 
