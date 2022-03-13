@@ -7,11 +7,11 @@ data class PizzaOrder(
 ) : Order()
 
 data class PizzaOrderInfo(
-    val pizzaPrice : Double,
-    val ingredientCounter : Int
+    val pizzaPrice: Double,
+    val ingredientCounter: Int
 )
 
-class PizzaStore : Store(){
+class PizzaStore : Store() {
     private val pizzaMaker: PizzaMakerEmployee = PizzaMaker()
 
     fun orderPizza(name: String): PizzaOrder {
@@ -25,9 +25,9 @@ class PizzaStore : Store(){
         )
     }
 
-    override fun executeOrder(order: Order?) {
-        if (order != null && order is PizzaOrder) {
-            pizzaMaker.makePizza(order.number, order.pizza, getIngredient(order.pizza))
+    fun executeOrder(pizzaOrder: PizzaOrder? = null) {
+        if (pizzaOrder != null) {
+            pizzaMaker.makePizza(pizzaOrder.number, pizzaOrder.pizza, getIngredient(pizzaOrder.pizza))
         }
     }
 

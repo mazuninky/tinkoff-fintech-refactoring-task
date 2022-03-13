@@ -17,9 +17,9 @@ class CoffeeStore : Store() {
         )
     }
 
-    override fun executeOrder(order: Order?) {
-        if (order != null && order is CoffeeOrder) {
-            barista.makeCoffee(order.number, order.coffee)
+    fun executeOrder(coffeeOrder: CoffeeOrder? = null) {
+        if (coffeeOrder != null) {
+            barista.makeCoffee(coffeeOrder.number, coffeeOrder.coffee)
         }
     }
 
