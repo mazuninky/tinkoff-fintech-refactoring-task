@@ -5,12 +5,21 @@ data class Pizza(
 )
 
 fun getIngredient(pizza: Pizza): List<Pair<String, Int>> {
-    return when (pizza.name) {
-        "карбонара" -> listOf("яйца" to 1, "бекон" to 2, "тесто" to 1, "сыр" to 2)
-        "маринара" -> listOf("томат" to 2, "оливки" to 3, "тесто" to 1)
-        "сардиния" -> listOf("салями" to 3, "оливки" to 1, "тесто" to 1, "сыр" to 3)
-        "вальтеллина" -> listOf("вяленая говядина" to 1, "зелень" to 1, "тесто" to 1, "пармезан" to 2)
-        "крестьянская" -> listOf("грибы" to 3, "томат" to 1, "тесто" to 1, "спаржа" to 1, "мясное ассорти" to 1)
-        else -> emptyList()
+    return PizzaIngredients().listOfIngredients.getOrDefault(pizza.name, emptyList())
+}
+
+fun getPizzaOrderInfo(ingredients: List<Pair<String, Int>>, action : String) : PizzaOrderInfo {
+    var pizzaPrice = 0.0
+    var ingredientCounter = 0
+    ingredients.forEach { ingredient ->
+        val (price, count) = PizzaIngredients().getPriceAndCount(ingredient)
+        ingredientCounter += count
+        pizzaPrice += price
+        if (action == "make")
+            println("[Пицца мейкер] - ${ingredient.first}: в количестве ${ingredient.second} за $price$")
     }
+    return PizzaOrderInfo(
+        pizzaPrice = pizzaPrice,
+        ingredientCounter = ingredientCounter
+    )
 }
